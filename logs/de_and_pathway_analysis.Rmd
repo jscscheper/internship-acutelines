@@ -1,0 +1,443 @@
+---
+title: "DE and Pathway Analysis"
+author: "Dennis Scheper"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = 'C:/Users/Dennis/Desktop/internship_acutelines')
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Overview
+
+# Setup
+```{r Setup}
+library(ggplot2)
+library(sva)
+library(DESeq2)
+library(dplyr)
+library(tidyverse)
+library(ggrepel)
+library(ComplexHeatmap)
+library(ggvenn)
+library(edgeR)
+library(knitr)
+library(kableExtra)
+
+source('scripts/helper_functions.R')
+
+meta.data <- read.csv('data/source/GSE185263_meta_data_N392.csv')  %>%
+  mutate(mortality = ifelse(is.na(mortality), 'unknown', mortality))
+counts <- read.csv('data/counts_raw.csv') %>%
+  column_to_rownames('gene') %>%
+  dplyr::select(starts_with('sep'))
+
+counts
+
+meta.sepsis <- meta.data %>%
+  filter(substr(sample_identifier, 1, 2) != "hc")
+
+counts <- reordered(meta.sepsis, counts)
+```
+
+# Exploring different fold-change cutoffs
+
+```{r Trying different fold change thresholds}
+different.fc.thresholds <- function(count_data, meta_data, target, fcs) {
+  res <- fcs %>%
+    map(~ de_analysis(count_data, meta_data, low.exp = 10, 
+                      design.element = target, 
+                      fold_thres = .x))
+
+  count_degs <- data.frame()
+  for(i in 1:length(res))  {
+    numbers_degs <- map(res[[i]]$results, ~ summary_de(.x)[1]) %>%
+      unlist(use.names = F) %>% t()
+    count_degs <- bind_rows(count_degs, data.frame(fc.seq[i], numbers_degs))
+  }
+
+  names(count_degs) <- c("fc", names(res[[1]]$results))
+
+  count_degs <- count_degs %>%
+    mutate(Total = rowSums(pick(where(is.numeric), -fc ))) %>%
+    pivot_longer(cols = -fc, 
+                names_to = "comparison", values_to = "degs")
+  
+  return(count_degs)
+}
+
+fc.seq <- seq(2, 1, -0.05)
+severity <- different.fc.thresholds(counts, meta.sepsis, "sepsis_severity", fc.seq)
+mortality <- different.fc.thresholds(counts, meta.sepsis, "mortality", fc.seq)
+```
+
+```{r Plotting the results}
+plot_fcs <- function(degs_df, situation) {
+  labels_legend <- if (situation == 'severity') {
+    c("Int-High", "Low-High", "Int-Low", "Total")
+  } else {c('Surv-Dead', 'Total', 'Unk-Dead', 'Surv-Unk')}
+
+  print(labels_legend)
+  ggplot(degs_df, aes(x=fc, y=degs, group=comparison, col=comparison)) + 
+    geom_line(linetype="longdash") + 
+    geom_point() +
+    geom_vline(xintercept = 1.2, color='grey', linetype = 'dashed') +
+    labs(x = "Fold change", y = "Number of DEGs", 
+        title = glue::glue("Established number of DEGs with different absolute fold-change cutoff on {situation}"),
+        col = "Comparisons") +
+    scale_color_discrete(labels = labels_legend) +
+    theme(legend.position = 'top')
+}
+
+plot_fcs(severity, 'severity')
+plot_fcs(mortality, 'mortality')
+```
+
+# DE analysis with DESeq2
+
+```{r Deciding on an outcome}
+degs <- de_analysis(counts, meta.sepsis, low.exp = 10, design.element = "sepsis_severity", fold_thres = 1.2)
+
+# Nonunique DEGs
+lapply(degs$results, function(x) summary_de(x)) %>%
+  bind_rows() %>%
+  mutate(comparison = names(degs$results)) %>%
+  select(comparison, everything()) %>%
+  kable(type = 'latex', booktabs = TRUE) %>%
+  kable_styling(position = "center", latex_options = c('striped'))
+```
+
+```{r}
+mort <- de_analysis(counts, meta.sepsis, low.exp = 10, design.element = "mortality", fold_thres = 1.2)
+
+lapply(mort$results, function(x) summary_de(x)) %>%
+  bind_rows() %>%
+  mutate(comparison = names(degs$results)) %>%
+  select(comparison, everything()) %>%
+  kable(type = 'latex', booktabs = TRUE) %>%
+  kable_styling(position = "center", latex_options = c('striped'))
+
+sepsis.coefficients <- colnames(coef(degs$dds))
+
+lapply(sepsis.coefficients, function(comparison) {
+  if (startsWith(comparison, "sepsis")) {
+    lfcShrink(degs$dds, coef=comparison, type = "apeglm") %>%
+    plotMA(main = glue::glue("Comparison between: {comparison}"), ylim=c(-2, 2))
+  }
+})
+
+normalized.counts <- normalize(counts, meta.sepsis)
+```
+
+```{r Extra stuff}
+plotDispEsts(degs$dds)
+
+cooks <- data.frame(cooks = log10(assays(degs$dds)[["cooks"]]))
+
+boxplot(cooks, range=0, las=2)
+```
+
+```{r}
+gene_set_slicer <- function(df, genes, n) {
+  
+  # Difference between edgeR and DESeq2
+  if (class(genes) == 'DESeqResults') {
+    pvald <- 'padj'
+    logFC <- 'log2FoldChange'
+    change <- 'absolute_change'
+  } else {
+    pvald <- 'FDR'
+    logFC <- 'logFC'
+    change <- 'logFC'
+  } 
+  
+  sig_genes <- genes %>% as.data.frame() %>%
+    filter(direction != "NOT_SIG") %>%
+    arrange(desc(!!change)) %>%
+    slice(1:n)
+
+  reduced_df <- df %>% as.data.frame() %>%
+    filter(row.names(.) %in% row.names(sig_genes)) %>%
+    rownames_to_column('gene')
+  
+  return(reduced_df)
+}
+
+gene_slicer <- function(normalized.set, gene_set, amount, type='deseq2'){
+  if (amount == "all") {amount <- 999999}  
+  if (type == "deseq2") {gene_set <- gene_set$results}
+
+  result <- lapply(gene_set, function(comparison) {
+    gene_set_slicer(normalized.set, comparison, amount)} %>%
+    # Merge into one dataset
+    t() %>% as.data.frame() %>%
+    rownames_to_column('id')) %>%
+    # Apply on every list at once; id = sample_id
+    reduce(dplyr::left_join, by = 'id') %>%
+    column_to_rownames('id') %>%
+    t() %>% as.data.frame() %>%
+    distinct(gene, .keep_all = T)
+  
+  # Delete rownames, since there are already existing ones, we do it outside the loop
+  row.names(result) <- result[, 'gene']
+  result <- result %>% dplyr::select(-gene) %>%
+    mutate(across(where(is.character), as.numeric))
+  
+  return(result)
+}
+
+fivety_genes <- gene_slicer(normalized.counts, degs, 50)
+hunderth_genes <- gene_slicer(normalized.counts, degs, 100)
+
+write.csv(hunderth_genes, "hunderd.csv")
+write.csv(fivety_genes, "fivety.csv")
+
+all_genes <- gene_slicer(normalized.counts, degs, "all")
+
+plot_pca <- function(gene_set, target) {
+ pca_res <- perform_pca(gene_set)
+ 
+ vars <- pca_res$eigenvalues$var
+
+  pca_res$pca$x %>%
+    as.data.frame() %>%
+    rownames_to_column('sample_identifier') %>%
+    full_join(x = ., y = meta.sepsis, by = 'sample_identifier') %>%
+    ggplot(aes(x = PC1, y = PC2, color = !!sym(target))) +
+    geom_point(size=2) +
+    labs(title = "PCA - based on DEG set", color = "Sepsis Severity Status") +
+    xlab(glue::glue("PC1: {round(vars[1], 2)}%")) +
+    ylab(glue::glue("PC2: {round(vars[2], 2)}%"))
+}
+
+plot_pca(fivety_genes, 'sepsis_severity')
+plot_pca(hunderth_genes, 'sepsis_severity')
+plot_pca(all_genes, 'sepsis_severity')
+```
+
+```{r}
+plot_heatmap <- function(gene_data, meta_data, scenario) {
+  # Scale gene count
+  scaled <- scale(t(gene_data), center = TRUE, scale = TRUE)
+
+  # Scale color usage
+  breaks <- c(min(scaled), 0, max(scaled))
+  colors <- c("blue", "black", "yellow")
+  used_colors <- colorRamp2(breaks, colors)
+
+  column_annotation <- HeatmapAnnotation(
+    df = data.frame(Severity = meta_data$sepsis_severity),
+    col = list(Severity = c('High' = 'red', 'Intermediate' = 'yellow', 'Low' = 'green'))
+  )
+
+  Heatmap(t(scaled),
+          column_split = meta_data$sepsis_severity,
+          name = "Z-score", 
+          top_annotation = column_annotation,
+          show_row_names = FALSE,
+          show_column_names = FALSE,
+          col = used_colors,
+          column_title = glue::glue('Comparison of gene expression based on {scenario}'))
+}
+
+plot_heatmap(fivety_genes, meta.sepsis, 'fifty genes')
+plot_heatmap(hunderth_genes, meta.sepsis, 'hunderd genes')
+plot_heatmap(all_genes, meta.sepsis, 'all genes')
+```
+
+```{r}
+plot_volcano <- function(data, type) {
+  if (type == 'deseq2') {
+    pvald <- 'padj'
+    logFC <- 'log2FoldChange'
+  } else {
+    pvald <- 'FDR'
+    logFC <- 'logFC'
+  } 
+  
+  ggplot(data, aes(x = !!sym(logFC), y = -log10(!!sym(pvald)), col = direction)) +
+    geom_point(size = 1.5) +
+    labs(title= glue::glue('Volcano plot - DEGs found with sepsis severity ({type})'),
+        color = 'Status',
+        x = expression('log'[2]*'fold change'),
+        y = expression('-log'[10]*"p-value")) +
+    geom_vline(xintercept=c(-log2(1.2), log2(1.2)), linetype='dashed', col="gray") +
+    scale_x_continuous(breaks = c(seq(-2.5, 2.5, 0.5), -log2(1.2), log2(1.2)),
+                       labels = c(seq(-2.5, 2.5, 0.5), "-log2(1.2)", "log2(1.2)")) +
+    scale_y_continuous(breaks = c(seq(0.0, 10.0, 2.5), -log10(0.05)),
+                       labels = c(seq(0.0, 10.0, 2.5), "p.val = 0.05")) +
+    geom_hline(yintercept = -log10(0.05), linetype = 'dashed', col='gray') +
+    scale_color_manual(values = c("blue", "grey", "red"),
+                       labels = c("Downregulated", "Not Significant", "Upregulated"))
+}
+
+lapply(degs$results, function(comparison)
+  plot_volcano(comparison, type='deseq2'))
+```
+
+# DE analysis with edgeR
+
+```{r}
+## edgeR
+dge <- DGEList(counts)
+keep <- rowSums(cpm(dge) >= 10) >= 10
+dge <- dge[keep, ,]
+dge <- calcNormFactors(dge)
+
+# Setting up the model with var condition
+design <- model.matrix(~ sequencing_month_year +  sepsis_severity, data = meta.sepsis)
+
+# Estimating the dispersion and perform a BCV
+dgList <- estimateDisp(dge, design = design)
+plotBCV(dgList, main = "BCV based on dispersion")
+
+fit <- glmQLFit(dgList, design)
+
+contrasts <- makeContrasts(intvshigh = -sepsis_severityIntermediate,
+                           lowvshigh = sepsis_severityLow,
+                           lowvsint = sepsis_severityLow-sepsis_severityIntermediate, 
+                           levels=design)
+
+qtr_list <- lapply(colnames(contrasts), function(comparison) {
+ glmQLFTest(fit, contrast = contrasts[, comparison])
+})
+
+edger.degs <- lapply(qtr_list, function(comparison) {
+  x <- decideTestsDGE(comparison, p=0.05)
+  rownames(comparison)[as.logical(x)]
+})
+
+mapply(function(qtr, tags){
+  plotSmear(qtr, de.tags = tags)
+  abline(h=c(-log2(1.2), log2(1.2)), col = 2)
+}, qtr_list, edger.degs)
+
+
+ttags <- lapply(qtr_list, function(comparisons) {
+  as.data.frame(topTags(comparisons, n = nrow(comparisons))) %>%
+  mutate(direction = case_when(
+    FDR <= 0.05 & logFC >= log2(1.2) ~ 'UP',
+    FDR <= 0.05 & logFC <= -log2(1.2) ~ 'DOWN',
+    TRUE ~ 'NOT_SIG'
+  ))
+})
+
+lapply(ttags, function(comparison)
+  plot_volcano(comparison, type='edger'))
+
+all.degs.edger <- gene_slicer(normalized.counts, ttags, 'all', 'edger')
+plot_heatmap(all.degs.edger, meta.sepsis, 'severity')
+```
+
+# Comparing both methods
+
+```{r}
+boxplot(degs$results$Low_against_Intermediate$log2FoldChange, ttags[[1]]$logFC,
+        main = "log-FC for all DEGs by package (Low vs. Int.)",
+        names = c("DESeq2", "edgeR"))
+
+boxplot(degs$results$Low_against_High$log2FoldChange, ttags[[2]]$logFC,
+        main = "log-FC for all DEGs by package (Low vs. High)",
+        names = c("DESeq2", "edgeR"))
+
+boxplot(degs$results$Intermediate_against_High$log2FoldChange, ttags[[3]]$logFC,
+        main = "log-FC for all DEGs by package (Int. vs. High)",
+        names = c("DESeq2", "edgeR"))
+
+# Create a Venn-diagram given just the list of gene-names for both sets
+ggvenn(list(edgeR = rownames(all.degs.edger),
+          DESeq2 = rownames(all_genes))) + 
+  ggtitle("Differences DEGs edgeR and DESeq2")
+```
+
+# On the whole transcriptome
+
+```{r}
+whole_counts <- read.csv('data/source/GSE185263_raw_counts.csv') %>%
+  column_to_rownames('ensembl_gene_id') %>%
+  dplyr::select(starts_with('sep'))
+
+library(biomaRt)
+
+# Only keep gene IDs
+gene_ids <- row.names(whole_counts)
+
+listEnsembl()
+ensembl <- biomaRt::useEnsembl("genes")
+datasets <- listDatasets(ensembl)
+
+# Make a connection with Ensembl
+connection <- useMart("ensembl", dataset = "hsapiens_gene_ensembl")
+
+# Get gene set
+gene_set <- getBM(attributes = c('ensembl_gene_id', 'external_gene_name'),
+                  filters = "ensembl_gene_id",
+                  values = gene_ids,
+                  mart = connection) 
+
+mito.genes.raw <- whole_counts %>%
+  rownames_to_column('ensembl_gene_id') %>%
+  merge(gene_set, by = 'ensembl_gene_id') %>%
+  filter(ensembl_gene_id != "ENSG00000258724") %>% 
+  dplyr::select(-ensembl_gene_id) %>%
+  distinct(external_gene_name, .keep_all = T) %>%
+  column_to_rownames('external_gene_name')
+
+mito.genes.raw.reord <- reordered(meta.sepsis, mito.genes.raw)
+
+degs.trans <- de_analysis(mito.genes.raw.reord, meta.sepsis, design.element = 'sepsis_severity', fold_thres = 1.2)
+degs.trans.norm <- normalize(mito.genes.raw.reord, meta.sepsis)
+degssss <- gene_slicer(degs.trans.norm, degs.trans, 'all')
+```
+
+```{r}
+ggvenn(list(DEGs_Transcriptome = rownames(degssss),
+       DEGs_Mito = rownames(all_genes)))
+all_genes
+```
+
+# Pathway analysis and septic patients vs. healthy controls
+
+```{r}
+universe_list <- read.csv("data/ex_gene_ids.csv") %>% distinct(gene)
+
+sig_genes <- Map(function(dataset, name){ 
+  dataset <- dataset %>% as.data.frame() %>%
+  filter(de != "NO") %>%
+  arrange(desc(absolute_change)) %>%
+  rownames_to_column('gene')
+}, degs$results, names(degs$results))
+
+with_universe <- pathway_analysis(sig_genes, split = T, universe = universe_list)
+
+plot_reactome(with_universe$reactome_res)
+plot_go(with_universe$go_res)
+```
+
+```{r}
+counts_hc <- read.csv("data/hc_counts.csv")
+meta_hc <- read.csv("data/source/GSE185263_meta_data_N392.csv") %>%
+  filter(patient_location != "icu")
+gene_names_hc <- read.csv("data/hc_counts_names.csv")
+
+counts <- counts %>%
+  rownames_to_column('gene')
+
+counts_hc <- counts_hc %>%
+  bind_cols(gene_names_hc) %>%
+  semi_join(gene_names, by = 'gene') %>%
+  select(-ensembl_id) %>%
+  left_join(counts, 'gene') %>%
+  column_to_rownames('gene')
+
+meta_hc <- meta %>%
+  select(sample_identifier, cluster) %>%
+  full_join(meta_hc, by = 'sample_identifier') %>%
+  mutate(cluster = ifelse(is.na(cluster), "hc", cluster))
+
+counts_hc <- reordered(meta_hc, counts_hc)
+degs_hc <- de(counts_hc, meta_hc, design.element = "sepsis_severity", fold_thres = 1.2, low.exp = 10, versus_healthy = T)
+```
+

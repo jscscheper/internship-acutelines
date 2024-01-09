@@ -1,0 +1,83 @@
+---
+title: "Zoom-in gene sets"
+author: "Dennis Scheper"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(dplyr)
+library(tidyverse)
+setwd("C:/Users/Dennis/Desktop/internship_acutelines/")
+
+meta_er <- read.csv("data/meta_sepsis_er_2_clust_degs.csv")
+meta_icu <- read.csv("data/meta_sepsis_icu_2_clust_degs.csv")
+counts <- read.csv("data/de_res/res_sepsis_all.csv")
+four_genes <- c('SPATA7', 'ARG1', 'SORD', 'TXNIP')
+nine_genes <- c('P2RY1', 'OAT', 'RAB5IF', 'TSPO', 'SARM1', 'CLYBL', 'TMEM70', 'CYP1B1', 'DEPP1')
+eleven_genes <- c('SPATA7', 'ARG1', 'SORD', 'FHIT', 'PPTC7', 'KIF28P', 'TXNIP', 'THEM4', 'DEPP1', 'CASP8', 'UCP3')
+
+library(reshape2)
+
+merge_sets <- function(count_df, meta, gene_vector) {
+  reduced_counts <- count_df %>%
+    filter(gene %in% gene_vector) %>%
+    column_to_rownames('gene') %>%
+    t() %>% as.data.frame() %>%
+    rownames_to_column('sample_identifier') %>%
+    inner_join(meta, by = 'sample_identifier') %>%
+    select(sample_identifier, gene_vector, cluster, sepsis_severity) %>%
+    melt(id.vars = gene_vector, variable.name = 'sample_identifier', value.name = 'sepsis_severity')
+  
+  return(reduced_counts)
+}
+
+visualize_group_boxplots <- function(df, meta, x, y, group, separate = F, gene_set) {
+  long_format <- df %>% as.data.frame() %>%
+    pivot_longer(cols = -gene, names_to = "sample_identifier", values_to = "counts") %>%
+    merge(., meta, by = "sample_identifier") %>%
+    filter(gene %in% gene_set)
+
+  group_colors <- rainbow(length(unique(long_format[, group])))
+  legend_title <- ifelse(length(group_colors) == 3, 'Severity level', 'Cluster')
+  
+  if (separate) {
+    p1 <- ggplot(long_format, aes(x = !!sym(x), y = !!sym(y))) +
+      geom_boxplot(aes(fill = as.factor(!!sym(group)))) +
+      facet_wrap(~ gene, scales = "free") +
+      scale_fill_manual(values = group_colors) + 
+      theme_gray() +
+      labs(fill = legend_title)
+  } else {
+    p1 <- ggplot(long_format, aes(x = !!sym(x), y = !!sym(y))) +
+    geom_boxplot(aes(fill = as.factor(!!sym(group)))) +
+    scale_fill_manual(values = group_colors) + 
+    theme_gray() +
+    labs(fill = legend_title) +
+    theme(axis.text.x = element_text(angle = 90))
+  }
+  
+  gridExtra::grid.arrange(p1)
+}
+
+visualize_group_boxplots(counts, meta_icu, 'gene', 'counts', group='sepsis_severity', gene_set=four_genes, separate=T)
+```
+
+```{r}
+library(ggvenn)
+
+ggvenn(list(
+       'Four' = four_genes,
+       'Nine' = nine_genes,
+       'Eleven' = eleven_genes)
+       ) +
+  ggtitle('Venn diagram of all reduced genes sets')
+```
+
+
+
+
