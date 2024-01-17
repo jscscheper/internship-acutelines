@@ -18,18 +18,8 @@ knitr::opts_knit$set(root.dir = 'C:/Users/Dennis/Desktop/internship_acutelines')
 ```
 
 ```{r, echo=FALSE, out.width='100%', out.height='110%', fig.align='center'}
-#knitr::include_graphics('sepsis.jpeg')
+knitr::include_graphics('EDA/sepsis.jpeg')
 ```
-
-\newpage
-# Abbrevattions
-|Full Name                                                     |Abbreviation|
-|--------------------------------------------------------------|------------|
-|Exploratory data analysis                                     |EDA         |
-|Emergency room                                                |ER          |
-|Intensive care unit                                           |ICU         |
-|Principal component analysis                                  |PCA         |
-
 
 \newpage
 \renewcommand{\contentsname}{Table of content}
@@ -37,22 +27,21 @@ knitr::opts_knit$set(root.dir = 'C:/Users/Dennis/Desktop/internship_acutelines')
 
 \newpage
 # Dataset and Attribute Information
-Data used in this Exploratory Data Analysis (EDA) is retrieved from a previous study \cite{prev-study}.
+This Exploratory Data Analysis (EDA)'s data is retrieved from a previous study \cite{prev-study}.
 
-RNA-Seq and clinical data were gathered from five hospitals, consisting of 348 patients from four emergency rooms (ER), one intensive care unit (ICU), and 44 controls. The data is distributed over six different datasets, two of which are of particular interest and the other four mainly containing IDs of genes and gene products. As mentioned, the data has been used in a previous study, in which the main goal was to predict severity and endotype signatures to assist medical professionals in making clinical decisions. We want to reanalyze the data and zoom in on mitochondrial-related genes as mitochondria dysfunction seems to have a correlation between sepsis severity and outcome of sepsis patients. <source> The class variable of this study is `sepsis_severity` and `mortality` variables. If we have time left, we want to use unsupervised clustering to establish new endotype signatures.
+RNA-Seq and clinical data were gathered from five hospitals ("cohorts") consisting of 348 patients from four emergency rooms (ER), one intensive care unit (ICU), and 44 controls. 82 samples were from the ICU, and the rest were from the ER. The data is distributed over five different datasets, two of which are of particular interest and the other four mainly containing IDs of genes and gene products. As mentioned, the data has been used in a previous study, in which the researchers were focused on extracting differentially expressed genes (DEGs) related to sepsis severity and mortality. Additionally, these researchers established endotypes based on immune-related genes. They identified five endotypes that were mechanistically and biologically different. We aim to perform a similar experiment during this project, but now entirely focusing on mitochondria-related genes. The approach is different since we want to extract those genes only, rendering our gene set size relatively smaller than the previous study, using all the genes in question. When establishing mitochondria-driven endotypes, we plan on extracting them with two essential variables ("class variables"): `sepsis_severity` and `mortality`. `sepsis_severity` consists of three different levels and is based on SOFA scores, namely 'High' (SOFA of above or equal to 5), 'Intermediate' (SOFA of above to and below 5), and 'Low' (SOFA of below 2). `mortality` is based on the outcome of a patient's admission, either 'deceased', 'survived', or 'unknown'. We plan on using these two variables to extract DEGs (more on that in `de_and_pathway_analysis.Rmd`). The main focus of this project is to undermine whether mitochondria-related genes have any "power" in predicting sepsis severity, not to necessarily come to a grandiose conclusion. Nevertheless, they were instead discovering if there is a way forward for more personalized medicine by focusing on mitochondria-related genes.
 
-The data consists of the following six datasets:
+The data consists of the following five datasets:
 
 \begin{enumerate}
 \item{Metadata (clinical data)}
 \item{Raw counts Of RNA-Seq data}
 \item{IDs of patients and library name}
 \item{Mitochondria gene IDs}
-\item{SRA}
 \item{Gene products from mitochondria genes}
 \end{enumerate}
 
-We will only give a quick overview of the metadata and the raw counts' data features since these contain most of the essential data. The metadata has been cleaned and cleaned before the start of this study. Therefore, we expected to not having to alter much to this dataset. We now give an overview of the features present in the metadata in Table 1:
+We will only give a quick overview of the metadata and the raw counts' data features since these contain most of the essential data. Most of the data has been 'cleaned'. However, since we are working with a subset of the raw count's dataset, we will probably discover a different distribution and outliers. Additionally, the previous researcher identified outliers but did not have enough evidence to support removal. Also, many NA values are still present in the dataset. Some of these are introduced because of the differences in cohorts. For instance, some metadata is entirely attributed to ICU information. That introduces NAs for ER samples. Therefore, it is still crucial to do an in-depth data analysis.
 
 \begin{enumerate}
 \item{Sample IDs (feature 1-3);}
@@ -74,17 +63,16 @@ We will only give a quick overview of the metadata and the raw counts' data feat
 \item{Class variables (feature 264-268)}
 \end{enumerate}
 
-The raw count dataset has a fairly simple structure; column names are sample IDs and identical to the feature `sample_identifier` in the metadata. Additionally, Ensembl IDs are present as row names. We plan to retrieve gene names from Ensembl and use these as row names instead. Raw counts are not normalized and requires a more intensive approach than for the metadata.
+The raw count dataset has a relatively simple structure; column names are sample IDs and identical to the feature `sample_identifier` in the metadata. Additionally, Ensembl IDs are present as row names. We will retrieve gene names from Ensembl and use these as row names instead. Raw counts are not normalized and require a more intensive approach than metadata.
 
-We can explore our dataset with an EDA and determine if any correlations exist between attributes and undermine any missing values. If any exist, we deal with them accordingly, looking to repair these values or remove them entirely. Additionally, we will look at variations between and in attributes for determining which ones are of most importance and interest to our research goals.
+We first start by looking at the metadata after importing all relevant libraries.
 
 \newpage
 # Preparation
-We will start loading some libraries -- not all because of function name conflicts -- and read all relevant datasets. Thereafter, we explore two ways of extracting gene names using Ensembl IDs and determine which one is better. The nuance lies in that both methods have several mitochondria-related genes, which we did not expect to see. [COMING BACK ON THIS LATER] Since we want to assign the gene names as names of rows, it is essential that we do not have any duplicates. We report on found duplicates and dealt with these in the last section of the preparation section. Duplicates varied for both methods, and the amount found could be a determining factor in deciding which method is more reliable.
+We will start loading some libraries -- not all because of function name conflicts (namely `dplyr` and `biomaRt`) -- and read all relevant datasets. The `reordered` (from `helper_functions.R`) function ensures sample identifiers are in order in the metadata and count data.
 
 ```{r Setup}
 library(affy)
-library(biomaRt)
 library(caret)
 library(corrplot)
 library(dendextend)
@@ -95,6 +83,7 @@ library(reshape2)
 library(tidyverse, warn.conflicts = F)
 library(visdat)
 
+# Import some essential helper functions
 source('scripts/helper_functions.R')
 
 mitocondria.genes <- read.table('data/source/GOCC_MITOCHONDRION.v2023.1.Hs.gmt') %>%
@@ -112,7 +101,7 @@ gene.products <- read.table('data/source/Mitochondrion_GeneProduct.txt', sep = '
 sra <- read.table('data/source/SraRunTable.txt', sep = ',', header = T)
 ```
 
-To give a quick overview of the results, we use the `dim` function on every dataset to give an overview of their dimensions. As we can see in Table [NUMBER], we have a total of 392 patients, and the mitochondria gene dataset (1.669 genes) is smaller than the raw counts dataset (58.389 genes). The total loss of genes is `r (1669-58389)/58389*100`%. The metadata contains all clinical information and has, therefore, many features. The other datasets have a relatively small amount of features, which signifies their less critical role in the study. It is still being determined if we are going to use these datasets.
+To give a quick overview of the results, we use the `dim` function on every dataset to give an overview of their dimensions. As shown in Table 3, we have a total of 392 patients, and the mitochondria gene dataset (1.669 genes) is smaller than the raw counts dataset (58.389 genes). The total loss of genes is `r (1669-58389)/58389*100`%. The metadata contains all clinical information and has, therefore, many features. The other datasets have a relatively small amount of features.
 
 ```{r Dimensions}
 # Dimensions of all datasets
@@ -132,7 +121,29 @@ kable(dims, booktabs = T, caption = "Dimensions of datasets") %>%
  column_spec(1, bold = T)
 ```
 
-```{r Table one}
+\newpage
+# Meta Dataset
+The meta-dataset contains all patients' clinical information, such as gender, age, and information regarding their ER/ICU visit(s). Since we have a distinction between these samples and healthy controls, we have a lot of missing values (NAs). In this section, we will highlight the missing values and devise a plan to deal with them. That could mean removing some instances or attributes or needing to fill them up. For example, a healthy control could get a `0` inserted in an attribute regarding ER records. Filling up missing values is done in collaboration with experts [Nicole]. In addition, we look at the distribution of numeric attributes, and we might need to normalize some.
+
+## Base statistics
+We look closer at the data types and the number of NAs per feature. The `glimpse` function performs this task. The metadata set contains so many features that displaying them here would not give an adequate picture. Therefore, a CSV is available in the `misc/` directory. The SRA mainly contains information about the RNA-Seq data, collection information, creation data, etc. We do not need this information and will not touch this dataset again. IDs contain an identifier to NCBI and `gene.products` the gene name and their product. We only rename a very long feature for the metadata set.
+
+```{r Glimpse on all datasets}
+#meta.glimpse <- glimpse(meta.data) %>% write.csv('glimpse_meta.csv')
+glimpse(sra)
+glimpse(ids)
+glimpse(gene.products)
+
+meta.data <- meta.data %>%
+  rename(icu_Anti.COVID_last_date = icu_Anti.COVID.Tx...Immune.Modulating.Tx.data.censored.on.date.of....last.sample.sent.)
+```
+
+\newpage
+## Essential features
+
+Now, we zoom in on the metadata and how some important features are distributed over ER and ICU cohorts. These features are related to SOFA scores, lactate measurements (an important indicator of mitochondria dysfunction), measurements of white blood cells, and other essentials. We tried to calculate the mean, standard error, total availability in raw and percentage per column named in `ess_vars`. `table_1` holds all the information for all cohorts, the function `calculate_metrics` calculates the distinction between ER and ICU for every essential column. These calculations give us a better understanding of how the data is distributed. The results are depicted in Table 4 and 5.. These calculations give us a better understanding of how the data is distributed. The results are depicted in Table 4 and 5.
+
+```{r Table one calculations}
 ess_vars <- c("sepsis_severity", "mortality", 
               "age", "gender", "first_at_ed_sofa", "icu_sofa", 
               "worst_within_72_sofa", "worst_within_72_lactate",
@@ -173,16 +184,18 @@ calculate_metrics <- function(df) {
 
     if (is.numeric(df[[column]]) == TRUE) {
       mean_value <- round(mean(df[[column]], na.rm = TRUE), 2)
-      se_value <- round(sd(df[[column]], na.rm = TRUE)/sqrt(sum(!is.na(df[column]))), 2)
+      # calculate sd and thereafter standard error
+      se_value <- round(sd(df[[column]], na.rm = TRUE)/
+                          sqrt(sum(!is.na(df[column]))), 2)
       
     } else {
-      # for categorical; no means or sd
+      # for categorical; no means or se
       mean_value <- NA
       se_value <- NA
     }
     
     total_available <- round(sum(!is.na(df[column]))/nrow(df[column])*100, 2)
-    av <- sum(!is.na(df[column]))
+    av <- sum(!is.na(df[column])) # total available 
     new_row <- c(column, total_available, mean_value, se_value, av)
     
     # bind to "table_one"
@@ -192,37 +205,23 @@ calculate_metrics <- function(df) {
 }
 
 er_calc <- calculate_metrics(er)
-names(er_calc) <- c("var", "total_av", "mean", "sd", "av")
+names(er_calc) <- c("var", "total_av", "mean", "se", "av")
 icu_calc <- calculate_metrics(icu)
-names(icu_calc) <- c("var", "total_av", "mean", "sd", "av")
+names(icu_calc) <- c("var", "total_av", "mean", "se", "av")
 
-kable(er_calc, format='latex', booktabs=T) %>%
+er_calc %>%
+  filter(av != 0) %>%
+  kable(format='latex', booktabs=T) %>%
   kableExtra::kable_styling()
 
-kable(icu_calc, format='latex', booktabs=T) %>%
+icu_calc %>%
+  filter(av != 0) %>% # remove columns with no available information
+  kable(icu_calc, format='latex', booktabs=T) %>%
   kableExtra::kable_styling()
-```
-
-
-\newpage
-# Meta Dataset
-The meta-dataset contains all the clinical information of patients, such as gender, age, and information regarding their ER/ICU visit(s). Since we have a distinction between these samples and healthy controls, we have a lot of missing values (NAs). In this section, we will highlight the missing values and come up with a plan on how to deal with them. That could mean removing some instances or attributes or needing to fill them up. For example, a healthy control could get a `0` inserted in an attribute regarding ER records. Filling up missing values is done in collaboration with experts [Nicole]. In addition, we look at the distribution of numeric attributes, and we might need to normalize some.
-
-## Base statistics
-We take a look at the variables that exhibit low variance. This could either be because of a high number of NA values or that an attribute mostly exists in ones and zeros. Therefore, we need to be extra careful on what to do with these attributes. Table [NUMBER] depicts these features by name and we found these by using the `nearZeroVar` function. Another `glimpse` function is preformed as well. We also renamed the feature _icu_Anti.COVID.Tx...Immune.Modulating.Tx.data.censored.on.date.of....last.sample.sent._ to the much shorter _icu_Anti.COVID_last_date_.
-
-```{r Glimpse on all datasets and nearZeroVar function on metadata}
-#meta.glimpse <- glimpse(meta.data) %>% write.csv('glimpse_meta.csv')
-glimpse(sra)
-glimpse(ids)
-glimpse(gene.products)
-
-meta.data <- meta.data %>%
-  rename(icu_Anti.COVID_last_date = icu_Anti.COVID.Tx...Immune.Modulating.Tx.data.censored.on.date.of....last.sample.sent.)
 ```
 
 ## Data Types and Missing values
-In the next section, we take a look at the data distribution of the meta data. We are interested in not only the percentage of missing values per attribute, but also the datatype of each attribute. For this, we use the library `visdat`. Since we have a lot of attributes, we subdivide the amount of attributes in three plots via a function that generates a plot for every 67 attributes. We do this twice: one for datatypes and the other for NAs.
+In the next section, we look at the data distribution of the metadata. We are interested in the percentage of missing values per attribute and the data type of each attribute. For this, we use the library `visdat`. Since we have many attributes, we subdivide the amount of attributes into three plots via a function that generates a plot for every 67 attributes. We do this twice: one for datatypes and the other for NAs.
 
 ```{r Constructing plots regarding data types}
 loop.vector <- c(1, 67, 134, 201)
@@ -231,28 +230,28 @@ missing.values.plot <- lapply(loop.vector, function(x) vis_dat(meta.data[x:(x+67
              theme(axis.text.x = element_text(angle = 90, hjust = 0, size = 7.5)))
 ```
 
-```{r first data types plot, fig.cap="Data types and NAs for feature 1-67. Data types include character (red), integer (green), logical (blue), numeric (purple), and NA (grey)."}
+```{r first data types plot, fig.cap="Data types and NAs for features 1-67. Data types include character (red), integer (green), logical (blue), numeric (purple), and NA (grey)."}
 plot(missing.values.plot[[1]])
 ```
 
-```{r Second data type plot, fig.cap="Data types and NAs for feature 67-134. Data types include character (red), integer (green), logical (blue), numeric (purple), and NA (grey)."}
+```{r Second data type plot, fig.cap="Data types and NAs for features 67-134. Data types include character (red), integer (green), logical (blue), numeric (purple), and NA (grey)."}
 plot(missing.values.plot[[2]])
 ```
 
-```{r Third data type plot, fig.cap="Data types and NAs for feature 134-201. Data types include character (red), integer (green), logical (blue), numeric (purple), and NA (grey)."}
+```{r Third data type plot, fig.cap="Data types and NAs for features 134-201. Data types include character (red), integer (green), logical (blue), numeric (purple), and NA (grey)."}
 plot(missing.values.plot[[3]])
 ```
 
-```{r Fourth data type plot, fig.cap="Data types and NAs for feature 201-268. Data types include character (red), integer (green), logical (blue), numeric (purple), and NA (grey)."}
+```{r Fourth data type plot, fig.cap="Data types and NAs for features 201-268. Data types include character (red), integer (green), logical (blue), numeric (purple), and NA (grey)."}
 plot(missing.values.plot[[4]])
 ```
-As is show in figures [NUMBER] - [NUMBER], there are a lot of NAs present in the metadata. Basic information such as age, gender and are all filled in. However, group-specific features contain a large share of the total amount of missing values. Besides, our metadata is diverse in the different data types. Next, let us zoom in on the missing values per feature via the function `vis_miss`. We will use the `loop.vector` variable once more.
+As shown in figures [NUMBER] - [NUMBER], many NAs are present in the metadata. Basic information such as age and gender are all filled in. However, cohort-specific features contain a large share of the missing values. Besides, our metadata is diverse in the different data types. Next, let us zoom in on the missing values per feature via the function `vis_miss`. We will use the `loop.vector` variable once more.
 
 ```{r Constructing plots regarding NAs}
 plots.missing.values <- lapply(loop.vector, function(x) vis_miss(meta.data[x:(x+67)], cluster = T) +
                                  
 labs(title = sprintf("Missing values per feature, feature %s-%s", x, x+67), x = "Feature") +
-  theme(axis.text.x = element_text(angle = 60, hjust = 0, size = 6.5)))
+  theme(axis.text.x = element_text(angle = 90, size = 6.5)))
 ```
 
 ```{r First NA plot, fig.cap="First set of features (1-68) displaying the NAs per feature. In addition, a percentage of total missing values is given per feature. 40,2% of observations were NAs and 59,8% filled in."}
@@ -270,9 +269,9 @@ plot(plots.missing.values[[3]])
 ```{r Fourth NA plot, fig.cap="First set of features (201-268) displaying the NAs per feature. In addition, a percentage of total missing values is given per feature. 80,4% of observations were NAs and 19,6% filled in."}
 plot(plots.missing.values[[4]])
 ```
-As we can see in the figures [NUMBER] - [NUMBER] a lot of missing values are present in group-specific features. For example, features about patients located in the ICU have no data about ER patients and healthy controls. Since we are dealing with clinical data, it is important to understand the context behind these missing values. Therefore, we are going to sit down with an expert in this area and come back when we know more.
+As shown in the figures [NUMBER] - [NUMBER], many missing values are present in group-specific features. For example, features about patients located in the ICU have no data about ER patients and healthy controls. Since we are dealing with clinical data, it is vital to understand the context behind these missing values. We talked to Nicole Erler, an expert in the field of biostatistics. \cite{erler} In addition, "just" filling in a zero was also not the way to go, according to Erler. Our data is too challenging to impute quickly. It would be a sufficient half-year project on its own and probably not helpful. We, therefore, leave the missing values as they are for now. We could return later and still handle one of the more significant features.
 
-To highlight the amount of missing values even better, we construct a table with the amount of missing values for every attribute in amount and percentage of all instances. This gives us the opportunity to zoom in on those groups-specific features. 
+To highlight the number of missing values even better, we construct a table with the number of missing values for every attribute in amount and percentage of all instances. This allows us to zoom in on those groups-specific features. We do this by counting all the NAs per `patient_location` (ER, ICU) in percentage.
 
 ```{r Calculate NAs per feature in counts and percentage}
 table.missing.values <- meta.data %>%
@@ -284,6 +283,7 @@ table.missing.values <- meta.data %>%
 ```
 
 ```{r Visualize features NAs in table}
+# only keep features that exhibit 100% NAs over all cohorts
 columns_delete <- table.missing.values %>% as.data.frame() %>%
   filter(across(everything(), ~ . == 100))
 
@@ -298,20 +298,21 @@ meta.data <- meta.data %>%
            ifelse(patient_location == 'healthy_control', 'hc', patient_location))
 ```
 
-For other datasets that do not contain that many NAs, we will perform the `nearZeroVar` function as well:
+We visualize the results in Table [number] and see that a few features are empty for all cohorts. We can safely delete these features.
+
+We use the `nearZeroVar` function to delete some near-zero variables. As we did for glimpse, the result of the metadata set is available as CSV under `misc/` (only for internal readers). We see some samples that exhibit not much variance. Removing these is still too early, but it is a valuable indicator. We will look at these samples in the section regarding the counts dataset.
 
 ```{r nearZeroVar function}
+#l <- nearZeroVar(meta.data, names=T) %>% write.csv("near_zero_meta.csv")
 nearZeroVar(raw.counts, names=T)
 nearZeroVar(sra, names=T)
 nearZeroVar(gene.products, names=T)
 nearZeroVar(ids, names=T)
 ```
 
-As we can see, there are not that many features (or none at all) that exhibit low variance. The only dataset that contains low variance features is `sra`, but since we are not sure of its use case, we will not pay attention to these features.
-
 \newpage
 # Distribution
-In this section, we look at the distribution of the meta dataset. Since the meta dataset contains a lot of attributes of the `character` type, we are using a barplot to discover relationships between various features. Our primary interest is visualizing with the class variables, namely `mortality`, `sepsis_severity`, `endotype_name`, and `healthy`. The first two named here are, of course, the most essential to look at. To accomplish this, we made a `counter` function that counts the amount of instances in two different features and summarizes it in a barplot. The `!!rlang::sym(x)` can be a bit confusing: for instance, `rlang::sym(x)` takes string `x` and converts it into a symbol. After that, `!!` is used for unquoting.
+In this section, we look at the distribution of the meta-dataset. Since the meta dataset contains many attributes of the `character` type, we use a barplot to discover relationships between various features. Our primary interest is visualizing with the class variables, namely `mortality,` `sepsis_severity,` `endotype_name,` and `sample_location.` The first two named here are, of course, the most essential to look at. To accomplish this, we made a `counter` function that counts the amount of instances in two different features and summarizes it in a barplot. The `!!rlang::sym(x)` can be confusing; for instance, `rlang::sym(x)` takes the string `x` and converts it into a symbol. After that, `!!` is used for unquoting.
 
 ```{r Distribution of features with class variables in metadata}
 counter <- function(dataset, target, features) {
@@ -329,53 +330,67 @@ counter <- function(dataset, target, features) {
 } 
 ```
 
+In figure [number], we see that the Toronto cohort is indeed for the ICU, and most samples are from the ER. Most people, no matter the admission, left the hospital alive; only a small portion died, which means the `mortality` variable may be limited in scope regarding DE extraction. Also, this variable contains a lot of NAs. And the entire ICU cohort has no information on `mortality`. For `sepsis_severity`, most High severity cases come from the ICU cohort and are also the smallest. This class imbalance may be problematic, especially for ER.
+
 ```{r Distribution with sample location, fig.cap="Distributions of `sample_location` with `mortality`, `patient_location`, and `sepsis_severity`. Sample location is an important variable since it shows the differences between the cohorts."}
 counter(meta.data, 'sample_location', c('sepsis_severity', 
                                         'patient_location', 
                                         'mortality'))
 ```
 
-```{r Distribution with class variable `sepsis_severity`, fig.cap="Distributions of `sepsis_severity` with `mortality`, `endotype_name` (established in the Baquir study), `mortality`, and `patient_location`. Severity is spread out over the age group. The amount of samples also increases with older populations. ICU has the largest share of High severity cases in percent, constrast to the ER cohort."}
+Figure [number] takes the severity variable as the counter. We see that most samples are between the age group of 51-60 to 71-80.  
+
+```{r Distribution with class variable `sepsis_severity`, fig.cap="Distributions of `sepsis_severity` with `mortality`, `endotype_name` (established in the Baquir study), `mortality`, and `patient_location`. Severity is spread out over the age group. The amount of samples also increases with older populations. In contrast to the ER cohort, ICU has the largest share of High-severity cases in percentage."}
 counter(meta.data, 'sepsis_severity', 
         c('age_group', 'patient_location', 'mortality', 'endotype_name'))
 ```
+
+In figure [number], the age_group is used as the counter. Low severity is more pronounced in younger populations, and almost no one under the age of forty died because of sepsis.
 
 ```{r Distribution of the variable `age_group`, fig.cap="Distributions of `age_group` with `mortality` and `sepsis_severity`. Low severity exhibits a higher share of younger populations, whereas older populations are more abundant in High and Intermediate subgroups. This phenomenon can also be seen in the mortality variable; younger age groups are less represented in the subcategory deceased."}
 counter(meta.data, 'age_group', c('mortality', 'sepsis_severity'))
 ```
 
+Next, we mutate all the attributes that are supposed to be of the `numeric` type to that type. We do this since we are interested in the distribution of numeric values to determine whether we need to normalize/standardize these attributes. The attributes consisting of 0/1 will also be converted to `TRUE` and `FALSE`, respectfully. Thereafter, we will, as a temporary measure, select all numeric valuations, fill any NA in with 0 until later when they are filled correctly, and compare them. We plot per 20 features because of the larger number of features; the total number of numeric features is 116. We use the function `plot_distributions` for this. This function splits the data into indices specified by the user and shows the distribution of a particular variable. We use `patient_location` to color in the distribution. This function can, in practice, be used for all data types.
 
-Next, we mutate all the attributes that are supposed to be of the `numeric` type to that type. We do this since we are interested in the distribution of numeric values to determine whether we need to normalize/standardize these attributes. The attributes consisting of 0/1 will also be converted to `TRUE` and `FALSE`, respectfully. Thereafter, we will, as a temporary measure, select all numeric valuations and fill any NA in with 0 until later when they are filled correctly. We plot per 20 features because of the larger number of features; the total number of numeric features is 116.
-
-```{r Highlight distribution of numeric features in meta.data, fig.cap = "First set of 20 numeric features' distribution (feature 1-20)."}
+```{r Highlight distribution of numeric features in meta.data, fig.cap = "First set of 20 numeric features' distribution (feature 1-20; without NAs)."}
 meta.data <- meta.data %>%
   mutate_if(~ all(. %in% c(0, 1, NA)), ~ as.logical(.))
 
 numeric_data <- meta.data %>%
   select_if(is.numeric)
 
-plot_distribution <- function(dataset, cols, color_var) {
+plot_distribution <- function(dataset, col_length, color_var) {
   p <- list()
-  indices <- ceiling(ncol(dataset)/cols)
+  # calculate how many parts we need to split the data in
+  indices <- ceiling(ncol(dataset)/col_length)
+  
+  # which variable is to be distinct upon (coloring in)
   color_var <- as.factor(color_var)
 
   for (i in 1:indices) {
-    start_col <- (i-1)*cols+1
-    end_col <- i*cols
+    
+    # calculate the start and end index
+    start_col <- (i-1)*col_length+1
+    end_col <- i*col_length
     
     if(end_col > ncol(dataset)) {
       end_col <- ncol(dataset)
     }
     
     p[[i]] <- dataset[, start_col:end_col] %>%
+      # if we have character types, conver to factor and then to numeric
       mutate_if(is.character, as.factor) %>%
       mutate_if(is.factor, as.numeric) %>%
       bind_cols(color_var) %>%
+# put the color_column as the last column (it might not be in 'dataset' param)
       rename(color_column = last_col()) %>%
+      # longer format since we want to count
       pivot_longer(-color_column,
                    names_to = "features", values_to = "values") %>%
       ggplot(aes(x = values, fill = color_column)) +
       geom_histogram(bins = 15) +
+      # for every feature, make a "small" plot
       facet_wrap(~ features, scales = "free") +
       theme(strip.text = element_text(size = 7))
   }
@@ -384,57 +399,62 @@ plot_distribution <- function(dataset, cols, color_var) {
 }
 
 without.nas <- plot_distribution(numeric_data, 20, meta.data$patient_location)
-plot(without.nas[[2]])
+# turn the NAs into 0 for comparison
 numeric_data <- numeric_data %>%
   mutate_all(~ifelse(is.na(.), 0, .))
 with.nas <- plot_distribution(numeric_data, 20, meta.data$patient_location)
 ```
 
-```{r Plot number two, include = FALSE, fig.cap = "Second set of 20 numeric features' distribution (feature 21-40)."}
+```{r WithoutNA1, include = FALSE, fig.cap = "Second set of 20 numeric features' distribution (feature 21-40; without NAs)."}
 plot(without.nas[[1]])
 ```
 
-```{r Plot number three, include = FALSE, fig.cap = "Third set of 20 numeric features' distribution (feature 41-60)."}
+```{r WithoutNA2, include = FALSE, fig.cap = "Third set of 20 numeric features' distribution (feature 41-60; without NAs)."}
 plot(without.nas[[2]])
 ```
 
-```{r Plot number four, include = FALSE, fig.cap = "Fourth set of 20 numeric features' distribution (feature 61-80)."}
+```{r WithoutNA3, include = FALSE, fig.cap = "Fourth set of 20 numeric features' distribution (feature 61-80; without NAs)."}
 plot(without.nas[[3]])
 ```
 
-```{r Plot number five, include = FALSE, fig.cap = "Fifth set of 20 numeric features' distribution (feature 81-100)."}
+```{r WithoutNA4, include = FALSE, fig.cap = "Fifth set of 20 numeric features' distribution (feature 81-100; without NAs)."}
 plot(without.nas[[4]])
 ```
 
-```{r Plot number six, include = FALSE, fig.cap = "Last set of 20 numeric features' distribution (feature 101-116)."}
+```{r WithoutNA5, include = FALSE, fig.cap = "Last set of 20 numeric features' distribution (feature 101-120; without NAs)."}
 plot(without.nas[[5]])
 ```
-```{r Plot number six, include = FALSE, fig.cap = "Last set of 20 numeric features' distribution (feature 101-116)."}
+
+```{r WithoutNA6, include = FALSE, fig.cap = "Last set of 20 numeric features' distribution (feature 121-140; without NAs)."}
 plot(without.nas[[6]])
 ```
-```{r Plot number two, include = FALSE, fig.cap = "Second set of 20 numeric features' distribution (feature 21-40)."}
+```{r WithNA1, include = FALSE, fig.cap = "Second set of 20 numeric features' distribution (feature 21-40; with NAs)."}
 plot(with.nas[[1]])
 ```
 
-```{r Plot number three, include = FALSE, fig.cap = "Third set of 20 numeric features' distribution (feature 41-60)."}
+```{r WithNA2, include = FALSE, fig.cap = "Third set of 20 numeric features' distribution (feature 41-60; with NAs)."}
 plot(with.nas[[2]])
 ```
 
-```{r Plot number four, include = FALSE, fig.cap = "Fourth set of 20 numeric features' distribution (feature 61-80)."}
+```{r WithNA3, include = FALSE, fig.cap = "Fourth set of 20 numeric features' distribution (feature 61-80; with NAs)."}
 plot(with.nas[[3]])
 ```
 
-```{r Plot number five, include = FALSE, fig.cap = "Fifth set of 20 numeric features' distribution (feature 81-100)."}
+```{r WithNA4, include = FALSE, fig.cap = "Fifth set of 20 numeric features' distribution (feature 81-100; with NAs)."}
 plot(with.nas[[4]])
 ```
 
-```{r Plot number six, include = FALSE, fig.cap = "Last set of 20 numeric features' distribution (feature 101-116)."}
+```{r WithNA5, include = FALSE, fig.cap = "Last set of 20 numeric features' distribution (feature 101-120; with NAs)."}
 plot(with.nas[[5]])
 ```
-```{r Plot number six, include = FALSE, fig.cap = "Last set of 20 numeric features' distribution (feature 101-116)."}
+
+```{r WithNA6, include = FALSE, fig.cap = "Last set of 20 numeric features' distribution (feature 120-140; with NAs)."}
 plot(with.nas[[6]])
 ```
 
+By comparing all of the above figures, we see the influence of the NAs in action. As we highlighted, the number of NA values is cohort-dependent and needs special attention when using specific (later established significant) features. However, we can still use most of the features depicted here in a cohort fashion. For example, we make separate datasets for both when analyzing the ER cohort.
+
+In the next section, we have a `plot_corrrplot`, which makes a corrrplot based on parameters a user can specify. The idea is to use all data for the correlation analysis but do it based on `sample_location` (Australia, Netherlands, etc.) to neglect the NA distribution a bit. However, NAs are still present and cannot be fully combatted. One disadvantage to this method is that some essential variable-variable comparisons cannot be calculated due to missing values. We only extract correlations above a certain threshold (standard is 0.7 using the parameter `sig_thres`). `group` simply refers to the group you perform the function on.
 
 ```{r Correlation plot}
 plot_corrrplot <- function(data, group=NULL, sig_thres = 0.7, 
@@ -442,6 +462,7 @@ plot_corrrplot <- function(data, group=NULL, sig_thres = 0.7,
                            use='everything', pre=T) {
   
   if (pre) {
+    # only for datasets with these attributes
     data <- data %>% as.data.frame() %>%
     select(-c(sample_identifier, GEO_identifier, sample_identifier_raw))
   }
@@ -453,7 +474,7 @@ plot_corrrplot <- function(data, group=NULL, sig_thres = 0.7,
     as.data.frame() %>%
     # Put the variable (rowname) to a column
     rownames_to_column('variable') %>%
-    # longer format
+    # longer format - compare each variable against all others
     pivot_longer(-variable, names_to = 'comp2', values_to = 'score') %>% 
     drop_na() %>% # drop nas and diagonal
     filter(abs(score) > sig_thres & score != 1) %>%
@@ -471,27 +492,9 @@ corr_plots <- meta.data %>%
   group_walk(~ plot_corrrplot(.x, .y, 0.8))
 ```
 
-```{r Corrplot for cohort Australia, fig.cap="Correlations for the cohort Australia (ER)"}
-plot(corr_plots[[1]])
-```
+It is hard to explain every correlation here, but in most figures ([num]-[num]) above we can conclude that `patient_location` has a good correlation between various sepsis SOFA features (e.g. `sepsis-3`). Also, the class variable `sepsis_severity` has high correlations with other SOFA features (e.g., `first_at_ed_sofa` and `icu_sofa`).. We won't be deleting any of these features.
 
-```{r Corrplot for cohort Colombia, fig.cap="Correlations for the cohort Colombia (ER)"}
-plot(corr_plots[[2]])
-```
-
-```{r Corrplot for cohort Netherlands, fig.cap="Correlations for the cohort Netherlands (ER)"}
-plot(corr_plots[[3]])
-```
-
-```{r Corrplot for cohort Toronto, fig.cap="Correlations for the cohort Toronto (ICU)"}
-plot(corr_plots[[4]])
-```
-
-```{r Corrplot for cohort Vancouver, fig.cap="Correlations for the cohort Vancouver (ER)"}
-plot(corr_plots[[5]])
-```
-
-The figures [NUMBER] - [NUMBER] show that the distribution of many numeric features is skewed to the left. This also may apply since we transformed every NA value to a zero. Nonetheless, it shows that normalization may be necessary for _some_ of the numeric features. Due to their large numbers, unknown function within our study, having more pressing needs, and the fact that we have yet to speak to any expert in this area, we will leave the metadata unnormalized for now. 
+As a final zoom-in of the metadata set, we looked at the SOFA scores per `sample_location` in figure [number]. When calculating these boxplots, we removed the healthy controls entirely. Then we selected four different, highly correlated features with `sepsis_severity`. We can conclude that out of all the ER cohorts, Australia has the highest overall SOFA scores (not with qSOFA). Also, as expected, ICU cohort has the largest range of SOFA scores (between 15+ and ~ 2).
 
 ```{r Boxplot SOFA, fig.cap="Boxplots for every cohort in various SOFA-related variables. The ER cohort Australia exhibited the highest SOFA scores of all the ER cohorts."}
 meta.data %>%
@@ -505,14 +508,13 @@ meta.data %>%
        title = 'SOFA score boxplots per sample location')
 ```
 
-
 \newpage
 # Raw Counts
-In this section, we will take a closer look at the raw counts dataset we constructed earlier. Here, we are interested in the distribution of samples and genes, the correlation between samples for grouping and the detection of outliers. Based on our findings, we can make choices in removing samples or genes, group certain samples or genes together via clustering or principal component analysis (PCA).
+In this section, we will first look at the entire raw counts dataset and zoom in on the mitochondria-related genes later. It is essential to first look for outliers and other anomalies here since this dataset covers all of the variance, which also impacts the mitochondria-related genes. First, we use `DESeq2`, a much-used library in a standard DE analysis workflow. We use the `~1` design to not specify any covariates - we are not comparing different conditions yet. However, this allows us to use some of DESeq2's tools.
 
-First, we load some additional libraries such as `corrr` for calculating correlation matrix, `grid` for plot arrangement, and `DESeq2` to some additional distance-based analysis. Thereafter, we construct a correlation matrix based on the Spearman method, but before that we mutate every NA (if there are any) to a zero value. A network plot is generated and depicted in figure [NUMBER], but due to the fact that there are many samples, there is not much to observe from this result.
+We use the whole population here, including the healthy controls. We perform PCA to get a basic understanding of the gene distribution at a sample level.
 
-```{r DESeq2 for whole population, including healthy controls}
+```{r DESeq2 on whole population, including healthy controls}
 library(corrr)
 library(reshape2)
 library(pheatmap)
@@ -520,20 +522,25 @@ library(PoiClaClu)
 library(grid)
 library(gridExtra)
 library(DESeq2)
+library(factoextra)
 
 ( ddsMat <- DESeqDataSetFromMatrix(countData = raw.counts, 
                                    colData = meta.data, design = ~ 1) ) 
-
+# normalize with VST
 rld.dds.hc <- vst(ddsMat)
 
+# scale=F due to low-expressed genes
 pca_hc <- perform_pca(assay(rld.dds.hc), scale=F)
 
 prepare_pca <- function(meta, pca_df) {
   pca_scores <- pca_df$pca$x %>%
     as_tibble(rownames = 'sample_identifier') %>%
+    # merge with metadata
     full_join(x = ., y = meta, by = 'sample_identifier') %>%
+    # mutate mortality to unknown if NA
     mutate(mortality = ifelse(is.na(mortality), 'unknown', mortality))
-
+  
+  # give the variance in percentage its own column (for plot_pca specifically)
   pca_scores <- pca_scores %>%
     mutate(var = pca_df$eigenvalues$pva)
   
@@ -544,6 +551,7 @@ plot_pca <- function(dataset, x_var='PC1', y_var='PC2', fill=NULL,
                      color=NULL, size=NULL, shape=NULL, meta=NULL) {
   
   if (!is.null(meta)) {
+    # prepare a dataset
     dataset <- prepare_pca(meta, dataset)
   }
   
@@ -560,39 +568,47 @@ plot_pca <- function(dataset, x_var='PC1', y_var='PC2', fill=NULL,
 }
 ```
 
-```{r Plot PCA with healthy controls, fig.cap="PCA plot based on sample location, with the healthy controls included. As we can see, the healthy controls form their own cluster, whereas the ER, ward, and ICU cohorts are muuch more spread out. Especially the biggest cohort, ER, has a lot of overlap between its sample locations. Although, ICU also overlap with ER. In addition, samples from the same location cluster together well, stressing the need for a batch correction."}
+In the figure below, we see that the healthy controls form their own cluster. Even if it is just a little bit, we still see that samples from different clusters have a slight difference, even for healthy controls (Netherlands and Australia). ER has a large range, but based on sample location, there might be a bit of a bias here. We will look further into it. However, the ICU has a smaller range but overlaps with ER a lot.
+
+
+```{r Plot PCA with healthy controls, fig.cap="PCA plot based on sample location, with the healthy controls included. As we can see, the healthy controls form their cluster, whereas the ER, ward, and ICU cohorts are much more spread out. The biggest cohort, ER, especially has a lot of overlap between its sample locations. However, the ICU also overlaps with the ER. In addition, samples from the same location cluster together well, stressing the need for a batch correction."}
 plot_pca(pca_hc, color='patient_location', shape='sample_location', meta = meta.data)
 ```
 
+We will now filter out the healthy controls and focus entirely on septic patients from now on.
+
 ```{r Filter out healthy controls}
 meta.sepsis <- meta.data %>%
-  filter(patient_location != 'hc')
+  filter(patient_location != 'healthy_control')
 
-meta.sepsis
 sepsis.counts <- raw.counts %>%
   select(-starts_with('hc')) %>%
   reordered(meta.sepsis, .)
 
+# outer () prints a summary!
 ( ddsMat <- DESeqDataSetFromMatrix(countData = sepsis.counts, 
                                    colData = meta.sepsis, design = ~ 1) ) 
-
-dds <- DESeq(ddsMat)
 ```
+
+In addition to PCA, we will plot the density of the sepsis-related count data in its unnormalized form and three different standardization and normalization efforts—namely, min-max, log2, and VST. The latter is made explicitly for normalizing RNA-Seq data; it is designed to stabilize the variance across the range of mean values in count data. We use `blind=TRUE` (standard) since we do not consider differences between samples yet. `assay()` is used to extract normalized counts. Figures [number]-[number] cover the normalization techniques. We are plotting with `plotDensity()` from the library `affy`.
 
 ```{r Trying different standardization/normalization techniques, fig.cap = "Density plot on unnormalized counts."}
 min.max.normalization <- function(x) {
     return((x - min(x)) / (max(x) - min(x)))
 }
 
-counts.log <- log2(sepsis.counts + 0.01)
+counts.log <- log2(sepsis.counts + 0.01) # + 0.01 to avoid zero valuations
 counts.norm <- min.max.normalization(sepsis.counts)
-rld.dds <- vst(dds)
+rld.dds <- vst(ddsMat)
 rld <- assay(rld.dds)
 ```
 
 ```{r Plot the result of unnormalized distribution, fig.cap="Distribution of unnormalized RNA-Seq counts from septic patients."}
-plotDensity(sepsis.counts, xlab = 'Unnormalized counts')
+plotDensity(sepsis.counts, xlab = 'Unnormalized counts',
+            main = 'Expression distribution (unnormalized)')
 ```
+
+The figure above concludes the need for normalization; count values are way too distributed.
 
 ```{r Plot log normalization result, fig.cap = "Density plot on log-normalized counts."}
 plotDensity(counts.log, lty=c(1:ncol(counts.log)), 
@@ -600,27 +616,39 @@ plotDensity(counts.log, lty=c(1:ncol(counts.log)),
             main = 'Expression distribution (log2 normalized)')
 ```
 
+The log2-normalization technique already improved the distribution a lot.
+
 ```{r Plot min/max standardization result, fig.cap= "Density plot on min-max-standardized counts."}
 plotDensity(counts.norm, lty=c(1:ncol(counts.log)), 
             xlab = 'sepsis.counts', 
             main = 'Expression distribution (min-max standardized)')
 ```
 
-```{r Plot min/max standardization result, fig.cap= "Density plot on VST normalized counts."}
+Looks the same as the unnormalized distribution and has the problem of still skewing the distribution, making it sensitive to outliers.
+
+```{r Plot VST standardization result, fig.cap= "Density plot on VST normalized counts."}
 plotDensity(rld, lty=c(1:ncol(rld)), xlab = 'sepsis.counts', 
             main = 'Expression distribution (VST standardized)')
 ```
 
+VST normalization is one of the preferred methods in RNA-Seq data and is useful for downstream analysis. The distribution range is still large, but that is normal in RNA-Seq. With that, we use this normalization technique during the rest of the project.
+
+Next, we experimented with different parameters to filter out low-expressed genes. Typically, counts beneath ten are considered useless, exhibited at least over x samples. We tried to count thresholds of 1-15 (in `low.exp`), at least over an x amount of samples (in `sample`), and whether to normalize the counts first and, after that, remove a certain threshold (in `norm`) below. We covered 300 different parameter settings. Unfortunately, there are too many to show in a table format, and gene size varies greatly. We went with counts that cannot be lower than or equal to 10 and at least over ten samples. We did not normalize before filtering out; this resulted in too many lost genes.
+Additionally, it is standard practice not to do this before filtering out low-expressed genes. After that, we compared gene sets with and without low-expressed genes. Results are depicted in figure [number]. After filtering, the variance increased slightly for both PC1 and PC2, which is a good sign.
+
 ```{r Trying out differnt parameters to filter out low-expressed genes}
+# to get estimateSizeFactors to use `normalized` parameter
+dds <- DESeq(ddsMat)
+
 different_params <- data.frame(outcome = numeric(), used_comb = character())
 combinations <- crossing(low.exp = 1:15, sample = 1:10, norm = c(TRUE, FALSE))
 
 for(i in 1:nrow(combinations)) {
   combination <- combinations[i, ]
   
-  keep <- rowSums(counts(dds, normalized = combination$norm) >= 
-                    combination$low.exp) >= combination$sample
-  outcome <- dds[keep, ] %>% dim() 
+  keep <- rowSums(counts(dds, normalized=TRUE) >= combination$low.exp) >= combination$sample
+  outcome <- ddsMat[keep, ] %>% dim() # only retain the amount of counts
+  # make a reference to this combination
   used_comb <- glue("{combination[1]}-{combination[2]}-{combination[3]}")
 
   different_params <- bind_rows(different_params, 
@@ -636,47 +664,40 @@ keep <- rowSums(counts(dds) >= 10) >= 10
 dds <- dds[keep, ]
 rld.two <- assay(vst(dds))
 
+# with and without low-expressed genes
 without_low <- perform_pca(rld, scale = F) %>% 
   plot_pca(color = "patient_location", meta = meta.sepsis)
 with_low <- perform_pca(rld.two, scale = F) %>% 
   plot_pca(color = "patient_location", meta = meta.sepsis)
 ```
 
-
 ```{r Plot the with and without low-expressed genes, fig.cap="PCA plot with (a) and without (b) low-expressed genes. Variance increases without the low-expressed genes."}
 grid.arrange(without_low, with_low, ncol=2,
              top = "PCA plots: Influence of low-expressed genes")
 ```
 
+In the table below, we can see how many we "lost". We went from 58.389 to 17.825 genes with sufficient expression. Namely, a reduction of `r 17825-58389/58389`%.
 
 ```{r A before-and-after removing the low-expressed genes}
 data.frame(
   before = dim(rld),
   after = dim(rld.two )
 ) %>%
-  kable(format='latex', booktabs = T)
+  kable(format='latex', booktabs=T)
 
+# overwrite rld for simplifity
 rld <- rld.two
 ```
 
-
-Now, we continue with normalizing the raw mitochondrial gene counts based on the `vst` function from the DESeq2 package. We
-
-
-We use the `melt()` function to transform our wide-formatted dataframe into a long format for the constructing of a heatmap (figure [NUMBER]). The figure depicts, again, that due to many samples, it is difficult to paint a conclusive picture. Therefore, we will go into correlation between samples and genes in the PCA section. We will revisit the construct of a heatmap over there.
-
-
 \newpage
-# PCA
-To perform PCA we normalize the count data with a simple `min.max.normalization` function and log transformation depicted down below. We briefly show a before-and-after situation regarding normalization and standardization in figures [number] - [number], where we can see that the normalization has a great effect on the distribution of gene counts. We merge a reduced form of the metadata -- `sample_identifier`, `mortality`, and `sepsis_severity` -- with the transformed mitochondria raw count dataset to make plotting easier. We only use this strategy in this section since the `DESeq2` facilitates this for us.
-
-Now, we can focus on the PCA calculations before preceding to visualizations. We transform the `mito.genes.raw` dataset since the `prcomp` function that is used for the PCA calculation expects samples to be in rows. After that, we construct a eigenvalues dataframe and square the standard deviation by a factor of two to calculate the variance per principal component (PC). We also calculate the percentage of variance explained per PC and the cumulative percentage per additional PC.
+## Further dimension reduction
+We have used PCA before. We do this with function from the `helper_functions.R` library (own functions). As a note, since we lost all the low-expressed genes, we now can safely use the `scale=TRUE` parameter. We will only show it once here, but the rest of the project it will be seen as standard usage. We, however, lost some of the variance because we scaled.
 
 ```{r PCA - calculations and transformations}
 pca_res <- perform_pca(rld, scale = T)
 ```
 
-The next three plots visualize the total variance explained per PC. As we can see in figure [number], the first PC contains more than 15% of total variance, the second PC less than 5%, and thereafter the variance explained per PC decreases to around 1% per additional PC after PC 10. Figure [number] shows this in a cumulative fashion. 80% of total variance is explained by the inclusion of 95 PCs. We summarize both described figures in figure [number], a so-called Paretho plot. In this figure, we can see how the cumulative variance increases per PC via the black-dotted line, and stops at around 95 PCs to describe 80% of total variance. [discuss the implications of found results]
+The following three plots visualize the total variance explained per PC. As we can see in figure [number], the first PC contains more than 15% of the total variance, and the second one as well, and after that, the variance explained per PC decreases to less than 5% per additional PC. Figure [number] cumulatively shows this. The inclusion of 89 PCs explains 80% of the total variance. We summarize both described figures in figure [number], a so-called Pareto plot. This figure shows how the cumulative variance increases per PC via the black-dotted line and stops at around 89 PCs to describe 80% of the total variance. Using this as a dimension reduction effort, we would go from >17.000 genes (/features) to 89 features. We calculate with the `explain_variance` function the amount of PCs we need to explain 80% of the variance.
 
 ```{r Scree plot and plot explaining variance per PC, fig.cap="Scree plot with the first 10 principal components"}
 ycord <- explain_variance(pca_res$eigenvalues$p_cum, 80)
@@ -697,8 +718,6 @@ ggplot(pca_res$eigenvalues[1:ycord, ], aes(x = PC, y = p_cum)) +
   theme(axis.text.x = element_text(angle = 90,size = 7))
 ```
 
-Figure [number] depicts loadings of all samples. The plot contains too many samples to give an adaquate picutere. Therefore, we will zoom in on a top number of samples and observe their loadings instead.
-
 ```{r Pareto chart, fig.cap="Pareto chart of the first 95 principal components. Each principal component expresses a certain percentage of total variance explained. The cumulative percentage of variance explained is summarized in the dotted line, which stops when it reaches the red line, indicating 80% of total variance explained."}
 # Pareto chart
 ggplot(pca_res$eigenvalues[1:ycord,], aes(x = PC)) +
@@ -710,23 +729,28 @@ ggplot(pca_res$eigenvalues[1:ycord,], aes(x = PC)) +
   theme(axis.text.x = element_text(angle = 45, size = 7))
 ```
 
-Next we cluster around multiple class variables. The figure [number] is most important as we cluster around both `sepsis_severity` and `mortality`. This figure shows that the spread of all groups are samples seems random; no distinction of any groups can be seen here. This is concerning as a non-obvious way of grouping is achievable with the use of these class variables, a supervised machine learning algorithm might not be able to predict accurately. In addition, figures [number]-[number], in which we clustered based on other important features such as `endotype_name`, there seems to be no sign of group distinction.
+Next, we cluster around multiple class variables. The figure [number] is most important as we cluster around `sepsis_severity` and `mortality`. This figure shows that the spread of all groups of samples seems random; no distinction of any groups can be seen here. This is concerning as a non-obvious way of grouping is achievable with these class variables; a supervised machine learning algorithm might need to be able to predict accurately.
 
-```{r Multiple clusterings with class variabes, fig.cap = "Clustering on `sepsis_severity` with groups High in red, Intermediate in green, and Low in blue; and `mortality` with groups 'unknown' (former NA; temporary measure), deceased as triangle, and survived as square. Clusted groups seem to be random and no major distinction can be made."}
+```{r Multiple clusterings with class variables, fig.cap = "Clustering on `sepsis_severity` with groups High in red, Intermediate in green, and Low in blue; and `mortality` with groups 'unknown' (former NA; temporary measure), deceased as triangle, and survived as square. Clusted groups seem random, and no major distinction can be made."}
 prep_pca <- prepare_pca(meta.sepsis, pca_res)
 plot_pca(prep_pca, color = 'sepsis_severity', shape = 'mortality')
 ```
 
-```{r Plot clustered on sepsis_severity, include = F, fig.cap="Clustering on `sepsis_severity` with groups High in red, Intermediate in green, and Low in blue. Clusted groups seem to be random and no major distinction can be made."}
+As observed before, in the metadata section, we expected some effects from the various sample locations. Now, we will try to visualize the effects through PCA (and also visualize other features). If we look at the first subfigure in figure [number], we see that `sample_location` clusters well. This is the batch effect - cluster form because they are from the same batch. We will correct this. To accomplish this, we made a function in `helper_functions.R` while using `SVA`'s `ComBatt` function on the `sequence_month_year` variable. This way, we have a function that corrects with `DESeq2`'s `VST` and does batch correction.
+
+```{r Plot clustered on sepsis_severity, include = F, fig.cap="Clustering on `sepsis_severity` with groups High in red, Intermediate in green, and Low in blue. Clusted groups seem random, and no major distinction can be made."}
 multiple_pcas <- lapply(c('sample_location', 'mortality', 'endotype_name', 'age_group'), 
        function(x) plot_pca(prep_pca, color = x))
 
 grid.arrange(grobs = multiple_pcas, top = "PCA on multiple variables")
 ```
 
+In the next section, we perform the batch correction and thereafter do PCA again. If we look at the same subfigure, we see that now the `sample_location` feature does not cluster so well anymore.
+
 ```{r Batch effect - with and without correction}
 counts.batch <- normalize(assay(dds), meta.sepsis)
 
+# perform pca again, now on batch-corrected counts
 pca_res_batch <- perform_pca(counts.batch, scale = F)
 prep_pca <- prepare_pca(meta.sepsis, pca_res_batch)
 multiple_pcas <- lapply(c('sample_location', 'mortality', 
@@ -736,9 +760,14 @@ multiple_pcas <- lapply(c('sample_location', 'mortality',
 grid.arrange(grobs = multiple_pcas, 
              top = "PCA on multiple variables with batch correction")
 ```
-# Outliers
+\newpage
+## Outliers
+Outliers are though to identify just by looking at a PCA plot since our data does not cluster all that well, especially on class variables. Therefore, we turned to `sklearn`'s `IsolationForest`. This model works by isolating anomalies based on low frequency and being different. It works well with high-dimensional datasets and works quickly. Its use case is typically outside of RNA-Seq datasets but can be a good indicator of outliers. We will not solely rely on this model to remove entire samples; it is just a way of labeling potential outliers. We will still zoom in on these so-called outliers and decide whether to remove them. RNA-Seq data can be noisy and complex, and some outliers can be biologically interesting to look at. `IsolationForest` is a Pythonic model and is therefore not included in this notebook. Please find it in the `detect_outliers.ipynb`.
+
+The samples in `possible_outliers` have been identified by `IsolationForest`. We compare their gene expression to twenty randomly chosen 'inliner' samples. To accomplish this, we needed a long format to count all the gene expressions per sample.
 
 ```{r Detecting outliers and their effects}
+# possible outliers detected by IsolationForest
 possible_outliers <- c(
  'sepcol002',
  'sepcol007',
@@ -751,6 +780,7 @@ possible_outliers <- c(
 inliner_samples <- rld %>% as.data.frame() %>%
   select(!all_of(possible_outliers))
 
+# sample 20 inliners
 names_samples <- sample(names(inliner_samples), 20)
 
 sample_df <- inliner_samples %>%
@@ -761,11 +791,14 @@ outlier_samples <- rld %>% as.data.frame() %>%
   select(all_of(possible_outliers)) %>%
   rownames_to_column('gene')
 
+# switch to long format and give outlier and inliner different colors
 combined_long <- outlier_samples %>%
   right_join(sample_df, by = 'gene') %>%
   pivot_longer(-gene, names_to = "sample", values_to = "gene_exp") %>%
   mutate(color = ifelse(sample %in% names_samples, "red", "blue"))
 ```
+
+In the next plot with boxplots, we distinguish between outlier and inline expression patterns. The outliers detected by IsolationForest do not differ as much from the inliners. We will remove them and see the results in PCA.
 
 ```{r Plotting outliers and 20 random inliners, fig.cap="Through outlier detection by IsolationForest, we compare these outliers (in blue) to twenty random samples from the inliner population (in red). Only two of these sample outliers show a large distinction to the inliners."}
 ggplot(combined_long, aes(x = sample, y = gene_exp, fill = color)) +
@@ -777,6 +810,8 @@ ggplot(combined_long, aes(x = sample, y = gene_exp, fill = color)) +
   guides(fill = guide_legend(title = "Type")) 
 ```
 
+In the next section, we removed the samples in `possible_outliers` and compared the results to previous PCA plots to measure the outliers' influence. Concluding that removing the outliers would not "solve" many clustering problems. Therefore, we will not be removing outliers here. We will look at outliers in the mitochondria-related gene section once more.
+
 ```{r PCA on inliner population, fig.cap="PCA on inliner population on `sepsis_severity` to measure the influence of the outliers detected by IsolationForest."}
 pca_res_inliners <- perform_pca(inliner_samples)
 red_meta <- meta.sepsis %>%
@@ -785,26 +820,30 @@ red_meta <- meta.sepsis %>%
 plot_pca(pca_res_inliners, meta = red_meta, color = 'sepsis_severity')
 ```
 
-
-We use the PC loadings to determine which genes contribute the most to the first two PCs. We do this by altering the format of the `pc_loadings` variable from wide to long, grouping by PC and arranging in descending order, slicing the top-10 contributors. Thereafter, we summarize our findings in the Table [number], which shows us the genes that contributed most. Also, a plot with loadings is present in figure [number]. As we can see, [gene contributors explaination]. [add p-values!]
+We use the PC loadings to determine which genes contribute the most to the first two PCs. We accomplish this by using the function `top_loadings`. This function first decides what target to use; if it is a gene, we take a closer look at its loadings established in PCA. If not, it might be a sample, and then we use the standard PCA (through `$x`). We then select the first two PCs and determine which genes or samples have the highest score for each of the PCs. Then, we slice five from each, resulting in 10 interesting genes or samples. Thereafter, we plot the reduced PCA dataset with the `fviz_pca_var` from the package `factoextra`. The length of the arrow here depicts the 'importance' of the gene or sample to the established variance of that said PC. The direction says something about how correlated genes are with others (and whether they are negatively or positively correlated).
 
 ```{r Top contributor genes, fig.cap = "Top-contributing genes' loadings in the first PCA components, contributing most to the variance."}
 top_loadings <- function(pca_df, target) {
   if (target == 'gene') {
+    # if target is gene, pick loadings
     pc_loadings <- as.data.frame(pca_df$pca$rotation) %>%
       rownames_to_column(target) 
   } else {
-        pc_loadings <- as.data.frame(pca_df$pca$x) %>%
+    # else go for the x, the PCs
+    pc_loadings <- as.data.frame(pca_df$pca$x) %>%
       rownames_to_column(target) 
   }
   
   top_performers <- pc_loadings %>%
     select(!!sym(target), PC1, PC2) %>%
+    # to long format
     pivot_longer(-!!sym(target), names_to = 'PC', values_to = 'score') %>%
     group_by(PC) %>%
     mutate(absolute_Score = abs(score)) %>%
     arrange(desc(absolute_Score)) %>%
+    # slice the best-performing for each PC
     slice_max(order_by = absolute_Score, n = 5) %>%
+    # only keep unique genes (can overlap between PCs)
     distinct(!!sym(target))
   
   return(top_performers)
@@ -817,7 +856,7 @@ fviz_pca_var(pca_res_batch$pca, col.var="contrib",
              repel = TRUE, select.var = list(name=top_genes$gene))
 ```
 
-Figure [number] depicts a heatmap based on the `top_genes` variable. [conclusion]
+We extract the top-contributing genes from the `rld` (VST-normalized counts) and depict their expression with each other in a heatmap (figure [num]). Some genes have high expression rates (>2), especially gene `ENSG000001609132`. We do not know their gene name or if they are mitochondria-related. However, we have saved the result into a CSV and will look later to see if these are mitochondria-related genes.
 
 ```{r Plot heatmap of top-contributing genes, fig.cap = "Heatmap of top-contributing genes, five for each of the first two components."}
 top_scores <- rld %>%
@@ -830,18 +869,19 @@ top_scores <- rld %>%
 pheatmap(top_scores, show_colnames =  F, 
          main = "Heatmap of the top-contributing genes", scale='column')
 ```
-A way to cluster new groups, We cluster based on the `ward.D` method since other clustering methods did not have great results. [explain more thoroughly]
 
-In the heatmap depicted in figure [figure_num], we notice the top-contributing samples to the first five PCs. As we can see, sample hcID149 has a large score in the fifth PC.
+We do a similar process for samples, but now we try to extract samples that contribute best to the first two PCs based on variance. We extracted the top 10 most contributing for the first five PCs. The result is depicted in figure [num]. Most samples come from the Toronto cohort, recognizable from the `col` notation.
 
 ```{r Top contributor samples to the first five PCs}
 top_score <- top_loadings(pca_res, target = 'id')
 
-pheatmap(top_scores[, 1:5],
-        scale = "column")
+pheatmap(top_scores[, 1:5], show_rownames =  F, show_colnames =  F,
+         main = "Heatmap of the top-contributing samples")
 ```
 
-```{r Calculate distance matrix, fig.cap = "Hierarchical clustering on principal components (the first ten) to establish which samples are closely related. However, due to the grand total of samples, it is hard to observe relationships. Therefore, other figures are constructed that paint a clearer picture."}
+We now turn to hierarchical clustering, exploring if there is a way to cluster our gene expression. We perform a simple hierarchical clustering method based on a reasonably standard workflow: the distance method is `euclidean`, and the linkage method `ward.D2`. After that, we cut the tree in three (denoted by the fact that we have three levels of severity in `sepsis_severity`). The dendrogram depicted in figure [num] has evenly big clusters.
+
+```{r Calculate distance matrix, fig.cap = "Hierarchical clustering on principal components (the first ten) to establish which samples are closely related. However, due to the grand total of samples, it is hard to observe relationships. Therefore, other figures that paint a clearer picture are constructed."}
 dist_matrix <- dist(pca_res_batch$pca$x[, 1:10], method = 'euclidean') 
 hc <- hclust(dist_matrix, method = 'ward.D2')
 cluster_labels <- cutree(hc, 3)
@@ -850,7 +890,7 @@ dend_colored <- color_branches(as.dendrogram(hc), k = 3,
 plot(dend_colored, hang = -1, horiz = TRUE, leaflab = "none")
 ```
 
-We use the function `cutree` to cut the tree shown in figure [number] in three groups (the number of different groups in class variable `sepsis_severity`) to see what a possible signature we can expect if we find a suitable machine learning algorithm that can accurately predict sepsis severity signatures. [Might be redundant]
+We now associate the established clusters in the previous graph with `sepsis_severity` by joining them based on the sample identifier. Thereafter, we calculate and visualize the findings through PCA. We see that the severity variable does not cluster well.
 
 ```{r Establish cluster groups, fig.cap="Plot the new grouping based on the results from hierarchical clustering and to see if clusters have any overlap with severity. Severity does not align with the established clusters in hierarchical clustering."}
 cluster_groups <- data.frame(PC1 = pca_res_batch$pca$x[, 1], 
@@ -864,7 +904,7 @@ plot_pca(cluster_groups, 'PC1', 'PC2',
          color = 'sepsis_severity', shape = 'cluster')
 ```
 
-Density plots shown in figures [number] and [number] depicts how the clusters are distributed amongst PC1 and PC2, respectfully. As we notice in figure [number], the clusters do not overlap all that much. However, PC2's clusters are overlapping much.
+To conclude our findings, we plot the two PCs into density plots in figures [num] and [num]. Clusters are somewhat evenly large for both PCs.
 
 ```{r Density plot for PC1 based on established clusters, fig.cap = "Density plots of PC1 and PC2 and where the clusters are located."}
 cluster_long <- cluster_groups %>%
@@ -878,12 +918,7 @@ ggplot(cluster_long, aes(x = value, fill = cluster)) +
 
 \newpage
 # Mitochondria-related genes
-In this section we used DESeq2 in a distance-based fashion (indicated by the use of `design = ~ 1`, meaning no experimental design) to observe potential outliers, normalize our data again, but in a more appropriate fashion regarding the steps we will follow in the GSEA section. Just a note that we are not looking at expression data here, only distance between samples. We also take a look at multi-dimensional scaling to determine if we can spot any form of grouping based on the class variables. We first start with constructing a `DESeqDataObject`:
-
-Now that we have the sample distances, we can construct a heatmap to determine if groups based on our class variable cluster nicely together. Figure [number] shows the result, and as we can see, for both `mortality` and `sepsis_sverity`, groups do not cluster quite well. Also, overall differences in expression between, for example High and Low are not observed easily. One observation to be made is that a cluster of Low can be seen in the middle part of the plot; overlapping with a smaller group of survived patients. No other clear distiction can be made.
-
-
-Here, we use the `biomaRt` library to connect to Ensembl, which is used to retrieve _all_ gene names. \cite{ensembl} We use the Ensembl IDs from the raw counts dataset to collect these gene names. After receiving the gene names, we merge the raw counts dataset with them (`gene_set`). Then, we filter out all non-mitochondrial-related genes by utilizing the `mitochondria.genes` dataset, which contains all mitochondria genes' IDs. AS the `dim` function shows, we are now left with 1.669 genes.
+In this section, we will do the above analysis partly again, but now only for mitochondria-related genes. To do this, we use the `biomaRt` library to connect to Ensembl, which is used to retrieve _all_ gene names. \cite{ensembl} We use the Ensembl IDs from the raw counts dataset to collect these gene names. After receiving the gene names, we merge the raw counts dataset with them (`gene_set`). Then, we filter out all non-mitochondrial-related genes by utilizing the `mitochondria.genes` dataset (extracted from GSEA with ID "GO:0005739" \cite{go}), which contains all mitochondria-related genes' Ensembl IDs. As the `dim` function shows, we are now left with 1.669 genes.
 
 ```{r Retrieve gene names from IDs}
 library(biomaRt)
@@ -914,33 +949,38 @@ mito.genes <- sepsis.counts %>%
 dim(mito.genes)
 ```
 
-Now that we have performed both extraction methods, we can highlight the differences between them. Of importance is discovering which genes are unique to one of the datasets. Here we highlight the unique genes in both methods. Table [NUMBER] depicts the unique gene instances of the `mgsigdbr` method and Table [NUMBER] does the same for the Ensembl method. [conclusion]
-
-In the next section, we filter out all non-mitochondrial genes and retain those based on the IDs found in the `mitochondria.genes` dataset. Next, we check on possible duplicate genes and highlight them in Table [Number]. We decide what to do with the duplicates on an individualistic basis. Luckily, we only found one duplicate: "ENSG00000258724" (regarding the Ensembl method, add more if msigdbr is the better method). We removed the instance with zero counts and retained the larger one. There were not any other duplicates.
+In the next section, we filter out all non-mitochondrial genes and retain those based on the IDs found in the `mitochondria.genes` dataset. Next, we check on possible duplicate genes and highlight them in Table [Number]. We decide what to do with the duplicates on an individualistic basis. Luckily, we only found one duplicate: "ENSG00000258724". We removed the instance with zero counts and retained the larger one.
 
 ```{r Filter out duplicates}
+# unload to not have conflicts with dplyr's select function
 detach("package:biomaRt", unload=T)
 
 duplicates <- mito.genes %>%
+  # group by now established mito-genes
   group_by(external_gene_name) %>%
+  # filter out duplicates
   filter(n() > 1) %>%
   ungroup() %>%
+  # total gene expression count (row-wise so we get summarized in one var)
   rowwise() %>%
   mutate(count = sum(across(-c(ensembl_gene_id, external_gene_name)))) %>%
-  dplyr::select(ensembl_gene_id, external_gene_name, count)
+  select(ensembl_gene_id, external_gene_name, count)
 
 kable(duplicates, format = 'latex', booktabs = T) %>%
   kable_styling(latex_options = "striped")
 
 mito.genes <- mito.genes %>%
   filter(ensembl_gene_id != 'ENSG00000258724') %>%
-  dplyr::select(-ensembl_gene_id) %>%
+  select(-ensembl_gene_id) %>%
   column_to_rownames('external_gene_name')
 ```
 
-```{r Perform filteration on mito-genes and normalize, fig.cap="PCA on unnormalized mito-gene counts, indicating the necessasity for normalization."}
+As we did for all raw genes, we look to see if normalization is necessary by comparing normalized and raw counts by PCA. We see the same result: normalization and batch correction are necessary (`sample_identifier` clusters too well). Results are depicted in figures [num] and [num].
+
+```{r Perform filtration on mito-genes and normalize, fig.cap="PCA on unnormalized mito-gene counts, indicating the necessity for normalization."}
 (ddsMat <- DESeqDataSetFromMatrix(mito.genes, meta.sepsis, design = ~ 1))
 
+# use the same thresholds as for all genes
 keep <- rowSums(counts(ddsMat) >= 10) >= 10
 dds <- ddsMat[keep,]
 
@@ -955,6 +995,7 @@ grid.arrange(grobs = pca_unnorm_res, ncol=1,
 ```
 
 ```{r Batch correction and VST normalization on mito-genes, fig.cap="PCA after VST normalization and batch correction, giving us a better distribution."}
+# normalize again
 dds.norm <- normalize(assay(dds), meta.sepsis)
 
 pca_res_mito <- perform_pca(dds.norm)
@@ -965,19 +1006,33 @@ grid.arrange(grobs = pca_norm_res,
   top="PCA on multiple vars on VST normalized and batch corrected mito-gene counts")
 ```
 
-```{r}
+Next, we take a look at mitochondria-related top-contributor genes based on PCA. A biplot is depicted in figure [num]. Each gene's contribution is less than we say in the biplot for all genes.
+
+```{r Top-contributor genes towards PCA, fig.cap="Top-contributor mito-genes"}
 top_genes <- top_loadings(pca_res_mito, 'gene')
 
 fviz_pca_var(pca_res_mito$pca, col.var="contrib",
              gradient.cols = c("blue", "orange", "red"),
              repel = TRUE, select.var = list(name=top_genes$gene))
-
-top_score <- top_loadings(pca_res_mito, target = 'id')
-
-pheatmap(top_scores[, 1:5],
-        scale = "column")
 ```
 
+Figure [num] shows the gene expression patterns for all top-contributors. Five of the PC1 are upregulated, whereas five others are downregulated. _IDH3G_ is the only gene slightly exhibiting upregulation in the middle of the pack.
+
+```{r Heatmap of top mito-genes, fig.cap="A heatmap of top-contributor genes based on PCA"}
+top_score <- top_loadings(pca_res_mito, target = 'gene')
+
+top_scores <- dds.norm %>%
+  as.data.frame() %>%
+  rownames_to_column('gene') %>%
+  filter(gene %in% top_genes$gene) %>%
+  column_to_rownames('gene') %>%
+  scale()
+
+pheatmap(top_scores, show_colnames =  F, 
+         main = "Heatmap of the top-contributing genes", scale='column')
+```
+
+Next, we discover correlations between mito-genes and samples (separately). The heatmap for septic samples shows that there are indeed upregulated and downregulated parts in a somewhat particular pattern. The clustering is based on hierarchical clustering with an internally normalized scheme via Z-scores. The grouping implies that some samples are somewhat similar, but this may be because of similarity in a cohort or sample location.
 
 ```{r Correlation between samples, fig.cap="A simple heatmap depicting correlations between septic samples."}
 correlation_genes <- cor(t(dds.norm))
@@ -986,19 +1041,23 @@ correlation_samples <- cor(dds.norm)
 pheatmap(correlation_genes, show_rownames = F, show_colnames = F)
 ```
 
+Now, the following heatmap is about gene expression of the mitochondria-related genes. The red pattern suggests that these genes are uniformly expressed at high levels. Albeit via a response to, for example, high energy demand such as mitochondria stress, which would be a logical conclusion since these are all septic patients. Septic patients need more energy to survive, leading to more expression of mitochondria-related genes.
 
 ```{r Correlation between genes, fig.cap="A simple heatmap depicting corelations between mito-genes."}
 pheatmap(correlation_samples, show_rownames = F, show_colnames = F)
 ```
 
+We are also interested in exploring the correlation between gene pairs. Therefore, we turn to the function `plot_corrrplot` again. We now do `pre=FALSE` since our dataset contains no sample identifiers. We also adhere to a stricter `sig_thres` since many gene pairs were correlated, too many to depict here. See `misc/` (internal only) for the entire result. The result we see here is that genes of the _MT_ family are highly correlated.
 
 ```{r Deeper understanding of high-scoring gene pairs regarding correlation, fig.cap="Here, we depict gene that have a higher correlation score than 0.95 based on Pearson."}
 plot_corrrplot(t(dds.norm), sig_thres=0.95, 
                use = "complete.obs", method = 'pearson', pre=F)
 ```
 
+The violin plots in figure [num] also conclude that batch correction works sufficiently well. All sample locations have similar distributions.
 
 ```{r Violin plots, fig.cap="Violin plots per sample location. All are relevilty similar to one another, wherein we can conclude that batch correction helped."}
+# turn to a long format so we can count gene expression per sample location
 genes_longs <- dds.norm %>%
   as.data.frame() %>%
   rownames_to_column(var = "gene") %>%
@@ -1008,8 +1067,10 @@ genes_longs <- dds.norm %>%
 ggplot(genes_longs, aes(x = sample_location, y = gene_exp, fill = sample_location)) +
   geom_violin(trim = FALSE, ) +
   geom_boxplot(width = 0.1) +
-  labs(x = "Severity styatus", y = "Gene expression", title = "Violin plot of sepsis severity (VST norm)")
+  labs(x = "Severity status", y = "Gene expression", title = "Violin plot of sepsis severity (VST norm)")
 ```
+
+As we did for the correlation between samples, we are now calculating the distance between samples and displaying the result in a heatmap. We first transpose the dataset via `t` (samples are now rows; genes are now columns) and use `euclidean` as our distance method (which is standard). We simply use the metadata set to get an annotation column above the heatmap. We again conclude that `sepsis_severity` nor `mortality` cluster together very well.
 
 ```{r Heatmap (distance based), fig.cap = "Heatmap of sample distance grouped on class variables sepsis_severity and mortality."}
 sampledists <- dist(t(dds.norm))
@@ -1028,7 +1089,7 @@ pheatmap(sample_dist_mat, show_colnames = F, show_rownames = F,
          main = "Euclidean sample distance on sepsis_severity and mortality")
 ```
 
-Within an experiment with two to three groups, we hope to see a clear separation between them. We have not seen that yet, however, multi-dimensional scaling might reveal some more that. We use the Poisson metric instead of Euclidean from the `PoiClaClu` library, which is designed to handle read counts and is influenced less by differences across samples. We give the parameter `type` from the function `PoissonDistance` the value `deseq` since our data is normalized via the `DESeq2` library. Thereafter, `cmdscale` is used to make the calculations.
+We hope to see a clear separation between two to three groups within an experiment. We have not seen that yet, however, multi-dimensional scaling might reveal more. We use the Poisson metric instead of Euclidean from the `PoiClaClu` library, which is designed to handle read counts and is influenced less by differences across samples. We give the parameter `type` from the function `PoissonDistance` the value `deseq` since our data is normalized via the `DESeq2` library. Thereafter, `cmdscale` is used to make the calculations.
 
 ```{r Preparation MDS}
 poisd <- PoissonDistance(t(dds.norm), type = 'deseq')
@@ -1040,31 +1101,28 @@ names(mdsPoisData) <- c('x_coord', 'y_coord')
 
 Now, let's plot the results in figures [number] - [number].
 
-```{r MDS results on varies features, fig.cap = "Multi-dimensional scaling based on condition, with healty controls in red, suspected of sepsis in blue, and icu in green. No distinction can be made between categories."}
+```{r MDS results on various features, fig.cap = "Multi-dimensional scaling based on condition, with healthy controls in red, suspected sepsis in blue, and ICU in green. No distinction can be made between categories."}
 coldata <- colnames(dds.norm)
 
 plot_mds <- function(data, color, labels, title) {
   ggplot(data, aes(x_coord, y_coord, color = color, label = labels)) + 
     geom_text(size = 2) +
-    ggtitle('Multi dimensional scaling on {title}') +
+    ggtitle(glue('Multi dimensional scaling on {title}')) +
     labs(x = 'Poisson distance', y = 'Poisson distance') +
     guides(color = guide_legend(title = glue("{title}")))
 }
 
-plot_mds(mdsPoisData, meta.sepsis$sepsis_severity, coldata, 'Sepsis severity')
+plot_mds(mdsPoisData, meta.sepsis$sepsis_severity, coldata, title='Sepsis severity')
 ```
 
-In figure [number], we observe that clustering has been done on the `Condition` feature. This feature regards the condition of patients (ICU or suspected sepsis, most likely patients from the ER) or healthy control. The observation here is that we cannot see a clear distinction being made between the groups of `Condition`. Most _outliers_ are from the blue group, which also has the most amount of samples and therefore, variance between different SOFA scores.
-
-```{r MDS results with sepsis_severity, fig.cap = "Multi-dimensional scaling based on sepsis severity, with High in red, Low in blue, and Intermediate in grey. No distinction can be made between categories.", fig.width=10, fig.height=10}
-plot_mds(mdsPoisData, meta.sepsis$sepsis_severity, coldata, 'mortality')
+```{r MDS results with sepsis_severity, fig.cap = "Multi-dimensional scaling based on sepsis severity, with High in red, Low in blue, and Intermediate in grey. No distinction can be made between categories."}
+plot_mds(mdsPoisData, meta.sepsis$mortality, coldata, 'mortality')
 ```
 
-In figure [number], we clustered around `sepsis_severity`, and, like we observed in figure [number], we cannot see a clear distinction between group's clusters. This might be a problem later on in the machine learning process regarding the accurarcy of predictions a model can make on this data.
+We have to conclude again that there are no distinct clusters of both `sepsis_severity` and `mortality.` This may be because we have not specified any condition when using DESeq2. Nevertheless, our data does not represent natural clusters, making outlier detection tricky. This phenomenon is not unique to RNA-Seq. We have very bluntly selected some possible "outliers" (using `IsolationForest` did not generate any). 
 
-In figure [number], we clustered around `mortality` (deceased, survived or NA) and, again, we cannot see a clear different clusters forming.
-
-```{r Detecting outliers and their effects (see IsolationForest)}
+```{r Detecting outliers and their effects}
+# select possible outliers
 possible_outliers <- c(
  'sepnet1385',
  'sepnet9012',
@@ -1076,7 +1134,8 @@ possible_outliers <- c(
 
 inliner_samples <- dds.norm %>% as.data.frame() %>%
   select(!all_of(possible_outliers))
-dds.norm
+
+# pick 20 random samples from the inliner population
 names_samples <- sample(names(inliner_samples), 20)
 
 sample_df <- inliner_samples %>%
@@ -1087,6 +1146,7 @@ outlier_samples <- dds.norm %>% as.data.frame() %>%
   select(all_of(possible_outliers)) %>%
   rownames_to_column('gene')
 
+# go to long format so we can count the gene expression per sample
 combined_long <- outlier_samples %>%
   right_join(sample_df, by = 'gene') %>%
   pivot_longer(-gene, names_to = "sample", values_to = "gene_exp") %>%
@@ -1102,7 +1162,10 @@ ggplot(combined_long, aes(x = sample, y = gene_exp, fill = color)) +
   theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
   guides(fill = guide_legend(title = "Type")) 
 ```
+Outliers are fairly similar to the inliner population. We measure their influence by taking them out and performing PCA, comparing them to previously conducted PCA plots.
+
 ```{r PCA on inliner population (mito-genes), fig.cap="PCA on inliner population on `sepsis_severity` to measure the influence of the outliers detected by IsolationForest."}
+# only on inliners
 pca_res_inliners <- perform_pca(inliner_samples)
 red_meta <- meta.sepsis %>%
   filter(!sample_identifier %in% possible_outliers)
@@ -1110,4 +1173,18 @@ red_meta <- meta.sepsis %>%
 plot_pca(pca_res_inliners, meta = red_meta, color = 'sepsis_severity')
 ```
 
+The PCA plot still looks similar in nature to the one seen for the whole sample population. Therefore, we will not exclude these outliers as there is not enough evidence to do so.
+
+\newpage
 # Conclusion
+In conclusion, we looked at correlations, distributions, and missing values for the metadata set. However, due to the cohort dependency of these NAs, it was hard to impute them. According to missing value expert Erler, failing in a zero is also not the way to go. It creates a distortion of statistics and misrepresents the true data. In addition, we remove near-zero features from the metadata set. A large number of missing values in `mortality,` especially in the ICU cohort, can become problematic for downstream analysis.
+
+We did not remove any samples, but there are outliers in our count data. However, getting evidence of removing these outliers is difficult since we do not see any formation of clusters on class variables. We also decided to take that `VST` normalization and batch correction were necessary. This produced better distribution for the entire transcriptome and mitochondria-related genes. We also discovered that the `sepsis_severity` class variable does not cluster well. This is not a strange phenomenon in RNA-Seq and confirms the challenges of the heterogeneous nature of sepsis.
+
+\newpage
+\begin{thebibliography}{9}
+\bibitem{prev-study} Baghela, A. et al. "Predicting sepsis severity at first clinical presentation: The role of endotypes and mechanistic signatures". eBioMedicine vol. 75, 103776, January 2022. DOI:https://doi.org/10.1016/j.ebiom.2021.103776
+\bibitem{erler} Erler. N: https://www.nerler.com/
+\bibitem{ensembl} https://www.ensembl.org/index.html
+\bibitem{go} https://www.gsea-msigdb.org/gsea/msigdb/human/geneset/GOCC_MITOCHONDRION
+\end{thebibliography}
