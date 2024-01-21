@@ -1,0 +1,1458 @@
+---
+title: "Clustering"
+author: "Dennis Scheper"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
+knitr::opts_knit$set(root.dir = 'C:/Users/Dennis/Desktop/internship_acutelines')
+```
+
+# Overview
+For this log, we want to try clustering to establish valuable endotypes that address the challenges of sepsis heterogeneity. Here, we propose working with three unsupervised clustering methods: K-means, hierarchical, and PAM clustering. We will investigate how different the clustering methods are in assigning samples. In addition, we optimized all these clustering methods by trying different parameter settings and evaluated them under different numbers of clusters. The cluster method with the highest average silhouette score was subsequently chosen as the preferred clustering method. We use all 210 found DEGs from the DE analysis. After the DE analysis (and before that in the EDA phase), the sepsis severity variable did not cluster sufficiently on all mito-genes and extracted DEGs. This is a sign of the heterogeneous nature of sepsis. We expect some difficulties with clustering because of that. The main goal is to establish differences between clusters that are biologically and mechanistically significant. Therefore, in the context of mitochondria dysfunction, we searched for clinical pointers such as lactate and neutrophils. We tested on the ER cohorts (n = 266) and validated our findings on the ICU cohort. Additionally, we validated the preferred number of clusters and parameters on all mito-genes (after filtering out low-expressed genes). We also looked at which biological pathways were up or downregulated between clusters of ER and ICU and compared those with healthy controls. In summary, we tried to answer a couple of essential questions:
+
+* Which clustering method clusters the samples the most stable?
+* How many clusters are stable and provide biologically relevant differences?
+* Which clinical variables are significant to established clusters, and how do they differ between clusters?
+* How are these clusters different in up- and down-regulated pathways?
+* Do these clusters represent endotypes for mitochondria dysfunction?
+* How different are these endotypes in comparison with healthy controls?
+* Do these clusters address the heterogeneous nature of sepsis?
+
+\newpage
+# Setup
+Before we begin, let us import all used libraries and our own script. Then, load in all necessary metadata and filter out the ICU samples to cluster on ER alone. We use a custom loading function to load data efficiently across this log. After that, we split the gene set up into four based on Median Absolute Deviation (MAD): 25% of genes, 50%, 75%, and 100%. We did this to validate our conclusions in finding an optimal number of clusters.
+
+```{r Setup}
+library(sva)
+library(DESeq2)
+library(dplyr)
+library(tidyverse)
+library(factoextra)
+library(cluster)
+library(ConsensusClusterPlus)
+library(dendextend)
+library(glue)
+library(NbClust)
+library(gridExtra)
+library(knitr)
+library(kableExtra)
+library(caret)
+library(ggalluvial)
+
+source('scripts/helper_functions.R')
+
+meta.data <- read.csv('data/source/GSE185263_meta_data_N392.csv') %>%
+  mutate(mortality = ifelse(is.na(mortality), 'unknown', mortality))
+
+# Split data into groups
+meta.sepsis <- meta.data %>%
+  filter(substr(sample_identifier, 1, 2) != "hc" & 
+           !patient_location %in% c("icu", 'ward'))
+icu_group <- meta.data %>%
+  filter(patient_location %in% c("icu", 'ward'))
+
+# This function can be used to efficiently load in data
+load_counts <- function(path, var, meta, type) {
+  counts <- read.csv(path) %>%
+    column_to_rownames(var)
+  
+  if (type == 'icu') {
+    counts <- counts %>%
+      select(all_of(icu_group$sample_identifier))
+  } else {
+    counts <- counts %>%
+      select(!all_of(icu_group$sample_identifier))
+  }
+  
+  # Check and reorder
+  reordered(meta, counts)
+}
+
+
+counts <- load_counts('data/de_res/res_sepsis_all.csv', 'gene', 
+                      meta.sepsis, 'er')
+
+calculate_mad <- function(count_data){
+  # Calculate the mad for each row
+  mad.calc <- apply(count_data, 1, mad)
+  # Make a ranked dataframe with each having 25% additional samples
+  mad.list <- lapply(c(0.25, 0.50, 0.75, 1), function(x){
+    count_data %>%
+      bind_cols(mad = mad.calc) %>%
+      slice_max(n = ceiling(nrow(count_data)*x), order_by = mad) %>%
+      select(-mad) %>%
+      t()
+  })
+  return(mad.list)
+}
+
+mad.list <- calculate_mad(counts)
+```
+
+We had a problem executing the `fviz_nbclust` function after using the `NbClust` library. A fix was found by altering two functions. \cite{stackoverflow} Please execute the code below; after that, everything should work as appropriate.
+
+```{r Error with NbClust - solution}
+fviz_nbclust <- function (x, FUNcluster = NULL, method = c("silhouette", "wss", 
+ "gap_stat"), diss = NULL, k.max = 10, nboot = 100, verbose = interactive(), 
+          barfill = "steelblue", barcolor = "steelblue", 
+          linecolor = "steelblue", 
+          print.summary = TRUE, ...) 
+{
+  set.seed(123)
+  if (k.max < 2) 
+    stop("k.max must bet > = 2")
+  method = match.arg(method)
+  if (!inherits(x, c("data.frame", "matrix")) & !("Best.nc" %in% 
+                                                  names(x))) 
+    stop("x should be an object of class matrix/data.frame or ", 
+         "an object created by the function NbClust() [NbClust package].")
+  if (inherits(x, "list") & "Best.nc" %in% names(x)) {
+    best_nc <- x$Best.nc
+    if (any(class(best_nc) == "numeric") ) 
+      print(best_nc)
+    else if (any(class(best_nc) == "matrix") )
+      .viz_NbClust(x, print.summary, barfill, barcolor)
+  }
+  else if (is.null(FUNcluster)) 
+    stop("The argument FUNcluster is required. ", 
+         "Possible values are kmeans, pam, hcut, clara, ...")
+  else if (!is.function(FUNcluster)) {
+    stop("The argument FUNcluster should be a function. ", 
+         "Check if you're not overriding the 
+         specified function name somewhere.")
+  }
+  else if (method %in% c("silhouette", "wss")) {
+    if (is.data.frame(x)) 
+      x <- as.matrix(x)
+    if (is.null(diss)) 
+      diss <- stats::dist(x)
+    v <- rep(0, k.max)
+    if (method == "silhouette") {
+      for (i in 2:k.max) {
+        clust <- FUNcluster(x, i, ...)
+        v[i] <- .get_ave_sil_width(diss, clust$cluster)
+      }
+    }
+    else if (method == "wss") {
+      for (i in 1:k.max) {
+        clust <- FUNcluster(x, i, ...)
+        v[i] <- .get_withinSS(diss, clust$cluster)
+      }
+    }
+    df <- data.frame(clusters = as.factor(1:k.max), y = v, 
+                     stringsAsFactors = TRUE)
+    ylab <- "Total Within Sum of Square"
+    if (method == "silhouette") 
+      ylab <- "Average silhouette width"
+    p <- ggpubr::ggline(df, x = "clusters", y = "y", group = 1, 
+                        color = linecolor, 
+                        ylab = ylab, xlab = "Number of clusters k", 
+                        main = "Optimal number of clusters")
+    if (method == "silhouette") 
+      p <- p + geom_vline(xintercept = which.max(v), linetype = 2, 
+                          color = linecolor)
+    return(p)
+  }
+  else if (method == "gap_stat") {
+    extra_args <- list(...)
+    gap_stat <- cluster::clusGap(x, FUNcluster, K.max = k.max, 
+                                 B = nboot, verbose = verbose, ...)
+    if (!is.null(extra_args$maxSE)) 
+      maxSE <- extra_args$maxSE
+    else maxSE <- list(method = "firstSEmax", SE.factor = 1)
+    p <- fviz_gap_stat(gap_stat, linecolor = linecolor, 
+                       maxSE = maxSE)
+    return(p)
+  }
+}
+
+.viz_NbClust <- function (x, print.summary = TRUE, barfill = "steelblue", 
+          barcolor = "steelblue") 
+{
+  best_nc <- x$Best.nc
+  if (any(class(best_nc) == "numeric") )
+    print(best_nc)
+  else if (any(class(best_nc) == "matrix") ) {
+    best_nc <- as.data.frame(t(best_nc), stringsAsFactors = TRUE)
+    best_nc$Number_clusters <- as.factor(best_nc$Number_clusters)
+    if (print.summary) {
+      ss <- summary(best_nc$Number_clusters)
+      cat("Among all indices: \n===================\n")
+      for (i in 1:length(ss)) {
+        cat("*", ss[i], "proposed ", names(ss)[i], 
+            "as the best number of clusters\n")
+      }
+      cat("\nConclusion\n=========================\n")
+      cat("* According to the majority rule, the best number of clusters is ", 
+          names(which.max(ss)), ".\n\n")
+    }
+    df <- data.frame(Number_clusters = names(ss), freq = ss, 
+                     stringsAsFactors = TRUE)
+    p <- ggpubr::ggbarplot(df, x = "Number_clusters", 
+                           y = "freq", fill = barfill, color = barcolor) + 
+      labs(x = "Number of clusters k", y = "Frequency among all indices", 
+           title = paste0("Optimal number of clusters - k = ", 
+                          names(which.max(ss))))
+    return(p)
+  }
+}
+# assign them to the factoextra namespace
+environment(fviz_nbclust) <- asNamespace("factoextra")
+assignInNamespace("fviz_nbclust",fviz_nbclust,"factoextra")
+environment(.viz_NbClust) <- asNamespace("factoextra")
+assignInNamespace(".viz_NbClust",.viz_NbClust,"factoextra")
+```
+
+\newpage
+# Baseline performance
+We first look at the base performance of all clustering methods. We first give a visualization of how the samples are clustered and then look at the performance. Hierarchical clustering uses `Euclidean` as distance method and `Complete` as linkage method.
+
+```{r Baseline for Hierarchical clustering, fig.cap="Dendogram of samples using all DEGs using baseline settings (Euclidean distance and Complete linkage)."}
+dist_hc <- dist(mad.list[[4]])
+
+hc <- hclust(dist_hc)
+
+plot(as.dendrogram(hc), main = "Dendrogram of samples using all DEGs")
+```
+
+K-means does not have that customization; we only optimize the optimal number of clusters. It uses `Euclidean` distances. We considered 2-10 clusters and plotted the within-cluster sum of squares (WSS), using all DEGs via `mad.list[[4]]` in an elbow plot. An elbow plot visualizes the optimal number of clusters in a rather suggestive way; when the plot line stabilizes, it **could** mean that is the optimal amount. However, we will still consider cluster amounts "around" that specific _k_. It is difficult to see what the most appropriate number of clusters in the plot is.
+
+```{r Baseline for K-means clustering, fig.cap="Elbow plot based on WSS using all DEGs of the K-means clustering, with baseline settings (Euclidean distance) between 2-10 clusters."}
+kmeans.wss <- function(df, k) {
+  res <- kmeans(x = df, k, iter.max = 100, nstart = 10)$tot.withinss
+  return(res)
+}
+
+kmeans_clusters <- 2:10
+kmeans_res <- lapply(kmeans_clusters, function(x) kmeans.wss(mad.list[[4]], x))
+
+ggplot(mapping = aes(x=kmeans_clusters, y=unlist(kmeans_res))) +
+  geom_line() + 
+  geom_point() +
+  labs(x='Number of clusters', y='Total within clusters sum of squares') +
+  geom_hline(yintercept=unlist(kmeans_res), linetype='dashed', col = 'grey') +
+  ggtitle('K-Means result of WSS on all genes with 2-10 clusters')
+```
+
+Partition around medoids (PAM) uses `Euclidean` as its standard distance metric, and its use is highlighted here. The elbow plot suggests an optimal number of clusters of 2 or 3. We also plotted a cluster distribution of the samples for two clusters. As we can see, the clusters overlap, but cluster one seems smaller in size.
+
+```{r Baseline for PAM clustering, fig.cap="Baseline PAM cluster plot on k = 2."}
+# WSS function for PAM
+pam.wss <- function(df, k, method='euclidean') {
+  res <- pam(df, k, diss=F, keep.diss=TRUE, metric=method) 
+  
+  return(list(res=res, av_sil_with=res$silinfo$avg.width))
+}
+
+pam.clusters <- 2:10
+# perform pam.wss for every cluster
+pam.res <- lapply(pam.clusters, function(cluster)  
+  pam.wss(mad.list[[4]], cluster))
+av_sil <- lapply(pam.res, function(x) x$av_sil_with) %>% unlist()
+
+plot(pam.res[[1]]$res, main = "PAM cluster plot with baseline settings")
+```
+
+```{r Result of WSS on baseline PAM, fig.cap="Elbow plot based on WSS using all DEGs of the PAM clustering, with baseline settings (Euclidean distance) between 2-10 clusters."}
+ggplot(mapping = aes(x = pam.clusters, y = av_sil)) +
+  geom_line() + 
+  geom_point() +
+  labs(x='Number of clusters', y='Total within clusters sum of squares') +
+  ggtitle('K-Medoids (PAM) result of WSS on all genes with 2-10 clusters')
+```
+
+\newpage
+# Different clusters with baseline parameters
+We use the function `evaluate_clusters` to assess the optimal number of clusters for all used clustering methods. For this, we used silhouette scores, GAP scores, and WSS. Additionally, we used the package `NbClust`, which uses 30 different metrics and decides the optimal number of clusters through a majority vote. Unfortunately, `NbClust` only has integration for hierarchical clustering and K-means. We tested on every MAD-derived gene set, resulting in four different comparisons per clustering method. Gap scores are excellent for determining the optimal number of clusters by comparing within-cluster variation to that of a reference null distribution so it can discern meaningful clusters from random noise. Silhouette scores assess the separation distance between clusters, with higher scores indicating more distinct clusters. WSS score measures the compactness of clusters; lower scores indicate samples being closer to their centroids, which suggests better-defined clusters!
+
+```{r Function to evaluate the optimal number of clusters}
+# Evaluate amount of clusters!
+evaluate_clusters <- function(clust.method, mad, distance = 'euclidean', 
+                              linkage_method = NULL, skip_nb = F) {
+  
+  # Specify parameters depending on clust.method
+  if (clust.method == 'hc') {
+    nb_arguments <- list(distance = distance, method = linkage_method)
+    # We use agnes (bottom-up approach) for hc
+    arguments <- list(FUN = hcut, hc_func = 'agnes', 
+                      hc_metric = distance, hc_method = linkage_method)
+  } else if (clust.method == 'pam') {
+    arguments <- list(FUN = pam, metric = distance)
+  } else {
+    nb_arguments <- list(distance = distance, method = clust.method)
+    arguments <- list(FUN = kmeans)
+  }
+  
+  length_mad <- (1:length(mad))/length(mad)*100
+  
+  all_figures <- mapply(function(gene_set, number) {
+    arguments$x <- gene_set
+    
+    res <- lapply(c('wss', 'silhouette', 'gap'), function(method) {
+      arguments$method <- method
+      res <- do.call("fviz_nbclust", args = arguments) + 
+        ggtitle(glue("{str_to_title(method)}"))
+    })
+    
+    # NbClust is not available for PAM
+    if (clust.method != "pam" && skip_nb == FALSE) {
+      nb_arguments$data <- gene_set
+      nb_arguments$min.nc <- 2    # min clusters
+      nb_arguments$max.nc <- 10   # max clusters
+      
+      # Let nbclust not generate figures on its own
+      pdf(file = NULL)
+      # Call NbClust function with arguments specified in clust.method
+      nb <- do.call("NbClust", args = nb_arguments)
+      p4 <- fviz_nbclust(nb) + ggtitle("NbClust")
+      # "generate" the NULL file
+      dev.off()
+      
+      poster <- gridExtra::grid.arrange(res[[1]], res[[2]], res[[3]], p4, 
+          top = glue('Optimal number of clusters 
+                  for {clust.method} ({number}% of genes)', 
+                ncol=4))
+    } else {
+      poster <- gridExtra::grid.arrange(res[[1]], res[[2]], res[[3]], 
+          top = glue('Optimal number of clusters 
+                 for K-medoids ({number}% of genes)'), 
+               ncol=3)
+    }}, mad, length_mad)
+  
+  return(all_figures)
+}
+```
+
+```{r Evaluate clusters based on baseline hierarchical clustering, fig.cap="Figures of all MAD-derived datasets; highlighting the optimal number of clusters for baseline hierarchical clustering. There seems to be a consensus that k = 2 or k = 3 is the most appropriate number of clusters."}
+hc_base <- evaluate_clusters('hc', mad.list, linkage_method = 'complete')
+```
+
+It is hard to assess the WSS-based elbow plot for hierarchical clustering with base settings. However, in every comparison, it experiences a steep decline between 2-4 clusters and stabilizes at five clusters for every gene set. Silhouette always advises 2 clusters and NbClust three. Gap scores differentiate between 1 and 3 clusters.
+
+```{r Evaluate clusters based on baseline K-means clustering, fig.cap="Figures of all MAD-derived datasets; highlighting the optimal number of clusters for baseline K-means clustering. There seems to be a consensus that k = 2 or k = 3 is the most appropriate number of clusters."}
+kmeans_base <- evaluate_clusters('kmeans', mad.list)
+```
+
+For K-means clustering, we see a steep decline in WSS between 2 and 4 clusters for every scenario, and silhouette scored highest for k = 2 across all scenarios. Additionally, two clusters were also the advice of NbClust, but k = 3 was considered to be close in the 75% gene set. Optimal Gap scores variated between 5 and 9 clusters.
+
+```{r Evaluate clusters based on baseline PAM clustering, fig.cap="fig.cap="Figures of all MAD-derived datasets; highlighting the optimal number of clusters for baseline PAM clustering. There seems to be a consensus that k = 2 or k = 3 is the most appropriate number of clusters. Unfortunately, NbClust is not integrated with PAM."}
+pam_base <- evaluate_clusters('pam', mad.list)
+```
+
+For PAM, we do not have access to NbClust. However, the elbow plot also highlights the most optimal number of clusters as between 2 and 4, silhouette with k = 2, and gap between 1 and 9 - a rather significant difference.
+
+For now, we consider 2 to 4 clusters to be of optimal use for each of the cluster methods. We will first try to optimize other parameters of PAM and hierarchical clustering. After that, we decide on the appropriate number of clusters.
+
+\newpage
+# Optimizalization of clustering methods
+
+We will first try to optimize hierarchical clustering. Hierarchical clustering is highly customizable, which can be good or bad depending on our goals. For now, we consider the distance metrics of `euclidean`, `manhattan`, `maximum`, `minkowski`, and `canberra` from `agnes`. For linkage method, we considered `single`, `average`, `ward` (equivalent to Ward.D2), `complete`, and `weighted` for both `agnes` and `diana`. Diana has no distance metric parameter. We also tried correlation-based clustering, but we will come back to that. 
+
+The `best_hclustering_method` function assesses each combination of distance and linkage methods where appropriate and returns the score as its output. These scores are the agnes (`$aq`) and diana coefficient (`$dq`). Higher scores indicate better linkage. We summarize our findings in the table depicted below.
+
+```{r Optimization of HC using distance methods}
+best_hclustering_method <- function(gene.df, dist.method = 'euclidean', cor = F, 
+                                    cor.method = 'pearson', 
+                                    pca = F, pov = 80, pcs = 0) {
+  # Prepare the given situation via the parameters
+  if (pca) {
+    # perform PCA
+    gene.df <- perform_pca(gene.df)
+    if (pov != 0 & pcs == 0) {
+      # determine optimal number of PCs
+      n_components <- explain_variance(gene.df$eigenvalues$p_cum)
+      gene.df <- gene.df$pca$x[1:n_components, ]
+    } else if (pov == 0 & pcs != 0) {
+      gene.df <- gene.df$pca$x[1:pcs, ]
+    } else {
+      if (pov == 0 & pcs == 0) {
+        stop("Both pov and pcs cannot be zero at the same time.")
+      } else {
+        stop("When using PCA, make sure either pov or pcs is set to zero.")
+      }
+    }
+  }
+  
+  # Check if distance needs to be correlation based
+  if (cor) {
+    # t(): samples back to col
+    corr_matrix <- cor(t(gene.df), method = cor.method) 
+    dist.mat <- as.dist((1 - corr_matrix) / 2) # range: 0 to 1
+  } else {
+    dist.mat <- dist(gene.df, method = dist.method)
+  }
+  
+  # Some linkage methods
+  mets <- c('single', 'average', 'ward', 'complete', 'weighted')
+  
+  # Perform linkage methods via agnes, and retrieve the agglomeration coefficient
+  res.agnes <- lapply(mets, function(x) 
+    agnes(dist.mat, method = x)$ac
+  )
+  
+  # do the same for diana; does not have a linkage method
+  res.diana <- diana(dist.mat)$dc
+
+  names(res.agnes) <- mets
+  
+  return(list(agnes = res.agnes, diana = res.diana))
+}
+
+make_table_hc <- function(data, generate_table=TRUE) {
+  res <- data %>% 
+    unlist() %>% 
+    as.data.frame() %>%
+    rownames_to_column("method") %>%
+    # separate into three columns
+    separate(method, into = c('distance', 'clustering', 'linkage')) %>%
+    # if linkage is NA, set to diana (diana has no linkage method)
+    mutate(linkage = ifelse(is.na(linkage), 'diana', linkage)) %>%
+    # score is either aq (agnes) or dq (diana)
+    rename(score = last_col()) %>%
+    select(-clustering)
+  
+  # generate a latex table
+  if(generate_table) {
+    kable(res, format = 'latex', booktabs=T) %>%
+    kable_styling(latex_options = c('scale_down')) %>%
+    # color rows with a high score (>= 0.8) red
+    row_spec(which(res$score > 0.8), bold = T, 
+             color = 'white', background = 'red')
+  }
+  
+  return(res)
+}
+
+dist_meths <- c("euclidean", "maximum", "manhattan", 
+                "canberra", "binary", "minkowski")
+res <- lapply(dist_meths, function(x) best_hclustering_method(mad.list[[4]], x))
+names(res) <- dist_meths
+    
+make_table_hc(res)
+```
+
+Any distance metric in combination with the `ward` linkage scores sufficiently high. Most of them scored above 0,90. Also, the combinations `diana-manhattan` (0.81), `manhattan-complete` (0.73), `maximum-complete` (0.83), `maximum-diana` (0.81), and `canberra-complete` (0.71) had high scores. We will all consider the options below.
+
+We looked at correlation-based hierarchical clustering as well. We calculated the between samples; to do this, we used the transposed MAD-based 100% gene set. We needed to transpose the matrix again to calculate the samples. We considered `pearson`, `kendall`, and `spearman`.
+
+```{r Optimization of HC using correlation methods}
+# try three different correlation matrix methods
+cor_meths <- c("pearson", "kendall", "spearman")
+res_cor <- lapply(cor_meths, function(x) 
+  best_hclustering_method(mad.list[[4]], cor = T, cor.method = x))
+names(res_cor) <- cor_meths
+
+make_table_hc(res_cor)
+```
+
+The combinations with `ward` scores the highest for all of them (`pearson`: 0.95; `kendall`: 0.92, `spearman`: 0.95), and we will consider them below.
+
+Below, we looked at maximum with complete distance and maximum with diana for k = 3. Unfortunately, there is much overlap between clusters for both methods.
+
+```{r Plotting some optimized HC results with k = 3}
+max_complete <- agnes(dist(mad.list[[4]], 'maximum'), method = 'complete')
+diana_max <- diana(dist(mad.list[[4]], 'maximum'))
+
+# perform pca and cluster the results with k = 3
+lapply(c('diana_max', 'max_complete'), function(scenario){
+  clusters <- cutree(get(scenario), k = 3)
+  fviz_cluster(list(data = mad.list[[4]], clusters = clusters), 
+               geom = 'point', ellipse.type = 'convex')
+})
+```
+
+We now consider all distance and correlation metrics that scored high with `ward` (also known as Ward.D2 in `hclust`). We tested on _k_ = 2 and _k_ = 3. Correlation-based metrics did not produce any stable clusters and exhibited low silhouette scores per cluster. We do not consider them again. Euclidean had good scores with both _k_ = 2 and _k_ = 3, with an average silhouette score of 0.17. Manhattan had better scores with _k_ = 2 (0.18) than with three clusters (average silhouette of 0.09). Maximum also had good average silhouette scores of 0.22 for both scenarios but experienced much overlap between clusters. 
+
+When picking a preferred combination, RNA-Seq data should go with the Ward-Euclidean combination, even though Manhattan and Maximum had better silhouette scores. Ward's method is optimized for Euclidean distances and aims for compact clusters, whereas Maximum distance can lead to more dispersed clusters. \cite{manhattan-ward} Additionally, Manhattan tends to form elongated, non-spherical clusters; Euclidean wants to minimize the within-cluster variance, and Manhattan - and to an extent with Maximum - can distort these variances, leading to less meaningful clusters. \cite{manhattan-ward} Therefore, we opt to use Euclidean with Ward as our final choice for hierarchical clustering.
+
+```{r Plotting some optimized HC results, exclusively with WARD linkage}
+ward_linkage <- mapply(function(method, k) {
+  if (method %in% cor_meths) {
+     corr_matrix <- cor(t(mad.list[[4]]), method = method)
+     distances <- as.dist((1 - corr_matrix / 2)) # range: 0 to 1
+  } else {
+    distances <- dist(mad.list[[4]], method = method)
+  }
+  ag <- agnes(distances, method = 'ward')
+  clusters <- cutree(ag, k = k)
+  
+  # plot into one large plot
+  grid.arrange(top = glue("{method} with k = {k}"),
+  fviz_cluster(list(data = mad.list[[4]], clusters = clusters), 
+               geom = 'point', ellipse.type = 'convex'),
+  fviz_silhouette(silhouette(clusters, distances), print.summary = F), ncol=2)
+}, c('maximum', 'manhattan', 'euclidean', 'pearson', 'kendall', 'spearman'), 
+   rep(2:3, 6))
+```
+
+We now move on to visualizing both Manhattan and Euclidean into dendrograms, both with k = 2. As you can see, both exhibit one smaller and a larger cluster. However, both look a bit like one another. We will look at their differences in the below tanglegram.
+
+```{r Hierarchical clustering with Euclidean, Ward.D2, and k = 2, fig.cap="Dendrogram for hierarchical clustering with Euclidean, Ward.D2, and two clusters."}
+# ward is the same as Ward.D2 for hclust()
+euclidean_clust <- agnes(dist(mad.list[[4]], 'euclidean'), method = 'ward')
+dend_euclidean <- as.hclust(euclidean_clust)
+plot(color_branches(dend_euclidean, k = 2), leaflab="none") # no labels
+```
+
+```{r Hierarchical clustering with Manhattan, Ward.D2, and k = 2, "Dendrogram for hierarchical clustering with Manhattan, Ward.D2, and two clusters."}
+# ward is the same as Ward.D2 for hclust()
+manhattan_clust <- agnes(dist(mad.list[[4]], 'manhattan'), method = 'ward')
+dend_manhattan <- as.hclust(manhattan_clust)
+plot(color_branches(dend_manhattan, k = 2), leaflab="none") # no labels
+```
+
+On the left, we see all samples based on Manhattan distance; on the right is Euclidean. The tanglegram highlights the differences in clusters by coloring a line if the samples belong to another cluster in either metric. It might be challenging to see, but there is a significant overlap between both.
+
+```{r Differences between using Manhattan and Euclidean distance metrics, fig.cap="Tanglegram for highlighting differences between using Manhattan and Euclidean as distance metrics."}
+# Differences in samples in both methods
+tanglegram(as.dendrogram(manhattan_clust), as.dendrogram(euclidean_clust))
+```
+
+Now, we move on to PAN clustering. There are only two option in distance metrics available, namely standard Euclidean and Manhattan. We consider both below.
+
+As we did for Euclidean, we will first plot the cluster distribution for Manhattan, as well as the elbow WSS, before moving on to compare them. As we can see in the cluster plot, there is still a lot of overlap between the two clusters. Additionally, the elbow plot also advises looking at clusters between two and four, stabilizing after that. Using two clusters results in an average silhouette score of 0.17.
+
+```{r PAM with Manhattan distance, fig.cap="Cluster plot for PAM clustering with Manhattan distance."}
+pam.res <- lapply(pam.clusters, function(cluster) 
+  pam.wss(mad.list[[4]], cluster, method = 'manhattan'))
+av_sil <- lapply(pam.res, function(x) x$av_sil_with) %>% unlist()
+
+plot(pam.res[[1]]$res, main="Cluster plot PAM with Manhattan")
+```
+
+```{r Plotting an elbow plot based on Manhattan, fig.cap="Elbow plot for WSS with PAM clustering (Manhattan)"}
+plot(pam.clusters, av_sil, type = "o", pch = 19, 
+     xlab = "Number of clusters",
+     ylab = "Average silhouette score", 
+     main = "K-Medoids (PAM) result of WSS on all genes with 2-10 clusters", 
+     col = "blue")
+```
+
+\newpage
+# Revisting cluster with optimized parameters
+We now compare optimal numbers of clusters with the baseline parameters with the function `evaluate_clusters`. We determined that Euclidean with Ward was the best combination for hierarchical clustering. K-means only have one distance metric, so we will not execute the function for this clustering method again. Nevertheless, for PAM, we have yet to decide. We will use Manhattan to determine optimal clusters and then compare it to Euclidean's results, as seen above. Hopefully, that will help us in deciding between the two distance metrics.
+
+```{r Optimized hierarchical clustering; checking optimal number of clusters, fig.cap="Figures of all MAD-derived datasets; highlighting the optimal number of clusters for optimized HC clustering. There seems to be a consensus that k = 2 or k = 3 is the most appropriate number of clusters."}
+hc_optimized <- evaluate_clusters('hc', linkage_method = 'ward.D2', distance = 'euclidean', mad.list)
+```
+
+Interestingly, the number of optimal clusters is the first three when using NbClust but goes to two when using 50%, 75%, and 100% of the DEG set. Silhouette is still best at two clusters; WSS has a steep decline between 2 and 4 clusters. Gap scores differ between 7 and 9 clusters for hierarchical clustering.
+
+```{r Optimized PAM clustering; checking optimal number of clusters, fig.cap="Figures of all MAD-derived datasets; highlighting the optimal number of clusters for optimized PAM clustering. There seems to be a consensus that k = 2 or k = 3 is the most appropriate number of clusters."}
+pam_optimized <- evaluate_clusters('pam', distance = 'manhattan', mad.list)
+```
+
+For PAM with Manhattan distance, there is a high decline between 1 and 2 clusters for WSS and silhouette is unanimous in that k = 2 is the best across all DEG sets. Gap scores are best at k = 2 for 25% of the DEG set and between six and eight for the rest. We do this by using the functions `fviz_cluster` and `fviz_silhouette`. Let us take a look at both Manhattan and Euclidean in a cluster plot:
+
+```{r Comparison between PAM with Manhattan and Euclidean, fig.cap="Difference between Manhattan and Euclidean distance metrics when clustering with PAM."}
+final.pam.e <- pam(mad.list[[4]], metric = 'euclidean', k = 2)
+final.pam.m <- pam(mad.list[[4]], metric = 'manhattan', k = 2)
+
+grid.arrange(fviz_cluster(final.pam.e, data = mad.list[[4]], geom = 'point',
+                          palette =c('green', 'purple'),
+                          main='PAM cluster plot with Euclidean'),
+             fviz_cluster(final.pam.m, data = mad.list[[4]], 
+                          geom = 'point', palette =c('green', 'purple'), 
+                          main='PAM cluster plot with Manhattan'))
+
+grid.arrange(fviz_silhouette(final.pam.e, print.summary = F,
+                             palette =c('green', 'purple')),
+             fviz_silhouette(final.pam.m, print.summary = F, 
+                             palette =c('green', 'purple')))
+```
+
+As we see above in the cluster plots, Manhattan produces somewhat more compact clusters than Euclidean, but for example, both '2' (in purple) are similarly large. Additionally, the average silhouette score of the two methods is the same: 0.18. This makes choosing somewhat more on the qualities of each method rather than on the compactness of clusters. Manhattan is more robust against outliers, which is often beneficial to have when working with RNA-Seq data. RNA-Seq data is often skewed and highly variable. However, Euclidean can effectively capture the true biological variation in gene expression when data has a normal distribution. When considering these qualities and the factors of our data, we are more in line when choosing Manhattan since there is overlap between clusters, silhouette scores are not the greatest, and, even though the VST normalization helped to lighten the gap in distribution, it is still not perfect. Therefore, if based on PAM, our final clustering model will be on the Manhattan distance metric, which works well with RNA-Seq data. \cite{manhattan}
+
+We will now visualize the K-means clustering method with _k_ = 2, as was concluded to be the best-performing number of clusters above. As we observe in the plot depicted below, K-means also has comparable clusters to PAM; its clusters overlap, scoring an average silhouette score of 0.17, which is similar to PAM.
+
+```{r Final hyperparameter settings K-means, fig.cap="Final settings for K-means' and its distribution visualized in a cluster plot."}
+final.kmeans <- kmeans(mad.list[[4]], centers = 2, iter.max = 100, nstart = 10)
+distances <- dist(mad.list[[4]])
+
+grid.arrange(fviz_cluster(final.kmeans, mad.list[[4]], geom = 'point', 
+             ellipse.type = 'convex',  palette =c('green', 'purple')),
+             fviz_silhouette(final.pam.m, print.summary = F,
+                palette =c('green', 'purple')))
+```
+
+The `within_clusters` counts the number of samples below a certain silhouette threshold. This is set at 0.05 in our cases. For PAM, the bar plot below signifies that a large number of Intermediate severity samples fall in this category, indicating that the overlap between both clusters can be somewhat over a transition area between different severity levels. If this is the case, one of the clusters captures High or Low severity better. If we then take a look at the other cluster, it seems more diverse; a large number of Low and Intermediate and a small number of High severity samples fall into this 0.05 threshold range. This might indicate that this cluster is more heterogeneous in nature or that it has more of a High severity. We will take a more in-depth look later.
+
+```{r Overlap between clusters, fig.cap="Low-scoring severity samples based on PAM."}
+within_clusters <- function(clustering_method, meta, thres, return_res=F) {
+  scores <- silhouette(clustering_method) %>%
+    as.data.frame() %>%
+    filter(sil_width <= thres) %>% # filter out samples above threshold
+    rownames_to_column('sample_identifier') %>%
+    inner_join(meta, by = 'sample_identifier') %>% # join with metadata
+    group_by(cluster, sepsis_severity) %>% 
+    summarize(count = n()) %>% # summarize amount per cluster
+    mutate(percentage = count/sum(count)*100) # calc percentage per cluster
+  
+  # if we want to return a summary of the scores
+  if (return_res) {
+    return(scores)
+  }
+  
+  ggplot(scores, 
+         aes(x = cluster, y = percentage, fill = sepsis_severity)) +
+    geom_bar(stat = "identity", position = "fill") +
+    labs(y = "Percentage", x = "Clusters", fill = "Severity") +
+    ggtitle(glue("Overlap between clusters based on 
+                 sepsis severity (threshold = {thres})"))
+} 
+
+within_clusters(final.pam.m, meta.sepsis, 0.05)
+```
+
+Below, we hope to decide on the optimal number of clusters per clustering method by using `ConsensusClusterPlus`. It repeatedly resamples data and clusters with it, aggregating results to assess a consensus over multiple clustering rounds. This produces a lot of figures, too many to highlight in this notebook. Therefore, we only included the CDF plot of clustering on all DEGs to summarize ConsensusClusterPlus' findings. Other results can be found in the `misc/consensus/` folder. We considered _k_ between 2 and 10, with optimal settings for each clustering method and with 1.000 reps.
+
+```{r Consensus clustering}
+names(mad.list) <- c('25.procent', '50.procent', '75.procent', '100.percent')
+
+consensus_res <- mapply(function(x, name) {
+  x <- t(x)
+  hc <- ConsensusClusterPlus(
+    x, distance = 'euclidean', 
+    maxK = 10, reps = 1000, 
+    title = glue("Hierarchical Clustering on {name} 
+                  with Euclidean and Ward.D2"), 
+    clusterAlg = "hc", innerLinkage="ward.D2", finalLinkage="ward.D2", 
+    plot = 'png')
+  kmeans <- ConsensusClusterPlus(
+    x, distance = 'euclidean',maxK = 10, reps = 1000,
+    title = glue("K-means clustering on {name} with Euclidean"), 
+    clusterAlg = "km", plot = 'png')
+  pam <- ConsensusClusterPlus(
+    x, distance = 'manhattan', maxK = 10, reps = 1000, 
+    title = glue("PAM (K-medoids) clustering on {name} with Manhattan"),
+    clusterAlg = "pam", plot = 'png')
+  
+  return(list(hc = hc, kmeans = kmeans, pam = pam))}, 
+  mad.list, names(mad.list))
+```
+
+```{r CDF plot hierarchical clustering, fig.cap="Consensus CDF hierarchical clustering, indicating that k = 2 or k = 3 might be the most appropriate number of clusters. However, it might be hard to see."}
+knitr::include_graphics("misc/consensus/hc.png")
+```
+
+The plots we see here are consensus CDFs. These plots highlight the stability in the cluster assignment of each sample. No matter how many clusters we want to include if a sample belongs to the same cluster, then its line will appear stable and flat. This creates an elbow at the end of the plot, where all lines meet (at (1.0, 1.0)). 
+
+For HC, we see no clear "elbow" formation for any _k_. However, the closest to being stable is two and three.
+
+```{r CDF plot hierarchical clustering, fig.cap="Consensus CDF K-means clustering, indicating that k = 2 might be the most appropriate number of clusters. Here, we see a very steep elbow form at the 1.0 on the x-axis."}
+knitr::include_graphics("misc/consensus/kmeans.png")
+```
+
+For K-means, there is an obvious choice: _k_ for two is also perfectly flat. Another option to consider would be _k_ = 3, but it might not even be necessary.
+
+```{r CDF plot PAM clustering, fig.cap="Consensus CDF PAM clustering, indicating that k = 2 or k = 3 might be the most appropriate number of clusters. However, it might be hard to see."}
+knitr::include_graphics("misc/consensus/pam.png")
+```
+
+For PAM as well: _k_ = 2 is the most stable in being flat. However, the elbow is not as pronounced as it was for K-means.
+
+Based on all the information presented above, we consider _k_ = 2 the best number of clusters for all involved clustering methods, even though there was an argument to be made for _k_ = 3 regarding hierarchical clustering. However, the CDF plots indicated that _k_ = 2 was the preferred choice for both PAM and K-means.
+
+In the `generate_clusters` function, we merge all clusters together in a data frame. We have to perform extraction of clusters per cluster method since all have a different way of naming clusters (e.g., `$cluster` for K-means and `$clustering` for PAM). We left-join them based on sample identification and converge them into factors. We made this function for reproducibility later on.
+
+```{r Bind all clusters together in one dataset}
+# a function to bind all clusters together; function for reproducibility
+generate_clusters <- function(hc_clusters, pam_clusters, 
+                              kmeans_clusters, meta) {
+  
+  # prepare each cluster column on its own
+  kmeans.clusters <- kmeans_clusters$cluster %>%
+    as.data.frame() %>%
+    rownames_to_column('sample_identifier') %>%
+    # '.' is the name of the column
+    rename(kmeans.clusters = '.') %>%
+    mutate(kmeans.clusters = as.factor(kmeans.clusters))
+    
+  pam.clusters <- pam_clusters$clustering %>% 
+    as.data.frame() %>%
+    rownames_to_column('sample_identifier') %>%
+    rename(pam.clusters = '.') %>%
+    mutate(pam.clusters = as.factor(pam.clusters))
+  
+  hc.clusters <- cutree(hc_clusters, k = 2)
+
+  # Merge all into one
+  result <- as.data.frame(hc.clusters) %>%
+    rownames_to_column('sample_identifier') %>%
+    mutate(hc.clusters = as.factor(hc.clusters)) %>%
+    # put together
+    left_join(kmeans.clusters, by = 'sample_identifier') %>%
+    left_join(pam.clusters, by = 'sample_identifier') %>%
+    # From numeric to categorical labels
+    mutate_all(~(case_when(
+      . == '1' ~ 'one',
+      . == '2' ~ 'two',
+      TRUE ~ as.character(.)
+    )))
+  
+  return(result)
+}
+
+cluster_groups <- generate_clusters(dend_euclidean, final.pam.m, final.kmeans)
+```
+
+We merge the cluster groups with the metadata and perform PCA on all cluster variables separately. We then visualize findings and see a distinction between all clusters. However, we see a heterogeneous distribution for all clusters when using the shape parameter to highlight the severity distribution over all cluster methods. However, it is hard to see how far this goes. We might need to zoom in on the cluster specifically to determine the actual sample distribution.
+
+```{r Merge with metadata and perform PCA}
+# Merge the cluster groups with the metadata
+meta.sepsis <- meta.sepsis %>%
+  left_join(cluster_groups, by = 'sample_identifier')
+
+# perform pca
+pca_res <- perform_pca(counts)
+
+# pca scores merge with metadata
+pca_scores <- pca_res$pca$x %>%
+  as_tibble(rownames = 'sample_identifier') %>%
+  full_join(x = ., y = meta.sepsis, by = 'sample_identifier')
+
+
+pca_clusters <- 
+  lapply(c('pam.clusters', 'hc.clusters', 'kmeans.clusters'), function(method){
+  pca_scores %>%
+    ggplot(aes(x = PC1, y = PC2, color = !!sym(method), 
+               shape = sepsis_severity)) +
+    geom_point() +
+    labs(title = glue("PCA on Sepsis Population ({method})"), 
+         color = glue("{method}-based cluster"))
+})
+```
+
+```{r PAN clusters' distribution with severity, fig.cap="PCA plot with the distribution of PAM clusters with severity. Clusters appear heterogeneous."}
+plot(pca_clusters[[1]])
+```
+
+```{r Hierarchical clusters' distribution with severity, fig.cap="PCA plot with the distribution of Hierarchical clusters with severity. Clusters appear heterogeneous."}
+plot(pca_clusters[[2]])
+```
+
+```{r K-means clusters' distribution with severity, fig.cap="PCA plot with the distribution of K-means clusters with severity. Clusters appear heterogeneous."}
+plot(pca_clusters[[3]])
+```
+
+To zoom in on clusters, we construct an alluvium plot. This plot highlights the sample distribution per cluster and lets us determine which sample overlaps between methods. The first alluvium highlights the cluster distribution per severity level, clearly distinguishing how those samples are distributed. As we can observe, there is more High severity in cluster one for PAM and HC, whereas the distinction in K-means is not as pronounced. Intermediate is evenly represented in both clusters for PAM and K-means and favors cluster one for HC. Additionally, the number of Low severity samples is smaller in cluster one for HC and PAM and in cluster two for K-means. These distributions indicate that there is a distinction being made in the severity between clusters; Intermediate transitions both clusters and High and Low seem to be concentrated in one of the clusters for each method.
+
+```{r Similarity cluster methods with alluvium - per severity level, fig.cap="An alluvium plot displaying the similarities and differences between clustering methods per severity level. The degree of High severity is largest in the 'one' in PAM and HC and in 'two' for K-means. The opposite is true for Low. Intermediate is more distributed between clusters, which is the same across all clustering methods. HC is being used as a reference.}
+ggplot(meta.sepsis, aes(axis1 = pam.clusters, 
+                        axis2 = hc.clusters, axis3=kmeans.clusters)) +
+  geom_alluvium(aes(fill = hc.clusters)) + # use HC as reference
+  geom_stratum(show.legend = F) + # positioning in alluvium
+  geom_flow() + # lines between cluster methods
+  geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
+  labs(title = "Alluvium for sepsis severity and cluster groups")+
+  facet_wrap(~ sepsis_severity, scales = "free_y") +
+  scale_x_discrete(limits = c("PAM", "HC", "Kmeans"))
+```
+
+The alluvium below holds no distinction between severity levels but shows how big clusters are. The One cluster is the smallest for HC and the largest for K-means. Clusters for PAM seem to be in a 40/60% split. Focusing on the red line that shines through, which represents High severity, we can conclude that these are represented in clusters One for PAM and HC and cluster Two for K-means. These labels do not mean much, of course. Instead, we want to name clusters _mild_ or _severe_, depending on the share of High and Low severity samples. 
+
+```{r Similarity cluster methods with alluvium - per cluster method, fig.cap="An alluvium plot displaying the similarities and differences between clustering methods. Lines are colored in red (High), blue (Intermediate), and green (Low). Degree High is largest in 'one' (PAM, HC) and 'two' in Kmeans. Labels may be different, but the smaller cluster contains the majority of red lines, indicating higher levels of High severity."}
+ggplot(meta.sepsis, aes(axis1 = pam.clusters, 
+                        axis2 = hc.clusters, axis3=kmeans.clusters)) +
+  geom_alluvium(aes(fill = sepsis_severity)) +
+  geom_stratum() + # 
+  geom_flow() + # lines
+  geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
+  labs(title = "Alluvium for sepsis severity and cluster groups")+
+  scale_x_discrete(limits = c("PAM", "HC", "Kmeans")) # axis names
+```
+
+Below, we calculate the similarity between clustering methods in percentage. This is what `calculate_similarity` does. We collect all possible pairs in `pairs` by using `combn`. Thereafter, we calculate the percentage per comparison. We conclude that HC-PAM is the most similar (84,6%), and K-means does not look much like the other two. Nevertheless, again, this is rather arbitrary. K-means would look similar if we named the clusters `severe` and `mild`. This at least indicates that all clustering methods are capable of distinguishing between severity.
+
+```{r Calculating how different/similar cluster methods are}
+# small function to be executed per comparison
+calculate_similarity <- function(col1, col2) {
+  sum(col1==col2)/length(col1)*100 # percentage
+}
+
+# discard the ID
+all_clusters <- cluster_groups %>%
+  select(-sample_identifier)
+
+# get all possible combinations
+pairs <- combn(colnames(all_clusters),2 , simplify = FALSE)
+
+# loop over combinations
+similarity <- lapply(pairs, function(x) {
+  similarity_percentage <- calculate_similarity(all_clusters[[x[1]]],
+                                                all_clusters[[x[2]]]) %>%
+    # glue together a name for reference to comparison made
+    data.frame(comparison = glue("{x[1]}-{x[2]}"), sim = .)
+}) %>% bind_rows() # bind to one common dataframe after lapply has finished
+similarity
+kable(similarity, booktabs = T, format='latex') %>%
+  kable_styling()
+```
+
+Based on the above information, we are ready to assign a final clustering method. Since PAM has the highest average silhouette scores, access to Manhattan distance, which handles outliers and nonlinear, high-dimensional data well, and accounts for our non-normally distributed data structure, we consider PAM the best clustering method for our data. From now on, we will only consider results based on PAM clustering.
+
+We now move on to testing our clusters based on gene expression with other clinical variables of the metadata set. We do this by using the rather extensive `test_significance` function. We use the Chi-square test to compare our categorical clusters with other categorical attributes. We test significance with numeric variables with the Wilcox test. Why did we choose both methods? We used Chi-Square to test the independence between two categorical variables; we want to extract valuable parameters that highlight clinical differences between clusters. That way, we can distinguish clusters and, if related to oxidative stress, confirm that these clusters represent biological differences. Then, we can present these clusters as endotypes, representing subtypes of sepsis based on mitochondria dysfunction. Additionally, we performed Wilcox because our samples are not normally distributed; our clusters consist of two groups and are nonlinear because of the heterogeneity we have seen in, for example, PCA plots. We conduct a large-scale statistical test. We, therefore, will conduct a multiple test correction with Benjamini-Hochberg to reduce Type I errors.
+
+Additionally, the `test_significance` function calculates the available number of samples (non-NA) in percentage and, if numeric, the standard error and mean of each column. 
+
+```{r Test on significance}
+test_significance <- function(df, target) {
+  
+  # Clean dataset
+  zero_var_cols <- nearZeroVar(df, names=TRUE)
+  
+  df_cleaned <- df %>%
+    select(-all_of(zero_var_cols)) %>%
+    select(-c("GEO_identifier", "sample_identifier_raw")) %>%
+    column_to_rownames("sample_identifier") %>%
+    # Mutate columns with 0/1 to categorical
+    mutate(across(where(~ all(. %in% c(0, 1, NA))), as.factor))
+  
+  # nrows per group before NA removal in wrapper
+  nrows_group <- df_cleaned %>%
+    group_by(!!sym(target)) %>%
+    reframe(n = n())
+  
+  # wrapper function
+  wrapper <- function(column, target) {
+    # temp dataframe, consisting of column and the target
+    tmp <- data.frame(col = column, tar = target) %>%
+      filter(!is.na(col))
+    
+    if (is.numeric(tmp$col)) {
+      method <- "wilcox.test"
+      p.value <- wilcox.test(tmp$col ~ tmp$tar)$p.value
+      
+      stats <- tmp %>%
+        # group by target
+        group_by(tar) %>%
+        reframe(mean_value = mean(col),
+                sd_value = sd(col),
+                # available in group (without NA)
+                av = n()) %>%
+        # cur_group_rowsm returns indices of row of original data frame
+        mutate(perc = av/nrows_group$n[cur_group_rows()]*100,
+               av_tot = nrows_group$n[cur_group_rows()])
+      
+      return(list(stats = stats, p.value = p.value, method = method))
+      
+    } else if (is.factor(tmp$col) | is.character(tmp$col)) {
+      method <- "chi"
+      p.value <- chisq.test(tmp$tar, as.factor(tmp$col))$p.value
+      
+      stats <- tmp %>%
+        group_by(tar) %>%
+        reframe(av = n()) %>%
+        mutate(perc = av/nrows_group$n[cur_group_rows()] * 100,
+               av_tot = nrows_group$n[cur_group_rows()])
+      
+      return(list(stats = stats, p.value = p.value, method = method))
+    } else {
+      print(glue("Working on {column} with target {target}"))
+      stop('Something went wrong!')
+    }
+  }
+  
+  # Perform the statistical tests
+  stat_tests <- df_cleaned %>%
+    select(-target) %>%                 
+    # Perform test on any other column than target
+    map(~ wrapper(., df_cleaned[, target])) %>% 
+    # collapse based on column name
+    bind_rows(.id="col_name") %>%
+    # collapse inner list
+    tidyr::unnest(cols = stats) %>% 
+    # post-hoc correction with BH
+    mutate(padj = p.adjust(p.value, method="BH")) %>%
+    filter(padj < 0.05) %>% # only keep significant columns
+    arrange(desc(padj)) %>%
+    rename(group = tar)
+  
+  return(stat_tests)
+}
+
+# test on significance
+pam_sig <- test_significance(meta.sepsis, 'pam.clusters')
+```
+
+Next, we extract all significant variables with the function `make_table`. This function makes a latex table highlighting the differences in mean, availability, sample size, and standard error between clusters. We observe that essential indicators of sepsis and oxidative stress are accessible. Such parameters include _First At Ed Neutrophil Count_ (adjusted p-value of 2.077e-28), _First At Ed Lactate_ (adjusted p-value of 1.87e-04) (significant for indicating oxidative stress), and _Worst Within 72 Lactate_ (adjusted p-value of 6.17e-03). However, there are also a couple of variables that are related to SOFA scores, such as _First At Ed Sofa_ (adjusted p-value of 2.19-04) and the class variable _Sepsis Severity_ (adjusted p-value of 1.087e-03).
+
+```{r Make a table of signifant variables}
+make_table <- function(df, method, csv=F) {
+  table <- df %>%
+    # col name is original column (retrieved from comparison
+    # to target in function 'test_significance'; group is cluster
+    group_by(col_name, group) %>%
+    # design a nicely looking format
+    mutate(elements = ifelse(is.na(mean_value),
+                      glue("{round(perc, 2)}% ({av}/{av_tot})"),
+                      glue("{round(mean_value, 2)} 
+                           +/- {round(sd_value, 2)} ({av})"))) %>%
+    ungroup() %>%
+    # remove _ and capitalize letters
+    mutate(Parameter = str_to_title(gsub("_", " ", col_name))) %>%
+    select(-c(perc, av, mean_value, sd_value, col_name, av_tot)) %>%
+    # wider; each group-specific (cluster) var get its own column
+    pivot_wider(names_from = "group", values_from = "elements") %>%
+    # Change order
+    select(Parameter, 'one', 'two', padj)
+  
+  # to latex
+  table %>%
+    kable("latex", booktabs = TRUE,escape = FALSE,
+          caption = glue("Significant Variables 
+                         for Cluster Groups ({method})")) %>%
+    kable_paper(font_size = 10)
+    add_header_above(c(" " = 1, "Cluster Groups" = 2))
+  
+  if (csv) {
+    write.csv(table, glue::glue("significant_vars_{method}.csv"), 
+              sep = ",", row.names = F,quote = F)
+  }
+  
+  return(table)
+}
+
+make_table(pam_sig, 'PAM')
+```
+
+We will now look into the distributions of some of these significant variables. Below, we generate either a boxplot for numeric variables or a bar plot for categorical ones. As we can see, there are many figures, so we will only cover some important ones. For instance, the difference in `worst_lactate` variable indicates that cluster one experiences more mitochondria dysfunction than cluster two. Also, SOFA scores are higher in the first cluster (via `worst_sofa`, `ed_qsofa`, `worst_ed_sofa`, and `first_sofa_ed`). Additionally, hospital stays are longer for cluster one (`outcome_hospital_stays`), have higher levels of neutrophils (`worst_neutrophils`), and have slightly higher body temperatures (`worst_body_temperature`). Also, a weird outlier is present in this variable.
+
+All in all, these differences hint that cluster is more severe in outcomes on the ED than cluster two. Therefore, and for clearly distinguishing, we consider cluster One now as "ER-severe" and cluster Two as "ER-mild".
+
+```{r Give insights into distribution for significant variables per cluster, fig.cap="Various significant variables are shown here per cluster. We only look at PAM; cluster one is named 'ER-severe' and two 'ER-mild', respectfully."}
+generate_distributions <- function(meta, sig_vars, target, type, print_res=T) {
+  # select significant vars only
+  selected_columns <- meta %>%
+    select(all_of(c(sig_vars$col_name, target, 'sepsis_severity')))
+  
+  # settings per group (icu or er)
+  labels <- colnames(selected_columns)
+  if(type == 'icu') {
+    boxplot_colors <- c('orange', 'blue') 
+    boxplot_labels <- c('ICU-mild', 'ICU-severe')
+  } else {
+    boxplot_colors <- c('green', 'purple')
+    boxplot_labels <- c('ER-severe', 'ER-mild')
+  }
+  
+  fig_list <- list()
+  # generate a boxplot if numeric and count plot if non-numeric
+  for (i in 1:length(selected_columns)) {
+    column <- selected_columns[[i]]
+    
+    if (is.factor(column) || is.character(column)) {
+      p <- ggplot(selected_columns, aes(x = !!sym(target), fill = column)) +
+          geom_histogram(position = "identity", stat = 'count') +
+          labs(x = glue("Cluster ({target})"), fill = glue("{labels[i]}")) +
+          ggtitle(glue("Histogram of {labels[i]} per {target}"))
+      fig_list[[i]] <- p
+    } else if(is.numeric(column)) {
+      p <- ggplot(selected_columns, aes(x = !!sym(target), y = column,
+                                        fill = !!sym(target))) +
+        geom_boxplot() +
+        stat_boxplot(geom ='errorbar', coef = 1.5) +  # Adjust coef for whiskers
+        geom_boxplot(outlier.shape = NA) +
+        scale_fill_manual(values=boxplot_colors,
+                          labels=boxplot_labels) +
+        labs(x = glue("Cluster ({target})"), y = glue("{labels[i]}"), 
+             fill='Cluster') +
+        ggtitle(glue("Boxplot of {labels[i]}"))
+    } else {
+      print(glue('Something went wrong. 
+            Either you did not put in the right dataframes or 
+            the target was not in the dataframe. Used target: {target}'))
+    }
+    
+    # append figure to list
+    fig_list[[i]] <- p
+    if (print_res) {
+      print(p)
+    }
+  }
+  
+  return(fig_list)
+}
+
+pam_sig_vars_dist <- generate_distributions(meta.sepsis, 
+                                            pam_sig, 'pam.clusters', 
+                                            'er', print_res=T)
+```
+
+To confirm our findings, we plot the distribution of severity per cluster below. As expected, the share of High severity is higher in cluster ER-severe, and the share of Low is smaller. The Intermediate share is also higher in ER-severe than in ER-mild.
+
+```{r Gives insight into the distribution of severity over both clusters, fig.cap="Bar plot presenting severity over both clusters."}
+plot_percentage_bar <- function(meta, cluster_group, other_var) {
+  percentages <- meta %>%
+    group_by(!!sym(cluster_group), !!sym(other_var)) %>%
+    summarize(count = n()) %>%
+    mutate(percentage = count/sum(count))
+  
+  ggplot(percentages, aes(x = !!sym(cluster_group), 
+                          y = percentage, fill = !!sym(other_var))) +
+    geom_bar(stat = "identity", position = "fill") +
+    labs(y = "Percentage", x = "Clusters", fill = glue("{other_var}")) +
+    ggtitle(glue("{other_var} spread over {cluster_group}"))
+}
+
+plot_percentage_bar(meta.sepsis, 'pam.clusters', 'sepsis_severity')
+
+```
+
+Let us take a closer look at the gene expression differences between both clusters in the heatmap below. We plotted the gene expression on Z-scores to have a good gene distribution; higher Z-scores are depicted in yellow and lower in blue. Additionally, we can see some distinction in gene expression between both clusters; some parts seem to be more upregulated. Additionally, we see that the SOFA scores in ER-severe are higher than in ER-mild, and the share of High and Intermediate severity is also higher here.
+
+```{r Heatmap of gene expression per cluster, fig.cap="Heatmap of the clusters' gene expression differences. We can see that the share of High is bigger in ER-severe (green) than in ER-mild. Also, SOFA scores are higher in ER-severe as well."}
+meta.sepsis <- meta.sepsis %>%
+  mutate(pam.clusters = case_when(
+    pam.clusters == 'one' ~ "ER-severe",
+    pam.clusters == 'two' ~ "ER-mild"
+  )) %>% arrange(pam.clusters)
+
+generate_heatmap(meta.sepsis, mad.list[[4]], 'er')
+```
+\newpage
+# ICU validation
+Now, we will cluster on the ICU cohort to validate our findings. This validation ensures the results are robust, generalizable, and not specific to a single patient population. Also, this approach provides how sepsis characteristics based on mitochondria dysfunction and patient outcomes vary across different hospital settings.
+
+First, we will load the ICU data and perform MAD once more.
+
+```{r Setup ICU}
+# Split data into groups
+meta.icu <- meta.data %>%
+  filter(substr(sample_identifier, 1, 2) != "hc" & 
+           patient_location %in% c("icu", 'ward'))
+
+# load in data
+icu.counts <- load_counts('data/de_res/res_sepsis_all.csv', 
+                          'gene', meta.icu, 'icu')
+
+# Apply MAD
+mad.list <- calculate_mad(icu.counts)
+```
+
+As we did for the ER cohort, we considered looking at the three clustering methods used to determine the optimal number of clusters. We start with hierarchical clustering using Euclidean and Ward (via `ward.D2` since we use `hclust` instead of `agnes`). As we observe from the results, the silhouette is still optimal at two clusters across all MAD-derived gene sets. Additionally, there is a steep decline between 2-4 clusters in WSS, and gap scores fluctuate between 1 and six clusters.
+```{r Optimized HC clustering ICU; checking optimal number of clusters, fig.cap="Figures of all MAD-derived datasets; highlighting the optimal number of clusters for optimized HC clustering. There seems to be a consensus that k = 2 or k = 3 is the most appropriate number of clusters."}
+hc_icu <- evaluate_clusters('hc', mad.list, linkage_method = 'ward.D2', skip_nb = T)
+```
+
+For K-means, the result is similar to ER-based K-means: silhouette scores that are best at two clusters, a steep decline in WSS (elbow) between two and four clusters, and varying gap scores. These findings indicate, at least for K-means, that in both ICU and ER settings, an optimum of two clusters exists.
+
+```{r Optimized K-means clustering ICU; checking optimal number of clusters, fig.cap="Figures, of all MAD-derived datasets; highlighting the optimal number of clusters for optimized K-means clustering. There seems to be a consensus that k = 2.}
+kmeans_icu <- evaluate_clusters('kmeans', mad.list, skip_nb = T)
+```
+
+For PAM, the result is similar to ER-based PAM: silhouette scores that are best at two clusters, a steep decline in WSS (elbow) between two and four clusters, and varying gap scores. These findings indicate, at least for PAM, that in both ICU and ER settings, an optimum of two clusters exists
+
+```{r Optimized PAM clustering ICU; checking optimal number of clusters, fig.cap="Figures of all MAD-derived datasets; highlighting the optimal number of clusters for optimized PAM clustering. There seems to be a consensus that k = 2 or k = 3 is the most appropriate number of clusters."}
+pam_icu <- evaluate_clusters('pam', mad.list, distance = 'manhattan')
+```
+
+We now plot the cluster distribution for K-means and can conclude that the clusters do not overlap that much. However, the clusters are not that compact, averaging a silhouette score of 0.19.
+
+```{r ICU final settings clusters - K-means, fig.cap="K-means on Euclidean distance and k = 2 - clusters do not overlap all that much."}
+icu.kmeans <- kmeans(mad.list[[4]], centers = 2, iter.max = 100, nstart = 10)
+fviz_cluster(icu.kmeans, mad.list[[4]], geom = 'point', 
+             ellipse.type = 'convex',
+             main='K-means cluster plot (ICU)', palette=c("orange", "blue"))
+```
+
+
+```{r ICU final settings clusters - K-means, silhouette, fig.cap="K-means based on Euclidean distance and k = 2. Average silhouette width is 0.19, clusters do not overlap much, but are not compact."}
+distances <- dist(mad.list[[4]])
+fviz_silhouette(silhouette(icu.kmeans$cluster, distances),
+                palette=c("orange", "blue"), print.summary = F)
+```
+
+We now plot the cluster distribution for PAM and can conclude that the clusters do not overlap that much. However, the clusters are not that compact, averaging a silhouette score of 0.23.
+
+```{r ICU final settings clusters - PAM, fig.cap="PAM on Manhattan distance and k = 2 - clusters do not overlap all that much."}
+icu.pam <- pam(mad.list[[4]], 2, metric = 'manhattan')
+fviz_cluster(icu.pam, data = mad.list[[4]], geom = 'point', 
+             main='PAM cluster plot (ICU)', palette=c("orange", "blue"))
+```
+
+```{r ICU final settings clusters - PAM, silhouette, fig.cap="PAM based on Manhattan distance and k = 2. Average silhouette width is 0.23, clusters do not overlap that much, but are not that compact."}
+fviz_silhouette(icu.pam, print.summary = F,
+                palette=c("orange", "blue"))
+```
+
+We visualize the hierarchical clustering results below in a dendrogram based on k = 2, using Euclidean distance. We see a similar picture to the ER-based HC clustering: a smaller cluster and a considerably larger one.
+
+```{r ICU final settings clusters - HC, fig.cap="Dendrogram for ICU HC clustering for k = 2."}
+euclidean_clust <- agnes(dist(mad.list[[4]], 'euclidean'), method = 'ward')
+icu.hc <- as.hclust(euclidean_clust)
+plot(color_branches(dend_euclidean, k = 2), leaflab="none") # no labels
+```
+
+Now, we generate the cluster groups using the `generate_clusters` function and merge them with `meta.icu`.
+
+```{r Generate cluster groups and merge with metadata}
+cluster_groups_icu <- generate_clusters(icu.hc, icu.pam, icu.kmeans)
+
+meta.icu <- meta.icu %>%
+  left_join(cluster_groups_icu, by = 'sample_identifier')
+```
+
+When visualizing the cluster distribution together with `sepsis_severity`, we see that one of each cluster for all methods appears more homogeneous than the other. This is because the cluster is smaller and contains more High severity. We need to confirm our findings with a zoom-in.
+
+```{r PCA on icu counts}
+pca_res <- perform_pca(icu.counts)
+
+# pca scores merge with metadata (icu)
+pca_scores <- pca_res$pca$x %>%
+  as_tibble(rownames = 'sample_identifier') %>%
+  full_join(x = ., y = meta.icu, by = 'sample_identifier')
+
+
+pca_clusters <- 
+  lapply(c('pam.clusters', 'hc.clusters', 'kmeans.clusters'), function(method){
+  pca_scores %>%
+    ggplot(aes(x = PC1, y = PC2, color = !!sym(method), 
+               shape = sepsis_severity)) +
+    geom_point() +
+    labs(title = glue("PCA on Sepsis Population ({method})"), 
+         color = glue("{method}-based cluster"))
+})
+```
+
+```{r PAN clusters' distribution with severity, fig.cap="PCA plot with the distribution of PAM clusters with severity. Clusters appear heterogeneous."}
+plot(pca_clusters[[1]])
+```
+
+```{r HC clusters' distribution with severity, fig.cap="PCA plot with the distribution of PAM clusters with severity. Clusters appear heterogeneous."}
+plot(pca_clusters[[2]])
+```
+
+```{r K-means clusters' distribution with severity, fig.cap="PCA plot with the distribution of PAM clusters with severity. Clusters appear heterogeneous."}
+plot(pca_clusters[[3]])
+```
+
+Also, having the highest average silhouette score and still considering PAM's advantages with RNA-Seq data, we still consider it the best clustering method for our dataset. 
+
+Let us take a closer look at the overlap between PAM's clusters. We see that the High severity is now.  
+
+```{r Overlap between clusters, fig.cap="Overlap between clusters groups in severity. There seems to be, in the case of cluster one, a more heterogeneous makeup in the border region. Cluster two seems more homogeneous with High."}
+within_clusters(icu.pam, meta.icu, 0.05)
+```
+
+Let us use the `test_significance` again on the ICU cohort. We also produce a table. We can see that some variables related to SOFA scores are considered significant. For instance, _Icu Sofa_ (adjusted p-value of 3.70e-02) and _First At Ed Sofa_ (adjusted p-value of 3.70-02) are present. Also, some essential parameters to sepsis severity are present: _Icu Wbc_ (adjusted p-value of 2.00e-04) and _Icu Anc_ (adjusted p-value of 2.53e-05). 
+
+Let us zoom in on some distributions next, as we did for ER.
+
+```{r Test on significant variables for ICU}
+icu.significance <- test_significance(meta.icu, 'pam.clusters')
+icu.significance
+make_table(icu.significance, 'pam', csv=T)
+```
+
+Since there are plenty of box and bar plots, let us consider some of the more important ones to our goals. SOFA scores are on average worse in cluster Two (`first_ed_sofa`, `icu_sofa`, `icu_apache`). APACHE III scores - a scoring system used in intensive care medicine to assess the severity of illness and predict the outcomes for critically ill patients - were also higher in cluster Two. White blood cell and absolute neutrophil counts were also higher for this cluster (`icu_WBC`, `icu_ANC`). All these indicators let us reassess the naming of clustera One and Two; renaming them the more appropriate way of "ICU-mild" and "ICU-severe". These differences highlight the existence of two subclasses in the ICU as well.
+
+```{r Generate distributions for significant variables (ICU)}
+generate_distributions(meta.icu, icu.significance, 'pam.clusters', 'icu')
+```
+
+The percentage of High severity is higher in cluster Two (ICU-severe), and ICU-mild (cluster One) seems more heterogeneous.
+
+```{r Total severity differences between both clusters, fig.cap="Bar plot with percentage of severity distribution per cluster."}
+plot_percentage_bar(meta.icu, 'pam.clusters', 'sepsis_severity')
+```
+
+When plotting a heatmap based on the gene expression of both clusters, we see that ICU-severe is smaller in size but exhibits higher overall SOFA scores, and a more homogeneous nature in its High severity share.
+
+```{r Heatmap of gene expression in ICU, fig.cap="A heatmap depicting the gene expression differences per cluster for ICU. 'ICU-mild', formerly cluster one, exhibits a more heterogeneous makeup than 'ICU-severe' (was two). Nevertheless, ICU-severe has more higher-scoring SOFA samples."}
+meta.icu <- meta.icu %>%
+  mutate(pam.clusters = case_when(
+    pam.clusters == 'one' ~ "ICU-mild",
+    pam.clusters == 'two' ~ "ICU-severe"
+  )) %>% arrange(pam.clusters)
+
+generate_heatmap(meta.icu, mad.list[[4]], 'icu')
+```
+
+These findings indicate that there are at least two subclasses based on mitochondria dysfunction in the ICU population, just like we found in the ER cohorts.
+
+\newpage
+# Pathway analysis on clusters
+Now that we have established two clusters in ER and ICU cohorts, it is crucial to establish which pathways are up- and down-regulated between the clusters. We do this for ER and ICU separately, but we will compare the results. The established log-fold change we used to get DEGs based on sepsis severity cannot be used to distinguish between clusters. Therefore, we will run the `de_analysis` function again, but now we will not filter out any DEG since significance has already been proven. Additionally, we will compare the cluster groups with healthy controls. Any filtering would result in unnecessary losses and would hinder the ability to prove biological relevance. We again use the `pathway_analysis` function as we did in the `DE_and_Pathway_analysis.Rmd` log.
+
+Let us start with ER clusters.
+
+## ER
+First, the `universe_list` here are all the genes originating from the transcriptome. We are using the transcriptome since we extracted all DEGs from this original dataset. We use it to perform an enrichment analysis and can correctly assess which pathways are over-represented. We will load the `counts_raw` dataset since DESeq2 analysis needs raw counts. We put `fold_thres` and `pvalue_thres` equal to one so that we do not filter any DEGs and specify the design parameter on `pam.cluster`. Thereafter, we "filter" any discrepancies with `retrieve_sig_degs` but not any DEGs since any gene is considered a DEG with the thresholds we defined. Thereafter, we consider the over-presented pathways in Reactome and MSigDB databases.
+
+```{r Pathway analysis ER setup, fig.cap="Comparison between clusters (ER) based with Reactome, extracting up- and downregulated pathways."}
+# universe (whole transcriptome; all 58.000 something genes)
+universe_list <- read.csv("data/ex_gene_ids.csv") %>% distinct(gene)
+
+# only gene names from all DEGs
+gene_names <- read.csv('data/de_res/res_sepsis_all.csv') %>%
+  select(gene)
+
+# load in data
+raw.er.counts <- load_counts('data/counts_raw.csv', 'gene', 
+                             meta.sepsis, 'er') %>%
+  rownames_to_column('gene') %>%  
+  semi_join(gene_names, by = 'gene') %>% 
+  column_to_rownames('gene') %>%
+  reordered(meta.sepsis, .)
+
+# perform DE analysis - only retrieving fold-change for all DEGs
+er.degs <- de_analysis(raw.er.counts, meta.sepsis, 
+                   design.element = 'pam.clusters', batch=T,
+                   fold_thres = 1, pvalue_thres = 1)
+
+# function to be repeatedly used
+retrieve_sig_degs <- function(result) {
+  result %>%
+    map(~ filter(.x, de == 'DE')) %>%
+    map(~ rownames_to_column(.x, 'gene'))
+}
+
+# get degs
+er.degs <- retrieve_sig_degs(er.degs$results)
+
+# perform pathway analysis (see helper_functions.R)
+er_pathway <- pathway_analysis(er.degs, split = T, universe = universe_list)
+plot_reactome(er_pathway$reactome_res)
+go_er <- plot_go(er_pathway$go_res)
+```
+
+```{r go plot er one, fig.cap="Comparison between clusters (ER) based with GO molecular function 2018 database, extracting up- and downregulated pathways."}
+plot(go_er[[1]])
+```
+
+```{r go plot er two, fig.cap="Comparison between clusters (ER) based with go cellular component 2018 database, extracting up- and downregulated pathways."}
+plot(go_er[[2]])
+```
+
+```{r go plot er three, fig.cap="Comparison between clusters (ER) based with MSigDB Hallmark 2020 database, extracting up- and downregulated pathways."}
+plot(go_er[[3]])
+```
+
+With the results presented above, we can see the role of mitochondria dysfunction, pathways that are upregulated, such as apoptosis, TP53-related pathways, and mitochondria transportation (for defective mitochondria). But also downregulation, such as oxidative phosphorylation, glycolysis, and amino acid binding. All these up- and downregulated pathways signal a biological difference between both ER clusters, which hints at a distinction that cluster ER-severe indeed represents an uptick in mitochondria dysfunction.
+
+Next, we perform the same procedure against the healthy control population (n = 44). We had to change the load function slightly; we added a way to merge the healthy cohort with other count datasets and leave out any other population that is not wanted. The rest of the is practically the same as we did for the cluster groups.
+
+```{r ER pathway analysis against healthy controls, fig.cap="Comparison between clusters (ER vs. healthy controls) based with Reactome, extracting up- and downregulated pathways."}
+load_hc_data <- function(meta, raw_counts, method, type) {
+  if (type == 'er') {
+    # er parameters
+    filter_args <- c('er', 'healthy_control')
+  } else {
+    # icu parameters
+    filter_args <- c('icu', 'ward', 'healthy_control')
+  }
+  
+  meta_hc <- read.csv("data/source/GSE185263_meta_data_N392.csv")
+  raw_counts <- raw_counts %>%
+    rownames_to_column('gene')
+
+  # merge both meta datasets
+  meta_hc <- meta %>%
+    select(sample_identifier, !!sym(method)) %>%
+    full_join(meta_hc, by = 'sample_identifier') %>%
+    mutate(cluster = ifelse(is.na(!!sym(method)), "hc", !!sym(method))) %>%
+    filter(patient_location %in% filter_args)
+  
+  # merge healthy control gene counts with raw counts
+  counts_hc <- read.csv("data/hc_counts.csv") %>%
+    rename(gene = ensembl_id) %>%
+    inner_join(raw_counts, 'gene') %>%
+    column_to_rownames('gene') %>%
+    reordered(meta_hc, .) # reorder if necessary
+  
+  return(list(counts_hc = counts_hc, meta_hc = meta_hc))
+}
+
+hc_er_data <- load_hc_data(meta.sepsis, raw.er.counts, 'pam.clusters', 'er')
+er.vs.hc <- de_analysis(hc_er_data$counts_hc, hc_er_data$meta_hc, 
+                        design.element = 'cluster', 
+                        versus_healthy = T, fold_thres = 1.2)
+er.vs.hc.degs <- retrieve_sig_degs(er.vs.hc$results)
+pathway_er_hc <- pathway_analysis(er.vs.hc.degs, split = T, 
+                                  universe = universe_list)
+plot_reactome(pathway_er_hc$reactome_res)
+er_go_hc <- plot_go(pathway_er_hc$go_res)
+```
+
+```{r go plot er vs hc one, fig.cap="Comparison between clusters (ER vs healthy control) based with GO molecular function 2018 database, extracting up- and downregulated pathways."}
+plot(er_go_hc[[1]])
+```
+
+```{r go plot er vs hc one, fig.cap="Comparison between clusters (ER vs healthy control) based with go cellular component 2018 database, extracting up- and downregulated pathways."}
+plot(er_go_hc[[2]])
+```
+
+```{r go plot er vs hc one, fig.cap="Comparison between clusters (ER vs healthy control) based with MSigDB Hallmark 2020 database, extracting up- and downregulated pathways."}
+plot(er_go_hc[[3]])
+```
+
+With the results presented above, we can see the role of mitochondria dysfunction, upregulated pathways, such as apoptosis, TP53-related pathways, and mitochondria transportation (for defective mitochondria), even more so than when comparing both cluster groups. Also, the indications of mitochondria dysfunction we established between cluster groups and controls are more upregulated here (e.g., apoptosis). Downregulated pathways are related to mitochondrion building, such as genes related to mitochondrial inner and outer matrix building, indicative of fewer mitochondria activity as a result of mitochondria dysfunction. These observations conclude that these clusters are indeed biologically relevant in the context of representing mitochondria dysfunction due to oxidative stress.
+
+\newpage
+## ICU
+
+Now, we perform the same procedure for the ICU cohort.
+
+```{r Pathway analysis ICU setup, fig.cap="Comparison between clusters (ICU) based with Reactome, extracting up- and downregulated pathways."}
+raw.icu.counts <- load_counts('data/counts_raw.csv', 'gene', 
+                              meta.icu, 'icu') %>%
+  rownames_to_column('gene') %>%  
+  semi_join(gene_names, by = 'gene') %>%
+  column_to_rownames('gene') %>%
+  reordered(meta.icu, .)
+
+icu.degs <- de_analysis(raw.icu.counts, meta.icu, 
+                   design.element = 'pam.clusters', batch=F,
+                   fold_thres = 1, pvalue_thres = 1)
+icu.degs <- retrieve_sig_degs(icu.degs$results)
+
+icu_pathway <- pathway_analysis(icu.degs, split = T, universe = universe_list)
+plot_reactome(icu_pathway$reactome_res)
+go_icu <- plot_go(icu_pathway$go_res)
+```
+
+```{r go plot icu one, fig.cap="Comparison between clusters (ICU) based with GO molecular function 2018 database, extracting up- and downregulated pathways."}
+plot(go_icu[[1]])
+```
+
+```{r go plot icu two, fig.cap="Comparison between clusters (ICU) based with go cellular component 2018 database, extracting up- and downregulated pathways."}
+plot(go_icu[[2]])
+```
+
+```{r go plot icu three, fig.cap="Comparison between clusters (ICU) based with MSigDB Hallmark 2020 database, extracting up- and downregulated pathways."}
+plot(go_icu[[3]])
+```
+
+Based on the up-and-down-regulated pathways, we can conclude that the two cohorts represent different levels of mitochondria dysfunction. The pathways are more up or downregulated compared to the ER-based endotypes. For example, specifically as an indicator of sepsis, the oxidative phosphorylation pathways seem considerably upregulated compared to the cluster comparison with ER.
+
+Next, we compare healthy controls with samples from the ICU cohort.
+
+```{r ICU pathway analysis against healthy controls, fig.cap="Comparison between clusters (ICU vs. healthy controls) based with Reactome, extracting up- and downregulated pathways.", fig.width=10, fig.height=10}
+hc_icu_data <- load_hc_data(meta.icu, raw.icu.counts, 'pam.clusters', 'icu')
+icu.vs.hc <- de_analysis(hc_icu_data$counts_hc, hc_icu_data$meta_hc, 
+                        design.element = 'cluster', 
+                        versus_healthy = T, fold_thres = 1.2)
+icu.vs.hc.degs <- retrieve_sig_degs(icu.vs.hc$results)
+
+pathway_icu_hc <- pathway_analysis(icu.vs.hc.degs, 
+                                   split = T, universe = universe_list)
+plot_reactome(pathway_icu_hc$reactome_res)
+go_icu_hc <- plot_go(pathway_icu_hc$go_res)
+```
+
+```{r go plot icu vs hc one, fig.cap="Comparison between clusters (ICU vs. healthy control) based with GO molecular function 2018 database, extracting up- and downregulated pathways."}
+plot(go_icu_hc[[1]])
+```
+
+```{r go plot icu vs hc one, fig.cap="Comparison between clusters (ICU vs healthy control) based with go cellular component 2018 database, extracting up- and downregulated pathways."}
+plot(go_icu_hc[[2]])
+```
+
+```{r go plot icu vs hc one, fig.cap="Comparison between clusters (ICU vs. healthy control) based with MSigDB Hallmark 2020 database, extracting up- and downregulated pathways."}
+plot(go_icu_hc[[3]])
+```
+
+Based on the up-and downregulated pathways, we can conclude that the two cohorts represent different levels of mitochondria dysfunction based on comparing them to healthy controls. The pathways are more up- or downregulated compared to the ICU-based endotypes comparison. For example, specifically as an indicator of sepsis, the oxidative phosphorylation pathways seem considerably upregulated when compared to the cluster comparison with ICU
+
+\newpage
+# All mito-genes
+As the final section of this log, we will compare the findings of DEGs with all 1.488 mito-genes. The reason for this is to have another layer of validation and, if comparable with DEGs, we can interpret findings in a more nuanced manner. Additionally, it helps us with making decisions for further research.
+
+We first load in all mito-genes. The low-expressed genes are still filtered out in the same fashion we did during the DE analysis. Since we only work with one cohort in the ICU, we do not need batch correction. After setting up, we continue with the `evaluate_cluster` function to establish the optimal number of clusters once more.
+
+```{r Mito-genes setup}
+# load data and filter out low-expressed genes.
+mito.icu <- load_counts('data/counts_raw.csv', 'gene', meta.icu, 'icu') 
+keep <- rowSums(mito.icu >= 10) >= 10
+mito.icu <- mito.icu[keep, ]
+mito.icu <- reordered(meta.icu, mito.icu)
+mito.icu <- DESeq2::varianceStabilizingTransformation(as.matrix(mito.icu))
+
+mad.list.icu <- calculate_mad(mito.icu)
+
+mito.er <- load_counts('data/counts_raw.csv', 'gene', meta.sepsis, 'er')
+keep <- rowSums(mito.er >= 10) >= 10
+mito.er <- mito.er[keep, ]
+mito.er <- reordered(meta.sepsis, mito.er)
+
+# normalize with batch correction
+mito.er <- normalize(mito.er, meta.sepsis)
+
+mad.list.er <- calculate_mad(mito.er)
+```
+
+Let us start with assessing the ICU cohort. We will use the most optimal settings established in previous sections.
+
+```{r Evaluate clusters based on baseline PAM clustering (mito-genes; ICU), fig.cap="fig.cap="Figures of all MAD-derived datasets; highlighting the optimal number of clusters for baseline PAM clustering. There seems to be a consensus that k = 2 or k = 3 is the most appropriate number of clusters. Unfortunately, NbClust is not integrated with PAM."}
+pam.mito.icu <- evaluate_clusters('pam', mad.list.icu,  distance = "manhattan")
+```
+
+```{r Evaluate clusters based on baseline hierarchical clustering (mito-genes; ICU), fig.cap="fig.cap="Figures of all MAD-derived datasets; highlighting the optimal number of clusters for baseline HC clustering. There seems to be a consensus that k = 2 or k = 3 is the most appropriate number of clusters."}
+hc.mito.icu <- evaluate_clusters('hc', mad.list.icu, 
+                                 linkage_method = 'ward.D2', skip_nb = T)
+```
+
+```{r Evaluate clusters based on baseline K-means clustering (mito-genes; ICU), fig.cap="fig.cap="Figures of all MAD-derived datasets; highlighting the optimal number of clusters for baseline K-means clustering. There seems to be a consensus that k = 2 is the most appropriate number of clusters."}
+kmeans.mito.icu <- evaluate_clusters('kmeans', mad.list.icu, 
+                                     distance = "manhattan", skip_nb = T)
+```
+
+For ICU, we see a similar picture in clustering on the DEGs; silhouette scores convey that two clusters are still the preferred amount of clusters. However, there are some differences. For hierarchical clustering with 50% of all genes, the best-scoring cluster is 8! In addition, the optimal number of clusters when using K-means with 25% of all genes is three. Other than those two observations, not much differs; WSS still declines between two and four clusters and steadily declines, and gap scores have a flip between various high and low amounts of clusters. However, overall silhouette scores are somewhat lower than those of the best-performing model in ICU, PAM. We will zoom in on this in the next session.
+
+```{r Evaluate clusters based on baseline PAM clustering (mito-genes; ER), fig.cap="fig.cap="Figures of all MAD-derived datasets; highlighting the optimal number of clusters for baseline PAM clustering. There seems to be a consensus that k = 2 or k = 3 is the most appropriate number of clusters. Unfortunately, NbClust is not integrated with PAM."}
+pam.mito.er <- evaluate_clusters('pam', mad.list.er, distance = "manhattan")
+```
+
+```{r Evaluate clusters based on baseline HC clustering (mito-genes; ER), fig.cap="fig.cap="Figures of all MAD-derived datasets; highlighting the optimal number of clusters for baseline PAM clustering. There seems to be a consensus that k = 2 or k = 3 is the most appropriate number of clusters."}
+hc.mito.er <- evaluate_clusters('hc', mad.list.er, linkage_method = 'ward.D2',
+                                 skip_nb = T)
+```
+
+```{r Evaluate clusters based on baseline K-means (mito-genes) clustering, fig.cap="fig.cap="Figures of all MAD-derived datasets; highlighting the optimal number of clusters for baseline K-means clustering. There seems to be a consensus that k = 2 is the most appropriate number of clusters."}
+kmeans.mito.er <- evaluate_clusters('kmeans', mad.list.er, skip_nb = T)
+```
+
+For ER, we see a similar picture in clustering on the DEGs; silhouette scores convey that two clusters are still the preferred amount of clusters. Other than those two observations, not much differs; WSS still declines between two and four clusters and steadily declines, and gap scores have a flip between various high and low amounts of clusters. However, overall silhouette scores are somewhat lower than those of the best-performing model in ER and PAM. We will zoom in on this in the next session.
+
+Overall, we can still conclude that two clusters are the most suitable number of clusters.
+
+Let us zoom in on our preferred clustering model, which is established when clustering with DEGs, PAM with Manhattan distance, and two clusters.
+
+```{r Final results - PAM}
+# calc the result
+final.pam.m.icu <- pam(mito.icu, metric = 'manhattan', k = 2)
+final.pam.m.er <- pam(mito.icu, metric = 'manhattan', k = 2)
+```
+
+```{r Mito-genes icu, fig.cap="Cluster plot distribution and silhouette scores for ER on all DEGs (ICU)."}}
+fviz_cluster(final.pam.m.icu, data = mito.icu, 
+                          geom = 'point', palette =c('orange', 'blue'), 
+                          main='PAM cluster plot (ICU)')
+fviz_silhouette(final.pam.m.er, print.summary = F, 
+                palette =c('orange', 'blue'))
+```
+
+```{r Mito-genes er, fig.cap="Cluster plot distribution and silhouette scores for ER on all DEGs (ER)."}
+fviz_cluster(final.pam.m.er, data = mito.icu, 
+                          geom = 'point', palette =c('green', 'purple'), 
+                          main='PAM cluster plot (ER)')
+fviz_silhouette(final.pam.m.er, print.summary = F,
+                palette =c('green', 'purple'))
+```
+
+Interestingly, both ER and ICU cohorts seems to express a considerably larger average silhouette width than when clustering on the DEGs. The average silhouette width here is 0.50, whereas for DEGs it was 0.18 and 0.23 for ER and ICU, respectfully. This may confirm that is more room for the inclusion of more clusters, yet the WSS, silhouette, and GAP scores did not reflect this.
+
+\newpage
+# Conclusiom
+In conclusion, we established an optimized PAM clustering method with Manhattan distance, which clusters samples based on the 210-gene set into two. These two clusters represented either a mild or severe variant. These two clusters are biologically distinct, with the severe cluster exhibiting higher SOFA scores, higher numbers of neutrophils, higher amounts of lactate, and more extended hospital stays. Also, the mild variant was more heterogeneous, whereas the severe variant was more homogeneous with large numbers of severe sepsis (High subgroup). Additionally, we found that over-represented pathways between cluster groups compared to healthy controls indicated more pronounced up- and downregulation patterns in patients with mitochondria dysfunction. These observations were valid for ER and ICU populations and validated on all mito-genes.
+
+\newpage
+\begin{thebibliography}{9}
+\bibitem{stackoverflow} User 'Turex', "RStudio Error with the fviz_nbclust Function." Stack Overflow, Posted on May 3, 2022. https://stackoverflow.com/questions/72075707/rstudio-error-with-the-fviz-nbclust-function.
+\bibitem{manhattan} Oyelade, J., Isewon, I., Oladipupo, O. O., Aromolaran, O., Uwoghiren, E., Ameh, F., Achas, M., & Adebiyi, E. (2016). Clustering Algorithms: their application to gene expression data. Bioinformatics and Biology Insights, 10, BBI.S38316. https://doi.org/10.4137/bbi.s38316
+\bibitem{manhattan-ward} Jaskowiak, P.A., Campello, R.J. & Costa, I.G. On the selection of appropriate distances for gene expression data clustering. BMC Bioinformatics 15 (Suppl 2), S2 (2014). https://doi.org/10.1186/1471-2105-15-S2-S2
+\end{thebibliography}
