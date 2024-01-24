@@ -139,6 +139,7 @@ jupyter notebook
 # Layout
 In the root of this repository, you will find the end report which sums up the findings, the problems we came across and how we challenged those. The subdirectories are set up as follows:
 
+- `data/`: raw count data and VST-normalized data. Warning: clinical data is not available!
 - `logs/`: logs regarding each part of the research. Herein, we explain why certain choices were made. Logs are aimed to be reproducible.
 - `pdfs/`: PDFs of logs
 - `scripts/`: scripts with helper functions. Are primiarly used in the logs. `helper_functions.R` is for all R-based logs and `train_and_evaluate.py` for Python.
