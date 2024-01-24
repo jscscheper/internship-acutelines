@@ -6,14 +6,14 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ---
 
-*_Statement on Git commit history:_* The commit history you see here is not complete; most of it was lost due to deletion of a previous repository. I accidentally pushed sensitive data and had to delete the entire previous repository (a `git rm` is not sufficient as the data 'lives' on in the commit history). I tried to restore the commit history in this repository, but to no avail. There is, however, a log history of the previous repository available under `misc/git_history.txt`. I do understand that this may not be sufficient, but it is the best I could do.
+*_Statement on Git commit history:_* The commit history you see here is incomplete; most of it was lost due to the deletion of a previous repository. I accidentally pushed sensitive data and had to delete the entire previous repository (a `git rm` is insufficient as the data 'lives' on in the commit history). I tried to restore the commit history in this repository but to no avail. There is, however, a log history of the previous repository available under `misc/git_history.txt`. I understand this may not be sufficient, but it is the best I can do.
 
 # Abstract
 Sepsis, a major contributor to in-hospital deaths, is challenging to detect due to its heterogeneous nature. Dysfunctional mitochondria from immune responses can worsen the condition. Analyzing mitochondria-related genes could help in early detection and guide treatment. 
  
 RNA-Seq and clinical data from 348 septic patients, originating from four emergency rooms (ER) and one intensive care unit (ICU), were used and compared to 44 healthy controls. Both supervised and unsupervised machine-learning algorithms were applied to identify gene profiles with clinical relevance. 
  
-Mitochondria-related differentially expressed genes (DEGs) were identified by comparing levels of severity based on SOFA scores. These DEGs helped establish two unique severity-based on ER cohorts (‘endotypes’), distinct from healthy controls and validated on ICU cohort. This categorization helps to address sepsis heterogeneity. Feature selection identified three novel gene sets that could accurately predict endotype group and severity in both ER and ICU settings. Notably, a novel eleven-gene set predicted endotypes with 95% accuracy and severity with 76% accuracy. 
+Mitochondria-related differentially expressed genes (DEGs) were identified by comparing levels of severity based on SOFA scores. These DEGs helped establish two unique severity-based ER cohorts (‘endotypes’), distinct from healthy controls and validated in ICU cohorts. This categorization helps to address sepsis heterogeneity. Feature selection identified three novel gene sets that could accurately predict endotype group and severity in both ER and ICU settings. Notably, a novel eleven-gene set predicted endotypes with 95% accuracy and severity with 76% accuracy. 
 
 The gene profiles and endotypes indicate mitochondrial genes’ essential role in early sepsis detection and as potential novel biomarkers. Future research should aim to develop a multi-modal prognostic tool for enhanced patient stratification.
 
@@ -61,7 +61,7 @@ Install Rstudio here:
 
 2) Install packages
 
-Packages can be install via two ways:
+Packages can be installed in two ways:
 
 The simple way: install them one by one via the command line:
 ```shell
@@ -70,7 +70,7 @@ install.packages("tidyverse")
 
 Via a package manager:
 
-Some packages are only available through `BiocManager` such as `DESeq2`.
+Some packages are only available through `BiocManager`, such as `DESeq2`.
 
 Always install `BiocManager` via the regular route.
 
@@ -89,7 +89,7 @@ BiocManager::install("DESeq2")
 Go to your project directory.
 
 ```shell
-cd path\to\your\project\directory
+cd path/to/your/project/directory
 ```
 
 Then, create the virtual environment:
@@ -103,13 +103,13 @@ Activate the virtual environment:
 For Windows:
 
 ```shell
-.\venv\Scripts\activate
+\venv\Scripts\activate
 ```
 
 For Linux:
 
 ```shell
-source env_name/bin/activate
+source venv/bin/activate
 ```
 
 2) Installation via requirements.txt
@@ -128,7 +128,7 @@ Ensure that Jupyter is installed.
 pip install jupyter
 ```
 
-You can either open the `.ipynb` with your preffered code editor such as Visual Studio Code or via your local web browser.
+You can either open the `.ipynb` with your preferred code editor, such as Visual Studio Code, or via your local web browser.
 
 For the web browser option, execute:
 
@@ -137,16 +137,16 @@ jupyter notebook
 ```
 
 # Layout
-In the root of this repository, you will find the end report which sums up the findings, the problems we came across and how we challenged those. The subdirectories are set up as follows:
+In the root of this repository, you will find the end report, which sums up the findings, the problems we came across, and how we challenged those. The subdirectories are set up as follows:
 
 - `data/`: raw count data and VST-normalized data. Warning: clinical data is not available!
 - `logs/`: logs regarding each part of the research. Herein, we explain why certain choices were made. Logs are aimed to be reproducible.
 - `pdfs/`: PDFs of logs
-- `scripts/`: scripts with helper functions. Are primiarly used in the logs. `helper_functions.R` is for all R-based logs and `train_and_evaluate.py` for Python.
-- `misc/`: miscellaneous essential figures, data management plan, poster etc.
+- `scripts/`: scripts with helper functions. They are primarily used in the logs. `helper_functions.R` is for all R-based logs, and `train_and_evaluate.py` is for Python.
+- `misc/`: miscellaneous essential figures, data management plan, poster, etc.
 
 # Contact
-If any issue or question remains, please contact us at [d.j.scheper@st.hanze.nl](mailto:d.j.scheper@st.hanze.nl) or [d.j.scheper@umcg.nl](mailto:d.j.scheper@umcg.nl).
+If any issue or question remains, please get in touch with us at [d.j.scheper@st.hanze.nl](mailto:d.j.scheper@st.hanze.nl) or [d.j.scheper@umcg.nl](mailto:d.j.scheper@umcg.nl).
 
 [R]: https://www.rstudio.com/products/rstudio/download/
 [dplyr]: https://dplyr.tidyverse.org/
