@@ -2,13 +2,27 @@
 title: "DE and Pathway Analysis"
 author: "Dennis Scheper"
 date: "`r Sys.Date()`"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_depth: 3
+    toc_float: true
+  pdf_document: default
+  word_document: default
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_knit$set(root.dir = 'C:/Users/Dennis/Desktop/internship_acutelines')
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_knit$set(root.dir = 'C:/Users/Dennis/Desktop/internship')
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, error = FALSE)
 ```
+
+```{r, echo=FALSE}
+knitr::include_graphics('misc/front/degs.png')
+```
+
+\renewcommand{\contentsname}{Table of content}
+\tableofcontents
 
 # Overview
 In this relatively small log, we want to establish a fold-change threshold that extracts sufficient numbers of DEGs per severity and mortality level. We do this with DESeq2 and validate our findings with edgeR. If we find any discrepancies between both methods, we want to investigate those and conclude why such differences exist. We also performed some quality checks on the EDA without specifying a `design` parameter. This entails that we do not zoom in on differences for any variable. Therefore, we will do additional quality checks on the established DEG set. To accomplish this, we use the `sepsis_severity` and `mortality` variables. We also use the whole transcriptome to develop the share of mito-related DEGs compared to all DEGs in all 58.000 genes. Lastly, we performed pathway analysis with found DEGs on severity level and compared them with healthy controls. 
@@ -22,7 +36,7 @@ In summary, we would like to answer the following questions:
 * Which pathways are up and downregulated between severity levels?
 * Which pathways are up and downregulated compared to healthy controls?
 
-\newpage
+
 # Setup
 First, we will import all used libraries and our own script, `helper_functions.R`. In addition, we load the data and filter out the healthy controls.
 
@@ -44,7 +58,7 @@ source('scripts/helper_functions.R')
 # load in data
 meta.data <- read.csv('data/source/GSE185263_meta_data_N392.csv')  %>%
   mutate(mortality = ifelse(is.na(mortality), 'unknown', mortality))
-counts <- read.csv('data/counts_raw.csv') %>%
+counts <- read.csv('data/counts/counts_raw.csv') %>%
   column_to_rownames('gene') %>%
   dplyr::select(starts_with('sep'))
 
@@ -55,7 +69,6 @@ meta.sepsis <- meta.data %>%
 counts <- reordered(meta.sepsis, counts)
 ```
 
-\newpage
 # Exploring different fold-change cutoffs
 In the following section, we will experiment with different fold-change thresholds. The goal is to get enough DEGs per severity and mortality level. To establish the severity gene signature, we expect to get enough DEGs for extreme phenotypes with any threshold; the challenge lies in getting enough DEGs for levels that look like each other. Therefore, the selection criteria mainly focus on recruiting enough DEGs for High-Intermediate and Intermediate-Low comparisons for severity. The mortality signature is rather tricky; we have a lot of missing values (see EDA), and only one comparison can be made, namely, deceased-survived. However, because we changed the NA values to label Unknown, we will also see these comparisons.
 
@@ -106,7 +119,6 @@ plot_fcs <- function(degs_df, situation) {
     c("Int-High", "Low-High", "Int-Low", "Total")
   } else {c('Surv-Dead', 'Total', 'Unk-Dead', 'Surv-Unk')}
 
-  print(labels_legend)
   ggplot(degs_df, aes(x=fc, y=degs, group=comparison, col=comparison)) + 
     geom_line(linetype="longdash") + 
     geom_point() +
@@ -128,7 +140,7 @@ As we look at the same plot for mortality, we can conclude that there are not a 
 ```{r Plot the results for mortality, fig.cap="A figure that shows the number of nonunique DEGs found per comparison with different absolute fold-change cutoff values for mortality. We tried an absolute fold change between 1.00 and 2.00 in steps of -0.05. We eventually decided to drop the establishment of the mortality gene signature because of insufficient amounts of found DEGs. These findings prompted us to focus on severity signatures instead. The black-dotted line represents the cutoff used for severity."}
 plot_fcs(mortality, 'mortality')
 ```
-\newpage
+
 # DE analysis with DESeq2
 Here, we will use the established log fold-change threshold. To be clear, this is set at 1,20 and is used in absolute terms (meaning <=-1,20 and >=1,20 are of sufficient use). To do the DE analysis, we will use the `DESeq2` library, which was renounced for its negative binomial distribution. 
 
@@ -142,12 +154,13 @@ degs <- de_analysis(counts, meta.sepsis, low.exp = 10,
 lapply(degs$results, function(x) summary_de(x)) %>%
   bind_rows() %>%
   mutate(comparison = names(degs$results)) %>%
-  select(comparison, everything()) %>%
-  kable(type = 'latex', booktabs = TRUE) %>%
-  kable_styling(position = "center", latex_options = c('striped'))
+  dplyr::select(comparison, everything()) %>%
+  kable(format = 'html', booktabs = TRUE) %>%
+  kable_styling(full_width = FALSE, position = "center", 
+                bootstrap_options = c("striped", "hover"))
 ```
 
-We do the same for mortality and discover that only two DEGs are found for every comparison here. The only essential comparison is of course `survived_against_deceased`, as the other two are against former NA valuations. Therefore, as these are only two DEGs for mortality, we will primarily focus on clustering the DEGs found with severity. The two DEGs found in the mortality signature were both downregulated and were the genes _HRK_ and _CAVIN1_.
+We do the same for mortality and discover there are no DEGs are found in any  comparison here. The only essential comparison is of course `survived_against_deceased`, as the other two are against former NA valuations. Therefore, as these are zero DEGs for mortality, we will primarily focus on clustering the DEGs found with severity.
 
 ```{r DESeq2 analysis with mortality}
 mort <- de_analysis(counts, meta.sepsis, low.exp = 10, 
@@ -157,8 +170,9 @@ lapply(mort$results, function(x) summary_de(x)) %>%
   bind_rows() %>%
   mutate(comparison = names(mort$results)) %>%
   select(comparison, everything()) %>%
-  kable(type = 'latex', booktabs = TRUE) %>%
-  kable_styling(position = "center", latex_options = c('striped'))
+  kable(format = 'html', booktabs = TRUE) %>%
+  kable_styling(full_width = FALSE, position = "center", 
+                bootstrap_options = c("striped", "hover"))
 ```
 
 We plot some MA plots below to give some visualizations of how the non-significant and significant genes are distributed. These are highlighted in black and red, respectfully. High vs. Low yielded the most DEGs.
@@ -183,23 +197,23 @@ normalized.counts <- normalize(counts, meta.sepsis)
 plot(ma.severity[[1]])
 ```
 
-```{r Plotting MA one, fig.cap="MA plot for Low vs. High; not significant in black and significant in red."}
+```{r Plotting MA two, fig.cap="MA plot for Low vs. High; not significant in black and significant in red."}
 plot(ma.severity[[2]])
 ```
 
-```{r Plotting MA one, fig.cap="MA plot for Intermediate vs. Low; not significant in black and significant in red."}
+```{r Plotting MA three, fig.cap="MA plot for Intermediate vs. Low; not significant in black and significant in red."}
 plot(ma.severity[[3]])
 ```
 
 We do some quality checks by using a dispersion plot, as depicted below. Here, the red curve represents the expected dispersion trend, and it is common to see this line decrease and stabilize as the mean normalized counts increase. The black dots (dispersion estimates) follow the trend line, which is good and suggests a fitting that is well. However, there are some outliers here (at the lower end), but they are not extreme. Finally, the blue dots suggest the final dispersion estimates (used in DE testing) are similar to the black dots, indicating that the model has done a good job of estimating the dispersion.
 
-````{r Plot DispEsts, fig.cap="Dispersion estimates for severity. The red line indicates the trend line and decreases gradually. Most genes are between 0.02 (low) and 2.00 (higher) dispersion. Since genes with high dispersion have similar average expression levels as genes with more typical dispersion, it could reflect the tightly regulation that is part of mitochondria. "}
+```{r Plot DispEsts, fig.cap="Dispersion estimates for severity. The red line indicates the trend line and decreases gradually. Most genes are between 0.02 (low) and 2.00 (higher) dispersion. Since genes with high dispersion have similar average expression levels as genes with more typical dispersion, it could reflect the tightly regulation that is part of mitochondria. "}
 plotDispEsts(degs$dds)
 ```
 
 In this section, we simply extract the found DEGs from the counts dataset by using the functions `gene_set_slicer` and `gene_slicer`. The first function is used in `gene_slicer` and is some kind of wrapper function, but it can also be used outside of the `gene_slicer` function. These two functions have some different behavior depending on the DE method used, especially in parameter names (e.g., using `padj` for DESeq2 and `FDR` in edgeR). The primary function of `gene_set_slicer` is to slice the count set to have unique DEGs left. Since the DEG sets found in different comparisons can overlap, the main function of  `gene_slicer` is to make sure only unique DEG names are given to `gene_set_slicer`.
 
-After performing a `dim` on `all_genes`, we can conclude that the total DEG population for severity is 210, based on all ER and ICU samples.
+After performing a `dim` on `all_genes`, we can conclude that the total DEG population for severity is 201, based on all ER and ICU samples.
 
 ```{r We slice the gene set (counts) based on signicicant genes}
 gene_set_slicer <- function(df, genes, n) {
@@ -240,7 +254,7 @@ gene_slicer <- function(normalized.set, gene_set, amount, type='deseq2') {
     t() %>% as.data.frame() %>%
     rownames_to_column('id')) %>%
     # Apply on every list at once; id = sample_id
-    reduce(dplyr::left_join, by = 'id') %>%
+    purrr::reduce(dplyr::left_join, by = 'id') %>%
     column_to_rownames('id') %>%
     t() %>% as.data.frame() %>%
     distinct(gene, .keep_all = T)
@@ -296,7 +310,7 @@ plot_pca(hunderth_genes, 'sepsis_severity')
 plot_pca(all_genes, 'sepsis_severity')
 ```
 
-Next, we construct three heatmaps with the gene expression of all 210 DEGs. We perform this on the three gene sets to observe the influence of adding more DEGs. It might be the case that adding more genes makes the different severity levels more distinct from each other. For the construction of all heatmaps, we use the function `plot_heatmap` and scale the gene expression based on Z-scores to ensure an even distribution. After that, we plot the gene expression of all 210 DEGs per severity level. We can see that both the Intermediate and Low severity levels are larger in size than High. We can also conclude that the gene expression per severity level is sufficiently different - some parts that are downregulated in, for instance, Low, are more upregulated in High and vice versa. We can, therefore, conclude that the expression for the DEGs per severity level is distinct in all three gene sets. When we compare different heatmaps between different gene sets, we can also see the influence of including more DEGs as the makeup of the gene expression in the heatmap changes.
+Next, we construct three heatmaps with the gene expression of all 201 DEGs. We perform this on the three gene sets to observe the influence of adding more DEGs. It might be the case that adding more genes makes the different severity levels more distinct from each other. For the construction of all heatmaps, we use the function `plot_heatmap` and scale the gene expression based on Z-scores to ensure an even distribution. After that, we plot the gene expression of all 201 DEGs per severity level. We can see that both the Intermediate and Low severity levels are larger in size than High. We can also conclude that the gene expression per severity level is sufficiently different - some parts that are downregulated in, for instance, Low, are more upregulated in High and vice versa. We can, therefore, conclude that the expression for the DEGs per severity level is distinct in all three gene sets. When we compare different heatmaps between different gene sets, we can also see the influence of including more DEGs as the makeup of the gene expression in the heatmap changes.
 
 ```{r Generate a heatmap per severity level}
 plot_heatmap <- function(gene_data, meta_data, scenario) {
@@ -330,11 +344,11 @@ plot_heatmap <- function(gene_data, meta_data, scenario) {
 plot_heatmap(fivety_genes, meta.sepsis, 'fifty genes')
 ```
 
-```{r Result heatmap 50 genes, fig.cap="Heatmap depicting the gene expression of the top 100 most-contributing DEGs per severity level based on Z-scores."}
+```{r Result heatmap 100 genes, fig.cap="Heatmap depicting the gene expression of the top 100 most-contributing DEGs per severity level based on Z-scores."}
 plot_heatmap(hunderth_genes, meta.sepsis, 'hunderd genes')
 ```
 
-```{r Result heatmap 50 genes, fig.cap="Heatmap depicting the gene expression of the DEGs per severity level based on Z-scores. We can see a distinction between gene expression patterns - some even stronger between the severity levels in comparison with the 50 and 100 sets!"}
+```{r Result heatmap all genes, fig.cap="Heatmap depicting the gene expression of the DEGs per severity level based on Z-scores. We can see a distinction between gene expression patterns - some even stronger between the severity levels in comparison with the 50 and 100 sets!"}
 plot_heatmap(all_genes, meta.sepsis, 'all genes')
 ```
 
@@ -392,7 +406,6 @@ plot(volcanos[[2]])
 plot(volcanos[[3]])
 ```
 
-\newpage
 # DE analysis with edgeR
 To validate our findings in the amount of DEGs, we turn to a different DE analysis method called edgeR. It is good to note that while both edgeR and DESeq2 are notable tools in differential analysis, both use different methods. As said earlier, DESeq2 uses a negative binomial distribution, whereas edgeR uses an empirical Bayes estimation. We expect to see some differences between the two methods.
 
@@ -477,12 +490,12 @@ plot(volcano_edger[[3]])
 
 We slice the `normalized.counts` with the DEGs found with edgeR and plot a gene expression heatmap. We can conclude that the gene expression of these DEGs differs per severity level, as depicted in the heatmap below.
 
-```{r edgeR fitting and extracting DEGs, fig.cap="Heatmap depicting the difference in all DEGs extracted with edgeR, showing a similar result as we saw for all DEGs with DESeq2 (that all severity levels are distinct)."}
+```{r edgeR fitting and extracting DEGs v2, fig.cap="Heatmap depicting the difference in all DEGs extracted with edgeR, showing a similar result as we saw for all DEGs with DESeq2 (that all severity levels are distinct)."}
 # get degs counts
 all.degs.edger <- gene_slicer(normalized.counts, ttags, 'all', 'edger')
 plot_heatmap(all.degs.edger, meta.sepsis, 'severity')
 ```
-\newpage
+
 # Comparing both methods
 Now that we have performed two DE methods, we can compare the results. First, we take a look at the distribution of the log fold change of all the genes, not only the DEGs. The boxplots of Low vs. Int. suggest that the distribution here is larger in edgeR than seen in DESeq2. Additionally, the Low vs. High comparison is somewhat similar. Lastly, the distribution of the comparison between Intermediate and High was larger in DESeq2 than in edgeR, mostly because of outliers here.
 
@@ -513,7 +526,7 @@ ggvenn(list(edgeR = rownames(all.degs.edger),
   ggtitle("Differences DEGs edgeR and DESeq2")
 ```
 
-We take a look at the differences in scoring for both methods. We do this by creating two sets, highlighting the differences per method. As you can see, most of them were very close in p-value score and log2 fold change. Since there are differences between both internal methods, these discrepancies need to be expected! Therefore, we will still use the 210 DEGs found with DESeq2!
+We take a look at the differences in scoring for both methods. We do this by creating two sets, highlighting the differences per method. As you can see, most of them were very close in p-value score and log2 fold change. Since there are differences between both internal methods, these discrepancies need to be expected! Therefore, we will still use the 201 DEGs found with DESeq2!
 
 ```{r Which genes were differently across both methods?}
 # Get the differences per method
@@ -526,14 +539,16 @@ establish_differences <- function(edger_names, deseq_names,
   deseq2_diff <- imap(deseq_df, ~ .x %>% 
                        rownames_to_column('gene') %>%
                        mutate(source = .y) %>% 
-                       filter(gene %in% edger_names)) %>%
+ # filter on deseq2's deg list, and keep genes that were only present in edger
+                       filter(gene %in% edger_names)) %>% 
                        bind_rows()
 
   edger_diff <- imap(edger_df, ~ .x %>% 
                      rownames_to_column('gene') %>%
                      mutate(source = .y) %>% 
                      filter(gene %in% deseq_names)) %>%
-                     bind_rows() %>%
+                     bind_rows() %>% # bind one dataframe
+    # rename so we can merge on the same comparison
     mutate(source = case_when(
       source == 1 ~ 'Intermediate_against_High',
       source == 2 ~ 'Low_against_High',
@@ -563,15 +578,19 @@ deseqs.degs <- diffs[[2]] %>%
   filter(gene.x == gene.y) %>%
   select(gene.x, padj, FDR, logFC, absolute_change)
 
-print(edgers.degs)
-print(merge_second)
+kable(edgers.degs, format = 'html', booktabs = TRUE) %>%
+  kable_styling(full_width = FALSE, position = "center", 
+                bootstrap_options = c("striped", "hover"))
+
+kable(deseqs.degs, format = 'html', booktabs = TRUE) %>%
+  kable_styling(full_width = FALSE, position = "center", 
+                bootstrap_options = c("striped", "hover"))
 ```
 
-\newpage
 # On the whole transcriptome
 We validated our findings on the whole transcriptome to check how many mitochondria-related genes were found if we performed DE analysis on the whole transcriptome. This validation strengthens the confidence in the resulting set of DEGs and contextualizes the results in a broader context. It also helps with concluding if the DEG set has the potential for follow-up studies since we did not account for any cell proportions. Additionally, overlapping DEGs suggest that the methodologies and data processing steps used are robust.
 
-We load in the whole transcriptome and retrieve the `external_gene_id` via the `biomaRt` package in the same manner as we did in the EDA (see for more details). Thereafter, we simply use the `de_analysis` function in the same way as above. We then normalize the data and, slice all DEGs found in the transcriptome, and compare its results with the DEG set retrieved from mito-genes in a Venn diagram. The total number of DEGs found was 2202. There was high overlap: 167 DEGs were found in both sets and 42 only in the mito-gene set. A reason for this might be because of the sensitivity when doing DE on a specific subset, which reduces background noise from non-mitochondria genes. Additionally, these genes might play a more subtle but biologically significant role in mitochondrial functions or processes, which might be overlooked in the broader transcriptome analysis.
+We load in the whole transcriptome and retrieve the `external_gene_id` via the `biomaRt` package in the same manner as we did in the EDA (see for more details). Thereafter, we simply use the `de_analysis` function in the same way as above. We then normalize the data and, slice all DEGs found in the transcriptome, and compare its results with the DEG set retrieved from mito-genes in a Venn diagram. The total number of DEGs found was 2201. There was high overlap: 167 DEGs were found in both sets and 42 only in the mito-gene set. A reason for this might be because of the sensitivity when doing DE on a specific subset, which reduces background noise from non-mitochondria genes. Additionally, these genes might play a more subtle but biologically significant role in mitochondrial functions or processes, which might be overlooked in the broader transcriptome analysis. BIOMART IS NOT AVAILABLE SINCE 18 OF JANUARY so we needed to adjust some function; hashed procedure is normally used but via `AnnotationDbi` is comparable.
 
 ```{r Preparation for DE on transcriptome}
 library(biomaRt)
@@ -581,30 +600,43 @@ whole_counts <- read.csv('data/source/GSE185263_raw_counts.csv') %>%
   column_to_rownames('ensembl_gene_id') %>%
   dplyr::select(starts_with('sep'))
 
+universe_list <- read.csv("data/counts/universe_gene_names.csv") %>% 
+  distinct(gene)
+
 # Only keep gene IDs
 gene_ids <- row.names(whole_counts)
 
-listEnsembl()
-ensembl <- biomaRt::useEnsembl("genes")
-datasets <- listDatasets(ensembl)
+#listEnsembl()
+#ensembl <- biomaRt::useEnsembl("genes")
+#datasets <- listDatasets(ensembl)
 
 # Make a connection with Ensembl
-connection <- useMart("ensembl", dataset = "hsapiens_gene_ensembl")
+#connection <- useMart("ensembl", dataset = "hsapiens_gene_ensembl")
 
 # Get gene set
-gene_set <- getBM(attributes = c('ensembl_gene_id', 'external_gene_name'),
-                  filters = "ensembl_gene_id",
-                  values = gene_ids,
-                  mart = connection) 
+#gene_set <- getBM(attributes = c('ensembl_gene_id', 'external_gene_name'),
+#                  filters = "ensembl_gene_id",
+#                  values = gene_ids,
+#                  mart = connection) 
+
+library(AnnotationDbi)
+library(org.Hs.eg.db)
+
+gene_names <- AnnotationDbi::select(org.Hs.eg.db, keys = gene_ids, 
+                     columns = c("SYMBOL"), 
+                     keytype = "ENSEMBL") %>%
+  dplyr::rename(external_gene_name = SYMBOL,
+         ensembl_gene_id = ENSEMBL)
 
 mito.genes.raw <- whole_counts %>%
   rownames_to_column('ensembl_gene_id') %>%
   # merge based on Ensembl ID
-  merge(gene_set, by = 'ensembl_gene_id') %>%
+  merge(gene_names, by = 'ensembl_gene_id') %>%
   # filter out duplicates (see EDA)
-  filter(ensembl_gene_id != "ENSG00000258724") %>% 
+  filter(!ensembl_gene_id %in% c('ENSG00000276345', 'ENSG00000258724', 'ENSG00000100033', 'ENSG00000258790')) %>%
   dplyr::select(-ensembl_gene_id) %>%
   distinct(external_gene_name, .keep_all = T) %>%
+  drop_na() %>%
   column_to_rownames('external_gene_name')
 
 # reorder
@@ -628,15 +660,12 @@ ggvenn(list(DEGs_Transcriptome = rownames(degs.transcriptome),
   ggtitle("Differences DEGs found in transcriptome and mito-gene set.")
 ```
 
-\newpage
 # Pathway analysis on septic patients
-Now that we have established 210 DEGs, it is crucial to establish which pathways are up- and down-regulated between the severity levels. Additionally, we will compare the cluster groups with healthy controls. Any filtering would result in unnecessary losses and hinder the ability to prove biological relevance. We use the `pathway_analysis` function for this.
+Now that we have established 201 DEGs, it is crucial to establish which pathways are up- and down-regulated between the severity levels. Additionally, we will compare the cluster groups with healthy controls. Any filtering would result in unnecessary losses and hinder the ability to prove biological relevance. We use the `pathway_analysis` function for this.
 
 First, the `universe_list` here are all the genes originating from the transcriptome. We are using the transcriptome since we extracted all DEGs from this original dataset. First, the `universe_list` here are all the genes originating from the transcriptome. We are using the transcriptome since we extracted all DEGs from this original dataset. We use it to perform an enrichment analysis and can correctly assess which pathways are over-represented. We will use the `counts` dataset since DESeq2 analysis needs raw counts. We put `fold_thres` and `pvalue_thres` equal to one so that we do not filter any DEGs and specify the design parameter on `sepsis_severity`. Thereafter, we consider the over-presented pathways in Reactome and MSigDB databases. We only retain significant pathways (p-value <= 0.05).
 
 ```{r Pathway analysis between sepsis severity levels}
-universe_list <- read.csv("data/ex_gene_ids.csv") %>% distinct(gene)
-
 sig_genes <- Map(function(dataset, name){ 
   dataset <- dataset %>% as.data.frame() %>%
   filter(de != "NO") %>%
@@ -644,9 +673,10 @@ sig_genes <- Map(function(dataset, name){
   rownames_to_column('gene')
 }, degs$results, names(degs$results))
 
+source("scripts/helper_functions.R")
 with_universe <- pathway_analysis(sig_genes, split = T, 
                                   universe = universe_list)
-
+# no results for this one, to get over errors, set to NULL
 with_universe$reactome_res$Low_against_Intermediate <- NULL
 plot_reactome(with_universe$reactome_res)
 severity_go <- plot_go(with_universe$go_res)
@@ -660,13 +690,12 @@ plot(severity_go[[1]])
 plot(severity_go[[2]])
 ```
 
-```{r Go Plot severity three, fig.cap="Comparison between severity levels based with MSigDB Hallmark 2020 database, extracting up- and downregulated pathways."}
+```{r Go Plot severity three, fig.cap="Comparison between severity levels based with MSigDB Hallmark 2010 database, extracting up- and downregulated pathways."}
 plot(severity_go[[3]])
 ```
 
 With the results presented above, we can see the role of mitochondria dysfunction, pathways that are upregulated, such as apoptosis, TP53-related pathways, and mitochondria transportation (for defective mitochondria). But also downregulation, such as oxidative phosphorylation, glycolysis, and amino acid binding. All these up and downregulated pathways signal a biological difference between both severity levels.
 
-\newpage
 # Conclusion
-In conclusion, we found 210 unique DEGs by comparing the three severity levels with each other. We did this with a log fold change of 1.20 after trying several different thresholds. Also, we did the same on the mortality variable but found an insufficient number of DEGs and decided to continue with severity alone. Additionally, the High-Low comparison yielded the most DEGs. A comparison with the preferred DE analysis method, DESeq2, and edgeR concluded that most DEGs were found with both methods. However, 13.0% of the total DEGs were only discovered by DESeq2. However, after inspecting the differences, most genes just fell under the threshold used with edgeR, resulting in both methods being almost evenly in their verdict. Significant up and downregulated pathways reflected the role of mitochondria dysfunction in sepsis.
+In conclusion, we found 201 unique DEGs by comparing the three severity levels with each other. We did this with a log fold change of 1.20 after trying several different thresholds. Also, we did the same on the mortality variable but found an insufficient number of DEGs and decided to continue with severity alone. Additionally, the High-Low comparison yielded the most DEGs. A comparison with the preferred DE analysis method, DESeq2, and edgeR concluded that most DEGs were found with both methods. However, 13.0% of the total DEGs were only discovered by DESeq2. However, after inspecting the differences, most genes just fell under the threshold used with edgeR, resulting in both methods being almost evenly in their verdict. Significant up and downregulated pathways reflected the role of mitochondria dysfunction in sepsis.
 
