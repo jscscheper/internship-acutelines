@@ -15,6 +15,7 @@ library(ggupset)
 library(purrr)
 library(ComplexHeatmap)
 library(enrichR)
+library(glue)
 
 #' Reorder meta and count datasets
 #'
@@ -29,7 +30,6 @@ library(enrichR)
 reordered <- function(meta_data, count_data) {
   all.in <- all(meta_data$sample_identifier %in% colnames(count_data))
   ord <- all(meta_data$sample_identifier == colnames(count_data))
-  
   if (ord == F) {
     reord <- match(meta_data$sample_identifier, colnames(count_data))
     new.counts <- count_data[, reord]
@@ -47,13 +47,17 @@ reordered <- function(meta_data, count_data) {
 #' @examples
 #' counts <- read.csv('path/to/counts.csv')
 #' pca_res <- perform_pca(counts)
-perform_pca <- function(df) {
+perform_pca <- function(df, norm=F, center=T, scale=T) {
   
   # Transform and assign to matrix
   matrix_pca <- t(df) %>% as.matrix()
   
+  if (norm) {
+    matrix_pca <- log2(matrix_pca + 0.01)
+  }
+  
   # Perform PCA
-  res_pca <- prcomp(matrix_pca, center = TRUE, scale. = TRUE)
+  res_pca <- prcomp(matrix_pca, center = center, scale. = scale)
   
   # How many components do we need (depending on the number of columns and rows)
   n <- number_pca_components(df)
@@ -79,16 +83,12 @@ perform_pca <- function(df) {
 
 number_pca_components <- function(df) {
   
-  # Calc row and column length
-  row_length <- length(rownames(df))
-  col_length <- length(colnames(df))
+  # Calculate row and column length
+  row_length <- nrow(df)
+  col_length <- ncol(df)
   
-  # Depending on if which one has more, becomes the preferred amount of PCs
-  if (row_length > col_length) {
-    n_comp <- col_length
-  } else {
-    n_comp <- row_length
-  }
+  # The number of meaningful PCs is the smaller of the two
+  n_comp <- min(row_length, col_length)
   
   return(n_comp)
 }
@@ -129,8 +129,8 @@ explain_variance <- function(df, pva) {
 #' count_data <- read.csv('path/to/counts.csv)
 #' de_analysis <- de(count_data, meta_data, "sepsis_severity")
 de_analysis <- function(countData, metaData, design.element, low.exp = 10, 
-               smallest.group.size = 10, versus_healthy = F, hc_name = "hc", 
-               pvalue_thres = 0.05, fold_thres = 1.2, batch = T) {
+                        smallest.group.size = 10, versus_healthy = F, hc_name = "hc", 
+                        pvalue_thres = 0.05, fold_thres = 1.2, batch = T) {
   
   # Check if design parameters are in metaData
   if (!all(design.element %in% colnames(metaData)) && design.element != '1') {
@@ -140,33 +140,34 @@ de_analysis <- function(countData, metaData, design.element, low.exp = 10,
   # Insert batch correct variable if true
   if (batch) {
     design <- as.formula(paste("~ sequencing_month_year + ", paste(design.element), collapse = " + "))
-  } else (
+  } else {
     design <- as.formula(paste("~", paste(design.element), collapse = " + "))
-  )
-
+  }
+  
   dds <- DESeqDataSetFromMatrix(countData = countData, colData = metaData, design = design)
-  print('i')
+  
   # Remove low-expressed genes
-  if (low.exp != 0) {
+  if (low.exp > 0) {
     keep <- rowSums(counts(dds) >= low.exp) >= smallest.group.size
     dds <- dds[keep, ]
   }
-
+  
   dds <- DESeq(dds)
-
+  
   lvls <- levels(colData(dds)[[design.element]]) # Get all levels
   comparisons <- combn(lvls, 2, simplify = F) # Make all combinations
-
+  
   if (versus_healthy == TRUE) {
     # Only keep comparisons against healthy controls
     comparisons <- keep(comparisons, ~any(.x == hc_name))
   }
-    
+  
   # Retrieve results for all comparisons
   all_results <- list()
   for (i in 1:length(comparisons)) {
     res <- DESeq2::results(dds, contrast = 
-            c(design.element, comparisons[[i]][2], comparisons[[i]][1])) %>%
+                             c(design.element, comparisons[[i]][2], comparisons[[i]][1]),
+                           independentFiltering=FALSE) %>%
       as.data.frame() %>%
       mutate(absolute_change = abs(log2FoldChange)) %>%
       # Remove the log2 scale
@@ -174,12 +175,12 @@ de_analysis <- function(countData, metaData, design.element, low.exp = 10,
         log2FoldChange > 0 ~ 2^absolute_change,
         log2FoldChange < 0 ~ -2^absolute_change,
         TRUE ~ 0)) %>%
-      mutate(padj = ifelse(is.na(padj), 0.01, padj)) %>%
+      mutate(padj = ifelse(is.na(padj), 1, padj)) %>%
       # A DE is when: padj is lower than pvalue_thres and 
       # fold_change is lower than -fold_thres or higher than fold_thres
       mutate(de = ifelse(padj <= pvalue_thres & 
-                        (fold_change >= fold_thres | 
-                         fold_change <= -fold_thres),
+                           (fold_change >= fold_thres | 
+                              fold_change <= -fold_thres),
                          "DE", "NO")) %>%
       # Assign which direction a DE goes
       mutate(direction = case_when(
@@ -249,14 +250,14 @@ go_pathway_analysis <- function(genes, pvalue = 0.05,
                                         "GO_Cellular_Component_2018")) {
   # Remove any NAs
   genes <- na.omit(genes) %>% as.character()
-
+  
   res <- enrichr(genes = genes, databases = dbs)
   
   # Filter on pvalue for every database used
   res <- lapply(res, function(x) {
     filter(x, Adjusted.P.value <= pvalue)
   })
-
+  
   return(res)
 }
 
@@ -278,16 +279,16 @@ reactome_pathway_analysis <- function(genes, pvalue = 0.05, universe = NULL) {
   
   # Arguments for enrichPathway function
   arguments <- list(gene = genes, pvalueCutoff = pvalue, readable = TRUE, minGSSize = 2)
-    
+  
   # Add universe to arguments list if not null
   if(!is.null(universe)) {
     arguments$universe <- as.character(universe$entrez_id)
   }
-    
+  
   # Call the enrichPathway function like this so the universe parameter is optional
   # without the need for an if-else statement; only take the results list via '@results'
   res <- do.call("enrichPathway", arguments)@result %>%
-      filter(p.adjust <= 0.05)
+    filter(p.adjust <= 0.05)
   
   return(res)
 }
@@ -308,7 +309,7 @@ pathway_analysis <- function(comparisons, split = F, universe = NULL) {
     entrez_ids_universe <- AnnotationDbi::select(org.Hs.eg.db, keys=universe$gene, 
                                                  column=c("ENTREZID", "SYMBOL"), keytype="SYMBOL") %>%
       rename(entrez_id = ENTREZID) %>%
-      select(-SYMBOL)
+      dplyr::select(-SYMBOL)
   }
   
   # For every comparison, retrieve gene names and extract Entrez IDs
@@ -316,7 +317,7 @@ pathway_analysis <- function(comparisons, split = F, universe = NULL) {
     map(~ .x %>% 
           mutate(entrez_id = AnnotationDbi::select(org.Hs.eg.db, keys = gene, "ENTREZID", keytype="SYMBOL")) %>%
           tidyr::unnest(c(entrez_id)) %>% 
-          select(-SYMBOL) %>%
+          dplyr::select(-SYMBOL) %>%
           rename(entrez_id = ENTREZID))
   
   if (split) {
@@ -337,8 +338,8 @@ pathway_analysis <- function(comparisons, split = F, universe = NULL) {
       map(~ map(., ~ go_pathway_analysis(.x$gene)))
     
   } 
-    # The same as above but without the split
-    else {
+  # The same as above but without the split
+  else {
     if (!is.null(universe)) {
       reactome_res <- degs_list %>%
         map(~ reactome_pathway_analysis(.x$entrez_id, universe = entrez_ids_universe))
@@ -365,15 +366,15 @@ plot_go <- function(comparison_list) {
   
   comparison_list <- comparison_list %>%
     map(~ map(., ~  map(., ~ .x %>%
-       separate_wider_delim(Overlap, delim = '/', 
-                            names = c('background_gene_count', 'total')) %>%
-       mutate(Ratio = as.numeric(background_gene_count) / as.numeric(total))))) %>%
+                          separate_wider_delim(Overlap, delim = '/', 
+                                               names = c('background_gene_count', 'total')) %>%
+                          mutate(Ratio = as.numeric(background_gene_count) / as.numeric(total))))) %>%
     map(~ map(., ~ bind_rows(.x, .id = "database"))) %>%
     map(~ bind_rows(.x, .id = 'direction')) %>%
     bind_rows(.id = 'comparison') %>%
     mutate(Term = ifelse(database != 'MSigDB_Hallmark_2020', 
                          sapply(Term, extract_words), Term)) %>%
-
+    
     mutate(comparison = str_replace_all(comparison, 
                                         "([^\\s_]+)_against_([^\\s_]+)", # works for any character of any length
                                         "\\1 vs. \\2"))
@@ -387,6 +388,8 @@ plot_go <- function(comparison_list) {
                  color = direction)) +
       geom_point(pch = 16) +
       facet_wrap(~ comparison) + 
+      labs(size = "-Log10PAdjusted", color = "Direction", 
+           y = "Pathway", x = "Direction") +
       scale_color_manual(values = c("UP" = "orange", "DOWN" = "magenta"),
                          labels = c("UP" = "Upregulated", "DOWN" = "Downregulated")) +
       scale_x_discrete(labels = c("UP" = "Upregulated", "DOWN" = "Downregulated")) +
@@ -417,7 +420,7 @@ plot_reactome <- function(comparison_list) {
   comparison_list <- comparison_list %>%
     map(~ map(., ~ .x %>% 
                 separate_wider_delim(BgRatio, delim = '/', 
-                names = c('background_gene_count', 'total')) %>% # split BgRatio into two columns
+                                     names = c('background_gene_count', 'total')) %>% # split BgRatio into two columns
                 mutate(Ratio = Count / as.numeric(background_gene_count)) %>%
                 mutate(Description = sapply(Description, extract_words)))) %>%
     map(~ bind_rows(.x, .id = 'direction')) %>%
@@ -425,7 +428,7 @@ plot_reactome <- function(comparison_list) {
     mutate(comparison = str_replace_all(comparison, 
                                         "([^\\s_]+)_against_([^\\s_]+)", # works for any character of any length
                                         "\\1 vs. \\2"))
-
+  
   res <- ggplot(comparison_list, 
                 aes(y = Description, 
                     x = as.factor(direction), 
@@ -439,7 +442,7 @@ plot_reactome <- function(comparison_list) {
     scale_color_manual(values = c("UP" = "orange", "DOWN" = "magenta"),
                        labels = c("UP" = "Upregulated", "DOWN" = "Downregulated")) +
     scale_x_discrete(labels = c("UP" = "Upregulated", "DOWN" = "Downregulated")) +
-    theme(axis.text.y=element_text(size=7)) + 
+    theme(axis.text.y=element_text(size=7, vjust = 0.8)) + 
     guides(fill = FALSE, # Remove RATIO legend
            size = guide_legend(override.aes = list(pch = 1))) +
     ggtitle("Comparison between clusters")
@@ -485,7 +488,7 @@ generate_heatmap <- function(meta, count, type) {
       Severity = meta$sepsis_severity, 
       Mortality = meta$mortality, 
       SOFA = anno_barplot(sofa, which = "column", border = T),
-      Cluster = anno_block(gp = gpar(fill = 2:c(length(num_cluster) + 1),
+      Cluster = anno_block(gp = gpar(fill = c('purple', 'green'),
                                      col="white"),
                            labels = num_cluster),
       col = list(Severity = c("High" = "red",
@@ -496,19 +499,19 @@ generate_heatmap <- function(meta, count, type) {
                                "unknown" = "grey"))
     )
     
-    } else if (type == "icu") {
+  } else if (type == "icu") {
     sofa <- meta$icu_sofa
     column_annotation <- HeatmapAnnotation(
       Severity = meta$sepsis_severity,
       SOFA = anno_barplot(sofa, which = "column", border = T),
-      Cluster = anno_block(gp = gpar(fill = 2:c(length(num_cluster) + 1),
+      Cluster = anno_block(gp = gpar(fill = c('orange', 'blue'),
                                      col="white"),
                            labels = num_cluster),
       col = list(Severity = c("High" = "red",
                               "Intermediate" = "blue",
                               "Low" = "green"))
     )
-    } else {
+  } else {
     stop(glue::glue('
       Please make sure you use either "icu" or "er" as your type parameter 
       \n Your input: {type}'))
@@ -526,3 +529,4 @@ generate_heatmap <- function(meta, count, type) {
   
   draw(heatmaps_cluster)
 }
+
