@@ -1,0 +1,313 @@
+commit d7e59f577247ee4b05b6327b7d2f11c4e24965ab
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Tue Jan 9 21:18:17 2024 +0100
+
+    Pushed Report version 2.
+
+commit a1c7798c61437d16e3ba00ae55ec89b8d5ab3fe4
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Mon Dec 18 16:54:04 2023 +0100
+
+    Changed the amount of clusters from 3 to 2 after careful deliberation; changed a lot of code as a consequence of that.
+
+commit 1be398b9e85807353500566e10f93442f3cfb4b0
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Tue Dec 12 08:59:46 2023 +0100
+
+    Added validation of final model, a zoom-in on final gene set (right this time).
+
+commit 7faab0886a13937996bcb1f7b8a0bd71d368c7ba
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Mon Dec 11 17:19:31 2023 +0100
+
+    Finished feature selection, implemented a way to optimze our final model and zoomed in on the final gene set.
+
+commit 668b7d3efa6820ad70b40dd441e779f654fe258d
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Fri Dec 8 16:22:27 2023 +0100
+
+    Added an introduction section to the final report.
+
+commit 6dc2729b336cb1ccdd4cbe09498a10c8eb3a6c82
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Fri Dec 8 16:20:01 2023 +0100
+
+    Added all relevant R code to their individual logbook,making individual scripts redundant.
+
+commit 42c1a4dee348ad355bc991133122928d725458a8
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Fri Dec 8 16:18:50 2023 +0100
+
+    Finished feature selection for predicting the cluster number; added multipleclassification; added sepsis severity training and cross-validation results.
+
+commit 05d01ff4620dbfe4375039f6bf704324d4c50fac
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Tue Dec 5 13:52:08 2023 +0100
+
+    Added results regarding reduced feature sets.
+
+commit e8fb1dc72eca9636e2764880006c76193c6eb2f0
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Tue Dec 5 12:56:36 2023 +0100
+
+    Added two ways of doing feature selection. Fixed the cross-validation function (was not displaying the figure correctly).
+
+commit 299333abaecaa3169f80f94854cca0e67b564d26
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Fri Dec 1 17:34:06 2023 +0100
+
+    Finished development visualizations regarding training, cross-validation, and feature selection.
+
+commit 48688c0d1315ab1f466b59a627e85d4eb8a4c028
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Mon Nov 27 18:37:43 2023 +0100
+
+    Added a training, cross_validation, and additional visualization functions. Also started on model selection.
+
+commit c7f7ccb75af7db7e1a119b8b145f0eac62639611
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Thu Nov 23 21:36:26 2023 +0100
+
+    Implemented feature importance with RandomForestClassifier (forgot to push).
+
+commit e9f5df1a8d6b35cdb16b5397ab2be3c1e28c8c9e
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Thu Nov 23 16:34:11 2023 +0100
+
+    Started Feature Importance and added the appropriate Jupyter notebook.
+
+commit 14d2e5ffc8f13b97f98fa7f8e74913cfcf549795
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Wed Nov 22 15:14:11 2023 +0100
+
+    Started GVSA, compared DEGs between cluster groups and with healthy controls
+
+commit 0740377dad635024af1e4f9f66a67084ce068821
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Wed Nov 22 15:13:16 2023 +0100
+
+    Changed the structure of clustering: ER as training and ICU as validation.
+
+commit b6ab9220a13e8c0ef2ff738f98b21e877922fced
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Wed Nov 22 15:12:34 2023 +0100
+
+    Changed the DE analysis function so that it compares one group vs. the rest.
+
+commit 5ed2f263934914e4a87e3d3c9d02931490d980a0
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Fri Nov 17 22:16:26 2023 +0100
+
+    Pathway analysis and GSEA per cluster!
+
+commit c3a06754dfaf73ad5b5e7e1d457e65fb2349f42e
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Fri Nov 17 00:11:27 2023 +0100
+
+    Finished pathway analysis figures and functions.
+
+commit 0c86c3b5f3bcc91ef42adec8eb76a045464237b2
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Wed Nov 15 21:53:14 2023 +0100
+
+    Added a logs directory, removed other, separate directories(we had separate directories for each Rmarkdown. Now it is better structered)
+
+commit 7e12c71d651aba065fb0a10aea1f4abb67315d18
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Wed Nov 15 21:42:00 2023 +0100
+
+    Added separate Rmarkdown files for unsupervised clustering and DE analysis.
+
+commit 3a3163d7490b98627447472d9e069eeddbe25c36
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Tue Nov 14 19:03:15 2023 +0100
+
+    Worked further so that pathway analysis compares the differences between each scenario.
+
+commit 3a95b2b818540ad3e05acf78652dfff9a7b88019
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Thu Nov 9 22:31:02 2023 +0100
+
+    Added pathway_analysis.R: a script that performs multiple pathway analysis and save them to csv
+
+commit 4aa1cd71a77cc07ccffdbaaaa26111ed4c0fcea3
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Thu Nov 9 22:30:04 2023 +0100
+
+    Added pathway functions for MgSigDB and Reactome.
+
+commit ebf2b5c005340403cecddf1dd74a13d9d57b8231
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Thu Nov 9 22:28:54 2023 +0100
+
+    Adjusted the de function so that it accounts for all DEGs between levels, and write them to a CSV for downstream analysis.
+
+commit 0e8584f49d93465a323784bdfbf14101952457f8
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Wed Nov 8 20:50:43 2023 +0100
+
+    Streamlined the clustering methods on 3 clusters total.
+
+commit 26c3b07d72ae57eb8e57e2f3b5d9f2930e72dbeb
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Tue Nov 7 21:00:41 2023 +0100
+
+    Splitted DE and pathway analysis scripts from each other, and added a KEGG pathway function.
+
+commit 14532c9204b0d9cac36bb2b1bf9325189b3170b1
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Fri Nov 3 20:42:33 2023 +0100
+
+    Added a function that generates nicely looking tables.
+
+commit 4c9e41126a4e3380f03d2f8f57657f02912885f6
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Fri Nov 3 17:50:58 2023 +0100
+
+    Changed 'test_significance' function so that it calculates missing percentage, availablity per group, mean and sd for every feature.
+
+commit 19e4aaf313020e7a6713a97657b8251910dba91d
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Thu Nov 2 20:34:53 2023 +0100
+
+    Added ComplexHeatmap, clustered on four clusters with kmeans, hclust, and pam; and finished statistical tests per clustering method to determine which differences in clinical data between clusters are signficant.
+
+commit 9495fc90bf709e7ab92346752c3e1d2eaf2e8b31
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Thu Oct 26 23:25:56 2023 +0200
+
+    Finished PAM (K-medoids), K-means, and consensus clustering.
+
+commit 6bb09f026c2d258c2680dd182b0007f6214a987b
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Thu Oct 26 16:20:31 2023 +0200
+
+    Finished hierarchical clustering and decided on optimal amount of clusters.
+
+commit 398a090470d2ab46675a14397a06edb8b6cec63f
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Tue Oct 24 21:09:05 2023 +0200
+
+    Added edgeR to the DE analysis; added a GoTerm pathway analysis.
+
+commit 8f5469551ef6c946f8fc9a56620ee3cca9536089
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Thu Oct 19 18:32:55 2023 +0200
+
+    Updated helpers_functions.R to include perform_pca function and perform_de function. Also added three temp R scripts.
+
+commit a6e9a2cfc495dfe3f19f5ba2ba8a74ebeb928de8
+Author: Scheper <d.j.scheper@umcg.nl>
+Date:   Tue Oct 17 14:07:22 2023 +0200
+
+    Did the combat batch correction
+
+commit be2f9461d6789b6616899305fc137b7bec1483c9
+Merge: 3cec18f cbd4f22
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Sun Oct 15 22:39:32 2023 +0200
+
+    Merge branch 'master' of https://bitbucket.org/djscheper/internship_acutelines
+
+commit 3cec18f171568d26ef7ebd14dde2342c64290910
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Sun Oct 15 22:39:16 2023 +0200
+
+    DE analysis per cluster started.
+
+commit cbd4f229a282d80557bf261e63c2d6e62b651ce5
+Author: djscheper <d.j.scheper@st.hanze.nl>
+Date:   Sat Oct 14 20:33:30 2023 +0000
+
+    README.md edited online with Bitbucket
+
+commit fff435a6fe8dd231cdaab450f501aa0ad493ca5a
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Sat Oct 14 22:31:50 2023 +0200
+
+    Added `helper_functions.R` which contains functions that are used across multiple Rmarkdown files.
+
+commit 22013b2b4c8e95eb934c3749834810ce3540aef3
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Sat Oct 14 22:29:53 2023 +0200
+
+    Restored some old files that were thought of to be redundant, but were not
+
+commit cc815189fc073e7ebf89cae37e2f829489df807b
+Merge: 0dac0f0 c09ae5b
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Sat Oct 14 22:27:43 2023 +0200
+
+    Removed redundant files.
+
+commit 0dac0f0b54104fc2add5498cc8963f75a9ee9aa3
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Sat Oct 14 22:25:23 2023 +0200
+
+    Finished unsupervised methods (hclust and kmeans) and extracted significant genes per established cluster.
+
+commit c09ae5b9405e1ef101b874bfe20b4b45a03651c4
+Author: Scheper <d.j.scheper@umcg.nl>
+Date:   Mon Oct 9 16:36:24 2023 +0200
+
+    Cleaned up some code, and added log-fold filters for DEGs.
+
+commit 13aa6ac08ffcb817827b5cf0375c8cb082e6e5b2
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Sun Oct 8 22:13:43 2023 +0200
+
+    Added a different DE library (edgeR) and plotted an MAwith it to see the difference with DESeq2.
+
+commit c110a8a9e11f3a07dad5cd2a2bbd240430ee3dcc
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Sun Oct 8 20:04:54 2023 +0200
+
+    Added PDF form of EDA
+
+commit 994357e5035bbfae1f57796aa751b80fcdb1ccc9
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Fri Oct 6 14:42:11 2023 +0200
+
+    Started with the GSEA (added folder 'GSEA/'), added heatmap, HC clusters and boxplots of PCA results.
+
+commit d073e7376c8e86e8d9910f037ed08c28e48ea4fa
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Thu Oct 5 17:16:50 2023 +0200
+
+    Finished all figure captions and explanations regarding interpretation; added boxplots for every group in mortality and sepsis severity to spot outliers.
+
+commit dea2e5883032a3538fec88ba036d5a604f261aae
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Thu Oct 5 14:42:19 2023 +0200
+
+    Added figure captions and more explainations.
+
+commit 14567c2303112930c46cb322a4baac0339608be0
+Author: Dennis <d.j.scheper@st.hanze.nl>
+Date:   Wed Oct 4 18:13:31 2023 +0200
+
+    Added EDA log; cleaned up and removed redundant code.
+
+commit 06d855315bb9125086cbe710032cf455598c76f1
+Author: djscheper <d.j.scheper@st.hanze.nl>
+Date:   Tue Oct 3 13:43:34 2023 +0000
+
+    README.md edited online with Bitbucket
+
+commit b4c5b0d0b2d034daa37fdce8fa46c500d2ec04a6
+Author: Scheper <d.j.scheper@umcg.nl>
+Date:   Tue Oct 3 15:16:05 2023 +0200
+
+    Pushed some miscellaneous files.
+
+commit 4e4d30e86762d040b02a8da6c7ce83247c01acdf
+Author: djscheper <d.j.scheper@st.hanze.nl>
+Date:   Tue Oct 3 13:11:00 2023 +0000
+
+    README.md changed online
+
+commit f2bbd0bebab3957efa8e8df2c8072965ef560a17
+Author: djscheper <d.j.scheper@st.hanze.nl>
+Date:   Tue Oct 3 13:00:08 2023 +0000
+
+    Initial commit
