@@ -7,14 +7,13 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 *_Statement on Git commit history:_* The commit history you see here is not complete; most of it was lost due to deletion of a previous repository. I accidentally pushed sensitive data and had to delete the entire previous repository (a `git rm` is not sufficient as the data 'lives' on in the commit history). I tried to restore the commit history in this repository, but to no avail. There is, however, a log history of the previous repository available under `misc/git_history.txt`. I do understand that this may not be sufficient, but it is the best I could do.
 
-# Abstract
-Sepsis, a major contributor to in-hospital deaths, is challenging to detect due to its heterogeneous nature. Dysfunctional mitochondria from immune responses can worsen the condition. Analyzing mitochondria-related genes could help in early detection and guide treatment. 
- 
-RNA-Seq and clinical data from 348 septic patients, originating from four emergency rooms (ER) and one intensive care unit (ICU), were used and compared to 44 healthy controls. Both supervised and unsupervised machine-learning algorithms were applied to identify gene profiles with clinical relevance. 
- 
-Mitochondria-related differentially expressed genes (DEGs) were identified by comparing levels of severity based on SOFA scores. These DEGs helped establish two unique severity-based on ER cohorts (‘endotypes’), distinct from healthy controls and validated on ICU cohort. This categorization helps to address sepsis heterogeneity. Feature selection identified three novel gene sets that could accurately predict endotype group and severity in both ER and ICU settings. Notably, a novel eleven-gene set predicted endotypes with 95% accuracy and severity with 76% accuracy. 
+# Introduction
+Sepsis, a major contributor to in-hospital deaths, is challenging to detect due to its heterogeneous nature, and dysfunctional mitochondria can worsen the condition. Analyzing mitochondria-related genes could aid in early detection and guide treatment.
+RNA-Seq and clinical data from 348 septic patients, collected from four emergency rooms (ER) and one intensive care unit (ICU), were used and compared to 44 healthy controls. This study applied supervised and unsupervised algorithms to identify clinically relevant gene signatures.
 
-The gene profiles and endotypes indicate mitochondrial genes’ essential role in early sepsis detection and as potential novel biomarkers. Future research should aim to develop a multi-modal prognostic tool for enhanced patient stratification.
+Mitochondria-related differentially expressed genes (DEGs) were identified by comparing levels of severity based on Sequential Organ Failure Assessment (SOFA) scores. These DEGs helped to establish two unique severity-based endotypes in ER cohorts, which were distinct from the healthy controls and validated on an ICU cohort. This categorization addresses sepsis heterogeneity. Feature selection identified three gene sets that could accurately predict endotype groups. Notably, a logistic regression algorithm with L1 regularization predicted endotypes with 94% and 90% accuracy in ER and ICU cohorts using an eleven-gene set.
+
+The gene signatures and endotypes indicated the essential role of mitochondrial genes in early sepsis detection and as potential novel biomarkers. Future research should aim to develop a multi-modal prediction tool for enhanced patient stratification.
 
 In the flowchart depicted below, we highlight the methodology in more detail. Parts of the research all have their distinct color. Firstly, we focused on establishing the data distribution, imputating NAs, removing redundancies, outliers, and anomolies, and whether normalization was necessary in the form of an exploratory data analysis (EDA) (depicted in the color green). After that, we focused on discovering differentially expressed genes (DEGs) on the severity and mortality variables with DESeq2 (depicted in yellow). The main focus was on establishing an appropriate fold-change threshold. We validated our findings by comparing them with results from edgeR. After that, in purple, we used all the DEGs to form severity-based clusters/endotypes by comparing three different methods: K-means, K-medoids (PAM), and hierarchical clustering. We compared various distance and, where appropriate, linkage methods. Utilizing this, we discovered the existence of two endotypes in the ER cohorts, which we validated with various gene set sizes derived from MAD and the ICU cohort. We developed a machine learning model based on eleven DEGs extracted by comparing multiple feature selection techniques. The machine learning model and these DEGs could accurately predict the endotype and severity status using ER and ICU cohorts (depicted in red).
 
@@ -137,10 +136,22 @@ jupyter notebook
 
 # Layout
 In the root of this repository, you will find the end report which sums up the findings, the problems we came across and how we challenged those. The subdirectories are set up as follows:
+- `data/`: publicly available data, including raw counts and some clinical data points (see `SRATableRun.txt`). Please keep in mind that most clinical data is missing, as this is considered sensitive data.
+    - `source/`: contains all the source files and are primarily used in the `EDA.Rmd`.
+    - `degs/`: contains the DEG dataset found by DESeq2 and is used in all logs.
+    - `counts/`: various subsets of count data, patient location specific (e.g., healthy control counts).
+    - `clustering/`: clinical data critical to the endotype classification.
 - `logs/`: logs regarding each part of the research. Herein, we explain why certain choices were made. Logs are aimed to be reproducible.
 - `pdfs/`: PDFs of logs
 - `scripts/`: scripts with helper functions. Are primiarly used in the logs. `helper_functions.R` is for all R-based logs and `train_and_evaluate.py` for Python.
 - `misc/`: miscellaneous essential figures, data management plan, poster etc.
+
+In the report, we refer to logs as supplemental material. Here, we mean:
+- Supplemental 1: `EDA.Rmd`
+- Supplemental 2: `de_and_pathway_analysis.Rmd`
+- Supplemental 3: `clustering.Rmd`
+- Supplemental 4: `Feature_Selection.ipynb`
+- Supplemental 5: `differences_genes.Rmd`
 
 # Contact
 If any issue or question remains, please contact us at [d.j.scheper@st.hanze.nl](mailto:d.j.scheper@st.hanze.nl) or [d.j.scheper@umcg.nl](mailto:d.j.scheper@umcg.nl).
