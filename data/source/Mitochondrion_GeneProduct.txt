@@ -1,0 +1,1841 @@
+GCK	Hexokinase-4	
+UQCRQ	Cytochrome b-c1 complex subunit 8	
+RARS2	Probable arginine--tRNA ligase, mitochondrial	RARSL
+COX10	Protoheme IX farnesyltransferase, mitochondrial	
+TIMM23	Mitochondrial import inner membrane translocase subunit Tim23	TIM23
+BRAF	Serine/threonine-protein kinase B-raf	BRAF1|RAFB1
+AGTPBP1	Cytosolic carboxypeptidase 1	CCP1|KIAA1035|NNA1
+ATG3	Ubiquitin-like-conjugating enzyme ATG3	APG3|APG3L
+RPUSD3	Mitochondrial mRNA pseudouridine synthase RPUSD3	
+GRSF1	G-rich sequence factor 1	
+ANTKMT	Adenine nucleotide translocase lysine N-methyltransferase	C16orf24|FAM173A|RJD7
+MRPS26	Small ribosomal subunit protein mS26	C20orf193|RPMS13
+GATM	Glycine amidinotransferase, mitochondrial	AGAT
+CPT1A	Carnitine O-palmitoyltransferase 1, liver isoform	CPT1
+PANK2	Pantothenate kinase 2, mitochondrial	C20orf48
+SYNJ2BP	Synaptojanin-2-binding protein	OMP25
+SLC8A3	Sodium/calcium exchanger 3	NCX3
+MTARC2	Mitochondrial amidoxime reducing component 2	MARC2|MOSC2
+TBRG4	FAST kinase domain-containing protein 4	CPR2|FASTKD4|KIAA0948
+MAPK8IP1	C-Jun-amino-terminal kinase-interacting protein 1	IB1|JIP1|PRKM8IP
+SULT4A1	Sulfotransferase 4A1	SULTX3
+GTPBP3	tRNA modification GTPase GTPBP3, mitochondrial	MTGP1
+ETFA	Electron transfer flavoprotein subunit alpha, mitochondrial	
+GFM2	Ribosome-releasing factor 2, mitochondrial	EFG2|MSTP027
+DEPP1	Protein DEPP1	C10orf10|DEPP|FIG
+TOP1MT	DNA topoisomerase I, mitochondrial	
+PAAT	ATPase PAAT	C10orf88
+ROMO1	Reactive oxygen species modulator 1	C20orf52
+IFIT3	Interferon-induced protein with tetratricopeptide repeats 3	CIG-49|IFI60|IFIT4|ISG60
+AIM2	Interferon-inducible protein AIM2	
+TOMM40L	Mitochondrial import receptor subunit TOM40B	TOMM40B
+COX6A2	Cytochrome c oxidase subunit 6A2, mitochondrial	COX6A|COX6AH
+OGDH	2-oxoglutarate dehydrogenase complex component E1	
+TMEM102	Transmembrane protein 102	
+CPT2	Carnitine O-palmitoyltransferase 2, mitochondrial	CPT1
+NDUFAB1	Acyl carrier protein, mitochondrial	
+NDUFB11	NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 11, mitochondrial	UNQ111/PRO1064
+SDHAF2	Succinate dehydrogenase assembly factor 2, mitochondrial	C11orf79|PGL2|SDH5
+VAMP1	Vesicle-associated membrane protein 1	SYB1
+COX7A2L	Cytochrome c oxidase subunit 7A-related protein, mitochondrial	COX7AR|COX7RP
+RMND1	Required for meiotic nuclear division protein 1 homolog	C6orf96
+SDHD	Succinate dehydrogenase [ubiquinone] cytochrome b small subunit, mitochondrial	SDH4
+NAT8L	N-acetylaspartate synthetase	CML3
+CHCHD3	MICOS complex subunit MIC19	MIC19|MINOS3
+CCDC90B	Coiled-coil domain-containing protein 90B, mitochondrial	CUA003|MDS011|MDS025
+SYBU	Syntabulin	GOLSYN|KIAA1472
+ALDH1B1	Aldehyde dehydrogenase X, mitochondrial	ALDH5|ALDHX
+ISCA1	Iron-sulfur cluster assembly 1 homolog, mitochondrial	HBLD2|GK004
+GTF3C4	General transcription factor 3C polypeptide 4	
+TAX1BP1	Tax1-binding protein 1	T6BP|PRO0105
+CHCHD7	Coiled-coil-helix-coiled-coil-helix domain-containing protein 7	
+HS1BP3	HCLS1-binding protein 3	
+TXNRD3	Thioredoxin reductase 3	TGR|TRXR3
+HIGD2B	Putative HIG1 domain family member 2B	HIGD2BP
+MIX23	Protein MIX23	CCDC58
+SLC25A23	Mitochondrial adenyl nucleotide antiporter SLC25A23	APC2|MCSC2|SCAMC3
+SUCLA2	Succinate--CoA ligase [ADP-forming] subunit beta, mitochondrial	
+PRELID2	PRELI domain-containing protein 2	
+C2orf69	Mitochondrial protein C2orf69	
+SLC25A29	Mitochondrial basic amino acids transporter	C14orf69|ORNT3
+PRKCE	Protein kinase C epsilon type	PKCE
+COX18	Cytochrome c oxidase assembly protein COX18, mitochondrial	OXA1L2
+SOX10	Transcription factor SOX-10	
+DHODH	Dihydroorotate dehydrogenase (quinone), mitochondrial	
+PDP2	[Pyruvate dehydrogenase [acetyl-transferring]]-phosphatase 2, mitochondrial	KIAA1348
+CXADR	Coxsackievirus and adenovirus receptor	CAR
+SP140	Nuclear body protein SP140	LYSP100
+MFN2	Mitofusin-2	CPRP1|KIAA0214
+ALPL	Alkaline phosphatase, tissue-nonspecific isozyme	
+CDC25C	M-phase inducer phosphatase 3	
+CYP2E1	Cytochrome P450 2E1	CYP2E
+PCCB	Propionyl-CoA carboxylase beta chain, mitochondrial	
+PCCA	Propionyl-CoA carboxylase alpha chain, mitochondrial	
+ISG15	Ubiquitin-like protein ISG15	G1P2|UCRP
+SLC25A11	Mitochondrial 2-oxoglutarate/malate carrier protein	SLC20A4
+RRM2B	Ribonucleoside-diphosphate reductase subunit M2 B	P53R2
+MTCH1	Mitochondrial carrier homolog 1	PSAP|CGI-64|UNQ1871/PRO4314
+SLC25A5	ADP/ATP translocase 2	AAC2|ANT2
+NOX4	NADPH oxidase 4	RENOX
+PPP2CA	Serine/threonine-protein phosphatase 2A catalytic subunit alpha isoform	
+ACOT13	Acyl-coenzyme A thioesterase 13	THEM2|HT012|PNAS-27
+CYP11A1	Cholesterol side-chain cleavage enzyme, mitochondrial	CYP11A
+UQCRH	Cytochrome b-c1 complex subunit 6, mitochondrial	
+FKBP8	Peptidyl-prolyl cis-trans isomerase FKBP8	FKBP38
+TIMMDC1	Complex I assembly factor TIMMDC1, mitochondrial	C3orf1|UNQ247/PRO284
+MRPS5	Small ribosomal subunit protein uS5m	
+MRPS35	Small ribosomal subunit protein mS35	MRPS28|HDCMD11P|MDS023|PSEC0213
+MRPS10	Small ribosomal subunit protein uS10m	MSTP040
+MRPS25	Small ribosomal subunit protein mS25	RPMS25
+MRPS22	Small ribosomal subunit protein mS22	C3orf5|RPMS22|GK002
+ATF2	Cyclic AMP-dependent transcription factor ATF-2	CREB2|CREBP1
+MT-ATP8	ATP synthase protein 8	ATP8|ATPASE8|MTATP8
+MT-ND6	NADH-ubiquinone oxidoreductase chain 6	MTND6|NADH6|ND6
+MT-ND5	NADH-ubiquinone oxidoreductase chain 5	MTND5|NADH5|ND5
+MT-ND4	NADH-ubiquinone oxidoreductase chain 4	MTND4|NADH4|ND4
+LYRM7	Complex III assembly factor LYRM7	C5orf31|MZM1L
+MT-ND4L	NADH-ubiquinone oxidoreductase chain 4L	MTND4L|NADH4L|ND4L
+HLCS	Biotin--protein ligase	
+ALDH2	Aldehyde dehydrogenase, mitochondrial	ALDM
+FASTK	Fas-activated serine/threonine kinase	
+NMES1	Normal mucosa of esophagus-specific gene 1 protein	C15orf48
+RPS6KB1	Ribosomal protein S6 kinase beta-1	STK14A
+SORD	Sorbitol dehydrogenase	
+GCSH	Glycine cleavage system H protein, mitochondrial	
+MTERF4	Transcription termination factor 4, mitochondrial	MTERFD2|HSPC096
+IER3	Radiation-inducible immediate-early gene IEX-1	DIF2|IEX1|PRG1
+MTX1	Metaxin-1	MTX|MTXN
+MRPL47	Large ribosomal subunit protein uL29m	NCM1|CGI-204
+ALAS1	5-aminolevulinate synthase, non-specific, mitochondrial	ALAS3|ALASH|OK/SW-cl.121
+AADAT	Kynurenine/alpha-aminoadipate aminotransferase, mitochondrial	KAT2|KYAT2
+PLEKHN1	Pleckstrin homology domain-containing family N member 1	CLPABP
+NDUFAF4	NADH dehydrogenase [ubiquinone] 1 alpha subcomplex assembly factor 4	C6orf66|HRPAP20|HSPC125|My013
+SLC25A41	Mitochondrial carrier protein SCaMC-3L	
+PECR	Peroxisomal trans-2-enoyl-CoA reductase	SDR29C1|PRO1004
+TSFM	Elongation factor Ts, mitochondrial	
+ABAT	4-aminobutyrate aminotransferase, mitochondrial	GABAT
+MRPL50	Large ribosomal subunit protein mL50	
+COX15	Cytochrome c oxidase assembly protein COX15 homolog	
+ATPAF2	ATP synthase mitochondrial F1 complex assembly factor 2	ATP12|LP3663
+RPS3	Small ribosomal subunit protein uS3	OK/SW-cl.26
+NSUN2	RNA cytosine C(5)-methyltransferase NSUN2	SAKI|TRM4
+GLDC	Glycine dehydrogenase (decarboxylating), mitochondrial	GCSP
+CAMKMT	Calmodulin-lysine N-methyltransferase	C2orf34|CLNMT
+ME2	NAD-dependent malic enzyme, mitochondrial	
+CASP9	Caspase-9	MCH6
+MARK2	Serine/threonine-protein kinase MARK2	EMK1
+SMIM20	Small integral membrane protein 20	C4orf52|MITRAC7
+PPARGC1A	Peroxisome proliferator-activated receptor gamma coactivator 1-alpha	LEM6|PGC1|PGC1A|PPARGC1
+SPATA19	Spermatogenesis-associated protein 19, mitochondrial	SPERGEN1
+CTTN	Src substrate cortactin	EMS1
+IGF1	Insulin-like growth factor I	IBP1
+WDR93	WD repeat-containing protein 93	
+BNIP3	BCL2/adenovirus E1B 19 kDa protein-interacting protein 3	NIP3
+MT-ND3	NADH-ubiquinone oxidoreductase chain 3	MTND3|NADH3|ND3
+MT-ND2	NADH-ubiquinone oxidoreductase chain 2	MTND2|NADH2|ND2
+MT-ND1	NADH-ubiquinone oxidoreductase chain 1	MTND1|NADH1|ND1
+MRPL51	Large ribosomal subunit protein mL51	MRP64|CDA09|HSPC241
+DNAJC30	DnaJ homolog subfamily C member 30, mitochondrial	WBSCR18
+ASAH2	Neutral ceramidase	HNAC1
+AMBRA1	Activating molecule in BECN1-regulated autophagy protein 1	DCAF3|KIAA1736
+TIMM10	Mitochondrial import inner membrane translocase subunit Tim10	TIM10
+CEBPZOS	Protein CEBPZOS	CEBPZ-AS1
+MAPK9	Mitogen-activated protein kinase 9	JNK2|PRKM9|SAPK1A
+MAPK8	Mitogen-activated protein kinase 8	JNK1|PRKM8|SAPK1|SAPK1C
+FAM124B	Protein FAM124B	
+PPP2R1A	Serine/threonine-protein phosphatase 2A 65 kDa regulatory subunit A alpha isoform	
+ACADSB	Short/branched chain specific acyl-CoA dehydrogenase, mitochondrial	
+MACC1	Metastasis-associated in colon cancer protein 1	
+WDR81	WD repeat-containing protein 81	
+CARD19	Caspase recruitment domain-containing protein 19	C9orf89
+MRPL14	Large ribosomal subunit protein uL14m	MRPL32|RPML32
+MRPL58	Large ribosomal subunit protein mL62	DS1|ICT1
+FKBP4	Peptidyl-prolyl cis-trans isomerase FKBP4	FKBP52
+GDF5-AS1	Protein GDF5-AS1, mitochondrial	GDF5OS
+GABARAPL3	Gamma-aminobutyric acid receptor-associated protein-like 3	
+DELE1	DAP3-binding cell death enhancer 1	DELE|KIAA0141
+GLYATL1	Glycine N-acyltransferase-like protein 1	GNAT
+FOXO1	Forkhead box protein O1	FKHR|FOXO1A
+SREBF2	Sterol regulatory element-binding protein 2	BHLHD2|SREBP2
+FBXW7	F-box/WD repeat-containing protein 7	FBW7|FBX30|SEL10
+RFK	Riboflavin kinase	
+FATE1	Fetal and adult testis-expressed transcript protein	FATE
+MT-RNR1	Mitochondrial-derived peptide MOTS-c	
+PPOX	Protoporphyrinogen oxidase	
+ACSS1	Acetyl-coenzyme A synthetase 2-like, mitochondrial	ACAS2L|KIAA1846
+SFXN1	Sideroflexin-1	
+PPIF	Peptidyl-prolyl cis-trans isomerase F, mitochondrial	CYP3
+CARS2	Probable cysteine--tRNA ligase, mitochondrial	OK/SW-cl.10
+AIFM2	Ferroptosis suppressor protein 1	AMID|PRG3
+EDNRA	Endothelin-1 receptor	ETA|ETRA
+ACSBG2	Long-chain-fatty-acid--CoA ligase ACSBG2	BGR|UNQ2443/PRO5005
+UQCC2	Ubiquinol-cytochrome-c reductase complex assembly factor 2	C6orf125|MNF1
+RSAD1	Radical S-adenosyl methionine domain-containing protein 1, mitochondrial	
+NCBP1	Nuclear cap-binding protein subunit 1	CBP80|NCBP
+CYP27B1	25-hydroxyvitamin D-1 alpha hydroxylase, mitochondrial	CYP1ALPHA|CYP27B
+GABARAPL2	Gamma-aminobutyric acid receptor-associated protein-like 2	FLC3A|GEF2
+SLC39A9	Zinc transporter ZIP9	ZIP9|UNQ714/PRO1377
+UCP2	Dicarboxylate carrier SLC25A8	SLC25A8
+NRP1	Neuropilin-1	NRP|VEGF165R
+C0HLV8	PTEN upstream open reading frame MP31	
+TERT	Telomerase reverse transcriptase	EST2|TCS1|TRT
+GBA1	Lysosomal acid glucosylceramidase	GBA|GC|GLUC
+OXCT1	Succinyl-CoA:3-ketoacid coenzyme A transferase 1, mitochondrial	OXCT|SCOT
+PDCD5	Programmed cell death protein 5	TFAR19
+ABCB8	Mitochondrial potassium channel ATP-binding subunit	MABC1|MITOSUR
+RRM1	Ribonucleoside-diphosphate reductase large subunit	RR1
+DTYMK	Thymidylate kinase	CDC8|TMPK|TYMK
+ATP5PB	ATP synthase F(0) complex subunit B1, mitochondrial	ATP5F1
+MLLT11	Protein AF1q	AF1Q
+CYP24A1	1,25-dihydroxyvitamin D(3) 24-hydroxylase, mitochondrial	CYP24
+ABCD1	ATP-binding cassette sub-family D member 1	ALD
+IMMP2L	Mitochondrial inner membrane protease subunit 2	
+TMEM177	Transmembrane protein 177	
+SELENOO	Protein adenylyltransferase SelO, mitochondrial	SELO
+HIGD1B	HIG1 domain family member 1B	
+ARMCX1	Armadillo repeat-containing X-linked protein 1	ALEX1|AD032
+PAK5	Serine/threonine-protein kinase PAK 5	KIAA1264|PAK7
+USP36	Ubiquitin carboxyl-terminal hydrolase 36	KIAA1453
+MEF2A	Myocyte-specific enhancer factor 2A	MEF2
+LRRK1	Leucine-rich repeat serine/threonine-protein kinase 1	KIAA1790
+VPS54	Vacuolar protein sorting-associated protein 54	HCC8
+ACSF3	Malonate--CoA ligase ACSF3, mitochondrial	PSEC0197
+YME1L1	ATP-dependent zinc metalloprotease YME1L1	FTSH1|YME1L|UNQ1868/PRO4304
+CYP27C1	Cytochrome P450 27C1	
+NUDT9	ADP-ribose pyrophosphatase, mitochondrial	NUDT10|PSEC0099|UNQ3012/PRO9771
+NADK2	NAD kinase 2, mitochondrial	C5orf33|MNADK|NADKD1
+UBL4B	Ubiquitin-like protein 4B	
+WIPI1	WD repeat domain phosphoinositide-interacting protein 1	WIPI49
+WDR45B	WD repeat domain phosphoinositide-interacting protein 3	WDR45L|WIPI3
+UQCC4	Ubiquinol-cytochrome-c reductase complex assembly factor 4	C16orf91|CCSMST1
+CMC1	COX assembly mitochondrial protein homolog	C3orf68
+MRPL10	Large ribosomal subunit protein uL10m	MRPL8|RPML8
+MRPL55	Large ribosomal subunit protein mL55	UNQ5835/PRO19675
+SDHAF1	Succinate dehydrogenase assembly factor 1, mitochondrial	LYRM8
+MCCC2	Methylcrotonoyl-CoA carboxylase beta chain, mitochondrial	MCCB
+CYP2D7	Putative cytochrome P450 2D7	
+PUS10	tRNA pseudouridine synthase Pus10	CCDC139|DOBI
+ARHGAP11B	Inactive Rho GTPase-activating protein 11B	FAM7B1
+TOMM7	Mitochondrial import receptor subunit TOM7 homolog	TOM7|TOMM07|AD-014
+SPHKAP	A-kinase anchor protein SPHKAP	KIAA1678|SKIP
+TMEM14C	Transmembrane protein 14C	C6orf53|HSPC194
+CYC1	Cytochrome c1, heme protein, mitochondrial	
+UBC	Polyubiquitin-C	
+HDAC6	Histone deacetylase 6	KIAA0901|JM21
+PDE12	2',5'-phosphodiesterase 12	
+OLFM4	Olfactomedin-4	GW112|UNQ362/PRO698
+TPPP	Tubulin polymerization-promoting protein	TPPP1
+ATG12	Ubiquitin-like protein ATG12	APG12|APG12L
+TRAF3IP3	TRAF3-interacting JNK-activating modulator	T3JAM
+TMEM8B	Transmembrane protein 8B	C9orf127|NGX6
+RIMOC1	RAB7A-interacting MON1-CCZ1 complex subunit 1	C5orf51
+COX4I1	Cytochrome c oxidase subunit 4 isoform 1, mitochondrial	COX4
+UNG	Uracil-DNA glycosylase	DGU|UNG1|UNG15
+OXR1	Oxidation resistance protein 1	Nbla00307
+CBR4	3-oxoacyl-[acyl-carrier-protein] reductase	SDR45C1
+ATP5MGL	Putative ATP synthase subunit g 2, mitochondrial	ATP5K2|ATP5L2
+CHCHD4	Mitochondrial intermembrane space import and assembly protein 40	MIA40
+DNLZ	DNL-type zinc finger protein	C9orf151
+BCO2	Carotenoid-cleaving dioxygenase, mitochondrial	BCDO2
+CFAP91	Cilia- and flagella-associated protein 91	AAT1|C3orf15|MAATS1
+S100A1	Protein S100-A1	S100A
+ATG2A	Autophagy-related protein 2 homolog A	KIAA0404
+HKDC1	Hexokinase HKDC1	
+TOMM5	Mitochondrial import receptor subunit TOM5 homolog	C9orf105|TOM5
+FTMT	Ferritin, mitochondrial	
+COX8C	Cytochrome c oxidase subunit 8C, mitochondrial	
+AKR1B15	Aldo-keto reductase family 1 member B15	
+MRPL24	Large ribosomal subunit protein uL24m	
+PCF11	Pre-mRNA cleavage complex 2 protein Pcf11	KIAA0824
+SLC25A28	Mitoferrin-2	MFRN2|NPD016
+GLS	Glutaminase kidney isoform, mitochondrial	GLS1|KIAA0838
+SLC25A39	Probable mitochondrial glutathione transporter SLC25A39	CGI-69|PRO2163
+MAP2K1	Dual specificity mitogen-activated protein kinase kinase 1	MEK1|PRKMK1
+EP300	Histone acetyltransferase p300	P300
+KMO	Kynurenine 3-monooxygenase	
+VHL	von Hippel-Lindau disease tumor suppressor	
+ATP7B	Copper-transporting ATPase 2	PWD|WC1|WND
+CMPK2	UMP-CMP kinase 2, mitochondrial	
+GLRX5	Glutaredoxin-related protein 5, mitochondrial	C14orf87
+IFI27	Interferon alpha-inducible protein 27, mitochondrial	
+CREBZF	CREB/ATF bZIP transcription factor	ZF
+DDIT3	DNA damage-inducible transcript 3 protein	CHOP|CHOP10|GADD153
+BNIP1	Vesicle transport protein SEC20	NIP1|SEC20L|TRG8
+RAC2	Ras-related C3 botulinum toxin substrate 2	
+NOL6	Nucleolar protein 6	
+BSG	Basigin	UNQ6505/PRO21383
+TOMM22	Mitochondrial import receptor subunit TOM22 homolog	TOM22
+TNFSF10	Tumor necrosis factor ligand superfamily member 10	APO2L|TRAIL
+NUDT2	Bis(5'-nucleosyl)-tetraphosphatase [asymmetrical]	APAH1
+DCTPP1	dCTP pyrophosphatase 1	XTP3TPA|CDA03
+TRAP1	Heat shock protein 75 kDa, mitochondrial	HSP75
+MRPL54	Large ribosomal subunit protein mL54	
+GLUL	Glutamine synthetase	GLNS
+PRELID3A	PRELI domain containing protein 3A	C18orf43|SLMO1
+ECHS1	Enoyl-CoA hydratase, mitochondrial	
+PEX5	Peroxisomal targeting signal 1 receptor	PXR1
+VDAC2	Voltage-dependent anion-selective channel protein 2	
+ILF3	Interleukin enhancer-binding factor 3	DRBF|MPHOSPH4|NF90
+PIGBOS1	Protein PIGBOS1	
+GATD3B	Putative glutamine amidotransferase-like class 1 domain-containing protein 3B, mitochondrial	HES1|KNPI
+ATP5F1D	ATP synthase subunit delta, mitochondrial	ATP5D
+PRDX3	Thioredoxin-dependent peroxide reductase, mitochondrial	AOP1
+PRDX5	Peroxiredoxin-5, mitochondrial	ACR1|SBBI10
+PRDX6	Peroxiredoxin-6	AOP2|KIAA0106
+MTHFD2	Bifunctional methylenetetrahydrofolate dehydrogenase/cyclohydrolase, mitochondrial	NMDMC
+ABCG1	ATP-binding cassette sub-family G member 1	ABC8|WHT1
+ALDH4A1	Delta-1-pyrroline-5-carboxylate dehydrogenase, mitochondrial	ALDH4|P5CDH
+ATP5MF	ATP synthase subunit f, mitochondrial	ATP5J2|ATP5JL
+IDH3A	Isocitrate dehydrogenase [NAD] subunit alpha, mitochondrial	
+SLC25A33	Solute carrier family 25 member 33	
+LIPT2	Putative lipoyltransferase 2, mitochondrial	
+ACOD1	Cis-aconitate decarboxylase	IRG1
+GFER	FAD-linked sulfhydryl oxidase ALR	ALR|HERV1|HPO
+NPEPPS	Puromycin-sensitive aminopeptidase	PSA
+BDH1	D-beta-hydroxybutyrate dehydrogenase, mitochondrial	BDH|SDR9C1
+CYP27A1	Sterol 26-hydroxylase, mitochondrial	CYP27
+CYP1A1	Cytochrome P450 1A1	
+DMPK	Myotonin-protein kinase	DM1PK|MDPK
+PHB1	Prohibitin 1	PHB
+MRPS18A	Large ribosomal subunit protein mL66	
+OAT	Ornithine aminotransferase, mitochondrial	
+NDUFS1	NADH-ubiquinone oxidoreductase 75 kDa subunit, mitochondrial	
+ACADL	Long-chain specific acyl-CoA dehydrogenase, mitochondrial	
+RALBP1	RalA-binding protein 1	RLIP|RLIP1|RLIP76
+KRAS	GTPase KRas	KRAS2|RASK2
+PRKCD	Protein kinase C delta type	PKCD
+VAT1	Synaptic vesicle membrane protein VAT-1 homolog	
+MTERF1	Transcription termination factor 1, mitochondrial	MTERF
+JARID2	Protein Jumonji	JMJ
+CHCHD10	Coiled-coil-helix-coiled-coil-helix domain-containing protein 10, mitochondrial	C22orf16
+BCL2L2	Bcl-2-like protein 2	BCLW|KIAA0271
+P2RX7	P2X purinoceptor 7	
+CTSK	Cathepsin K	CTSO|CTSO2
+LIPA	Lysosomal acid lipase/cholesteryl ester hydrolase	
+ATP2A2	Sarcoplasmic/endoplasmic reticulum calcium ATPase 2	ATP2B
+TIMM17A	Mitochondrial import inner membrane translocase subunit Tim17-A	MIMT17|TIM17|TIM17A|TIMM17
+KLK6	Kallikrein-6	PRSS18|PRSS9
+ACADM	Medium-chain specific acyl-CoA dehydrogenase, mitochondrial	
+PTPN1	Tyrosine-protein phosphatase non-receptor type 1	PTP1B
+PSMB4	Proteasome subunit beta type-4	PROS26
+SAMM50	Sorting and assembly machinery component 50 homolog	SAM50|CGI-51|TRG3
+NPTX1	Neuronal pentraxin-1	
+PPP2R2B	Serine/threonine-protein phosphatase 2A 55 kDa regulatory subunit B beta isoform	
+STPG1	O(6)-methylguanine-induced apoptosis 2	C1orf201
+DGLUCY	D-glutamate cyclase, mitochondrial	C14orf159|UNQ2439/PRO5000
+TGM2	Protein-glutamine gamma-glutamyltransferase 2	
+MOBP	Myelin-associated oligodendrocyte basic protein	
+GSTK1	Glutathione S-transferase kappa 1	HDCMD47P
+ATG9A	Autophagy-related protein 9A	APG9L1
+LONP1	Lon protease homolog, mitochondrial	PRSS15
+PLAAT3	Phospholipase A and acyltransferase 3	HRASLS3|HREV107|PLA2G16
+BCKDHB	2-oxoisovalerate dehydrogenase subunit beta, mitochondrial	
+KYAT3	Kynurenine--oxoglutarate transaminase 3	CCBL2|KAT3
+ZNF217	Zinc finger protein 217	ZABC1
+SDHB	Succinate dehydrogenase [ubiquinone] iron-sulfur subunit, mitochondrial	SDH|SDH1
+SLC35F6	Solute carrier family 35 member F6	C2orf18|UNQ3047/PRO9863
+MOAP1	Modulator of apoptosis 1	PNMA4
+BAG3	BAG family molecular chaperone regulator 3	BIS
+PID1	PTB-containing, cubilin and LRP1-interacting protein	NYGGF4|PCLI1|HMFN2073
+MRPL21	Large ribosomal subunit protein bL21m	
+ANXA6	Annexin A6	ANX6
+BHLHA15	Class A basic helix-loop-helix protein 15	BHLHB8|MIST1
+CPT1B	Carnitine O-palmitoyltransferase 1, muscle isoform	KIAA1670
+FPGS	Folylpolyglutamate synthase, mitochondrial	
+SIAH3	Seven in absentia homolog 3	
+MRPS2	Small ribosomal subunit protein uS2m	CGI-91
+FUNDC1	FUN14 domain-containing protein 1	
+FASTKD5	FAST kinase domain-containing protein 5, mitochondrial	KIAA1792
+UBE2J2	Ubiquitin-conjugating enzyme E2 J2	NCUBE2
+BAP1	Ubiquitin carboxyl-terminal hydrolase BAP1	KIAA0272|hucep-6
+PYROXD2	Pyridine nucleotide-disulfide oxidoreductase domain-containing protein 2	C10orf33
+ARMC10	Armadillo repeat-containing protein 10	SVH|PSEC0198
+BPHL	Valacyclovir hydrolase	MCNAA
+SLC25A53	Solute carrier family 25 member 53	MCART6
+PLD6	Mitochondrial cardiolipin hydrolase	
+MAPK12	Mitogen-activated protein kinase 12	ERK6|SAPK3
+CAPN10	Calpain-10	KIAA1845
+SLC25A3	Solute carrier family 25 member 3	PHC|OK/SW-cl.48
+ATP5MC3	ATP synthase F(0) complex subunit C3, mitochondrial	ATP5G3
+USP30	Ubiquitin carboxyl-terminal hydrolase 30	
+TOMM6	Mitochondrial import receptor subunit TOM6 homolog	OBTP|TOM6
+C1QBP	Complement component 1 Q subcomponent-binding protein, mitochondrial	GC1QBP|HABP1|SF2P32
+ABCD3	ATP-binding cassette sub-family D member 3	PMP70|PXMP1
+CNR1	Cannabinoid receptor 1	CNR
+IDH2	Isocitrate dehydrogenase [NADP], mitochondrial	
+NDUFAF7	Protein arginine methyltransferase NDUFAF7, mitochondrial	C2orf56|PRO1853
+C15orf62	Uncharacterized protein C15orf62, mitochondrial	
+AMT	Aminomethyltransferase, mitochondrial	GCST
+CDK1	Cyclin-dependent kinase 1	CDC2|CDC28A|CDKN1|P34CDC2
+ARMCX6	Protein ARMCX6	
+PDHB	Pyruvate dehydrogenase E1 component subunit beta, mitochondrial	PHE1B
+RPS27A	Ubiquitin-ribosomal protein eS31 fusion protein	UBA80|UBCEP1
+PHB2	Prohibitin-2	BAP|REA
+BAD	Bcl2-associated agonist of cell death	BBC6|BCL2L8
+BRI3BP	BRI3-binding protein	KG19
+CRAT	Carnitine O-acetyltransferase	CAT1
+GCDH	Glutaryl-CoA dehydrogenase, mitochondrial	
+AKT1	RAC-alpha serine/threonine-protein kinase	PKB|RAC
+TMEM14EP	Transmembrane protein 14EP	TMEM14E|UNQ9344/PRO34067
+JTB	Protein JTB	HSPC222
+RALA	Ras-related protein Ral-A	RAL
+ATP5F1B	ATP synthase subunit beta, mitochondrial	ATP5B|ATPMB|ATPSB
+TOMM34	Mitochondrial import receptor subunit TOM34	URCC3
+MIGA2	Mitoguardin 2	C9orf54|FAM73B|PSEC0112
+SYNE2	Nesprin-2	KIAA1011|NUA
+CPT1C	Carnitine O-palmitoyltransferase 1, brain isoform	CATL1
+HCCS	Holocytochrome c-type synthase	CCHL
+DHX32	Putative pre-mRNA-splicing factor ATP-dependent RNA helicase DHX32	DDX32
+THEM5	Acyl-coenzyme A thioesterase THEM5	ACOT15
+FKBP10	Peptidyl-prolyl cis-trans isomerase FKBP10	FKBP65|PSEC0056
+NSUN4	5-methylcytosine rRNA methyltransferase NSUN4	
+NIT1	Deaminated glutathione amidase	
+PNPT1	Polyribonucleotide nucleotidyltransferase 1, mitochondrial	PNPASE
+RNASEL	2-5A-dependent ribonuclease	RNS4
+FBXO7	F-box only protein 7	FBX7
+GPAM	Glycerol-3-phosphate acyltransferase 1, mitochondrial	GPAT1|KIAA1560
+MTHFD1	C-1-tetrahydrofolate synthase, cytoplasmic	MTHFC|MTHFD
+GTPBP10	GTP-binding protein 10	OBGH2|UG0751c10
+TP53AIP1	p53-regulated apoptosis-inducing protein 1	
+LRRK2	Leucine-rich repeat serine/threonine-protein kinase 2	PARK8
+LYRM4	LYR motif-containing protein 4	C6orf149|ISD11|CGI-203
+VDAC1	Voltage-dependent anion-selective channel protein 1	VDAC
+NDUFAF5	Arginine-hydroxylase NDUFAF5, mitochondrial	C20orf7
+NDUFB1	NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 1	
+PMPCB	Mitochondrial-processing peptidase subunit beta	MPPB
+PUSL1	tRNA pseudouridine synthase-like 1	
+TTC5	Tetratricopeptide repeat protein 5	
+SLC8B1	Mitochondrial sodium/calcium exchanger protein	NCKX6|NCLX|SLC24A6
+MAPK1	Mitogen-activated protein kinase 1	ERK2|PRKM1|PRKM2
+CLYBL	Citramalyl-CoA lyase, mitochondrial	CLB
+SLC25A1	Tricarboxylate transport protein, mitochondrial	SLC20A3
+ACSL1	Long-chain-fatty-acid--CoA ligase 1	FACL1|FACL2|LACS|LACS1|LACS2
+HSDL2	Hydroxysteroid dehydrogenase-like protein 2	C9orf99|SDR13C1
+RBFA	Putative ribosome-binding factor A, mitochondrial	C18orf22
+CCAR2	Cell cycle and apoptosis regulator protein 2	DBC1|KIAA1967
+NAGS	N-acetylglutamate synthase, mitochondrial	
+PLAAT1	Phospholipase A and acyltransferase 1	HRASLS
+RHOT2	Mitochondrial Rho GTPase 2	ARHT2|C16orf39
+CLPX	ATP-dependent Clp protease ATP-binding subunit clpX-like, mitochondrial	
+RSAD2	S-adenosylmethionine-dependent nucleotide dehydratase RSAD2	CIG5
+SLC25A36	Solute carrier family 25 member 36	
+NUDT6	Nucleoside diphosphate-linked moiety X motif 6	FGF2AS
+MGST1	Microsomal glutathione S-transferase 1	GST12|MGST
+FOXO3B	Forkhead box protein O3B	
+ARFIP2	Arfaptin-2	POR1
+ELK3	ETS domain-containing protein Elk-3	NET|SAP2
+MT-ATP6	ATP synthase subunit a	ATP6|ATPASE6|MTATP6
+TSC22D1	TSC22 domain family protein 1	KIAA1994|TGFB1I4|TSC22|hucep-2
+CCNB1	G2/mitotic-specific cyclin-B1	CCNB
+COX5A	Cytochrome c oxidase subunit 5A, mitochondrial	
+DCK	Deoxycytidine kinase	
+SHMT2	Serine hydroxymethyltransferase, mitochondrial	
+ETFB	Electron transfer flavoprotein subunit beta	FP585
+COQ8B	Atypical kinase COQ8B, mitochondrial	ADCK4
+HTT	Huntingtin	HD|IT15
+ATPAF1	ATP synthase mitochondrial F1 complex assembly factor 1	ATP11
+PARS2	Probable proline--tRNA ligase, mitochondrial	
+RTN4IP1	Reticulon-4-interacting protein 1, mitochondrial	NIMP
+MYOC	Myocilin	GLC1A|TIGR
+ABHD11	Protein ABHD11	WBSCR21|PP1226
+DNAJA1	DnaJ homolog subfamily A member 1	DNAJ2|HDJ2|HSJ2|HSPF4
+NEU4	Sialidase-4	LP5125
+NUDT8	Mitochondrial coenzyme A diphosphatase NUDT8	
+NME4	Nucleoside diphosphate kinase, mitochondrial	NM23D
+GTPBP8	GTP-binding protein 8	
+CIBAR1	CBY1-interacting BAR domain-containing protein 1	FAM92A|FAM92A1
+PNKD	Probable hydrolase PNKD	KIAA1184|MR1|TAHCCP2|FKSG19|UNQ2491/PRO5778
+ECHDC2	Enoyl-CoA hydratase domain-containing protein 2, mitochondrial	
+D2HGDH	D-2-hydroxyglutarate dehydrogenase, mitochondrial	D2HGD
+GUF1	Translation factor GUF1, mitochondrial	
+PIWIL4	Piwi-like protein 4	HIWI2|PIWI
+VPS13D	Intermembrane lipid transfer protein VPS13D	KIAA0453
+HSP90AB1	Heat shock protein HSP 90-beta	HSP90B|HSPC2|HSPCB
+SLC25A45	Solute carrier family 25 member 45	
+PMPCA	Mitochondrial-processing peptidase subunit alpha	INPP5E|KIAA0123|MPPA
+TMBIM6	Bax inhibitor 1	BI1|TEGT
+MAVS	Mitochondrial antiviral-signaling protein	IPS1|KIAA1271|VISA
+PUM2	Pumilio homolog 2	KIAA0235|PUMH2
+PPM1K	Protein phosphatase 1K, mitochondrial	PP2CM
+METTL4	N(6)-adenine-specific methyltransferase METTL4	
+MAP1LC3B2	Microtubule-associated proteins 1A/1B light chain 3 beta 2	
+RNF144B	E3 ubiquitin-protein ligase RNF144B	IBRDC2|P53RFP
+ADH5	Alcohol dehydrogenase class-3	ADHX|FDH
+MYH14	Myosin-14	KIAA2034|FP17425
+CEND1	Cell cycle exit and neuronal differentiation protein 1	BM88
+SDHC	Succinate dehydrogenase cytochrome b560 subunit, mitochondrial	CYB560|SDH3
+PC	Pyruvate carboxylase, mitochondrial	
+PARP9	Protein mono-ADP-ribosyltransferase PARP9	BAL|BAL1
+TFAP2C	Transcription factor AP-2 gamma	
+SFN	14-3-3 protein sigma	HME1
+CASP14	Caspase-14	
+PARK7	Parkinson disease protein 7	
+HIBADH	3-hydroxyisobutyrate dehydrogenase, mitochondrial	
+UQCRC1	Cytochrome b-c1 complex subunit 1, mitochondrial	
+GPD2	Glycerol-3-phosphate dehydrogenase, mitochondrial	
+HSPA9	Stress-70 protein, mitochondrial	GRP75|HSPA9B|mt-HSP70
+CEP89	Centrosomal protein of 89 kDa	CCDC123
+SUCLG1	Succinate--CoA ligase [ADP/GDP-forming] subunit alpha, mitochondrial	
+PGR	Progesterone receptor	NR3C3
+RHBDD1	Rhomboid-related protein 4	RHBDL4|HSD-50|HSD50
+PYCR2	Pyrroline-5-carboxylate reductase 2	
+ZBTB6	Zinc finger and BTB domain-containing protein 6	ZID|ZNF482
+ENOSF1	Mitochondrial enolase superfamily member 1	RTS|TYMSAS
+DBT	Lipoamide acyltransferase component of branched-chain alpha-keto acid dehydrogenase complex, mitochondrial	BCATE2
+TIMM10B	Mitochondrial import inner membrane translocase subunit Tim10 B	FXC1|TIM9B|TIMM9B
+TIMM9	Mitochondrial import inner membrane translocase subunit Tim9	TIM9|TIM9A|TIMM9A
+SLC25A20	Mitochondrial carnitine/acylcarnitine carrier protein	CAC|CACT
+SLC44A1	Choline transporter-like protein 1	CD92|CDW92|CTL1
+ACSM2A	Acyl-coenzyme A synthetase ACSM2A, mitochondrial	ACSM2|MACS2
+ACSM1	Acyl-coenzyme A synthetase ACSM1, mitochondrial	BUCS1|LAE|MACS1
+SPIRE1	Protein spire homolog 1	KIAA1135|SPIR1
+SLC25A15	Mitochondrial ornithine transporter 1	ORC1|ORNT1|SP1855
+ACO1	Cytoplasmic aconitate hydratase	IREB1
+MAOA	Amine oxidase [flavin-containing] A	
+LACTB2	Endoribonuclease LACTB2	CGI-83
+EPAS1	Endothelial PAS domain-containing protein 1	BHLHE73|HIF2A|MOP2|PASD2
+ACACB	Acetyl-CoA carboxylase 2	ACC2|ACCB
+HEMK1	MTRF1L release factor glutamine methyltransferase	HEMK
+DCAF8	DDB1- and CUL4-associated factor 8	H326|WDR42A
+PPP6C	Serine/threonine-protein phosphatase 6 catalytic subunit	PPP6
+PSMB6	Proteasome subunit beta type-6	LMPY|Y
+AGK	Acylglycerol kinase, mitochondrial	MULK
+TFB1M	Dimethyladenosine transferase 1, mitochondrial	CGI-75
+GCLM	Glutamate--cysteine ligase regulatory subunit	GLCLR
+GCLC	Glutamate--cysteine ligase catalytic subunit	GLCL|GLCLC
+ARMC1	Armadillo repeat-containing protein 1	ARCP
+CA5A	Carbonic anhydrase 5A, mitochondrial	CA5
+NDUFB10	NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 10	
+TARDBP	TAR DNA-binding protein 43	TDP43
+MCL1	Induced myeloid leukemia cell differentiation protein Mcl-1	BCL2L3
+BCL2L1	Bcl-2-like protein 1	BCL2L|BCLX
+METTL15	12S rRNA N4-methylcytidine (m4C) methyltransferase	METT5D1
+BAX	Apoptosis regulator BAX	BCL2L4
+COX7A2	Cytochrome c oxidase subunit 7A2, mitochondrial	COX7AL
+ALDH6A1	Methylmalonate-semialdehyde dehydrogenase [acylating], mitochondrial	MMSDH
+DOK7	Protein Dok-7	C4orf25
+HUWE1	E3 ubiquitin-protein ligase HUWE1	KIAA0312|KIAA1578|UREB1|HSPC272
+RHOD	Rho-related GTP-binding protein RhoD	ARHD
+PDHA1	Pyruvate dehydrogenase E1 component subunit alpha, somatic form, mitochondrial	PHE1A
+METTL13	eEF1A lysine and N-terminal methyltransferase	EEF1AKNMT|FEAT|KIAA0859|CGI-01
+SLC25A35	Solute carrier family 25 member 35	
+MTRES1	Mitochondrial transcription rescue factor 1	C6orf203|HSPC230
+HINT2	Adenosine 5'-monophosphoramidase HINT2	
+STING1	Stimulator of interferon genes protein	ERIS|MITA|STING|TMEM173
+MRPL27	Large ribosomal subunit protein bL27m	HSPC250
+MRPL36	Large ribosomal subunit protein bL36m	BRIP1
+NDUFA13	NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 13	GRIM19|CDA016|CGI-39
+CLIC1	Chloride intracellular channel protein 1	G6|NCC27
+MMP9	Matrix metalloproteinase-9	CLG4B
+SUGCT	Succinate--hydroxymethylglutarate CoA-transferase	C7orf10|DERP13
+SLC30A9	Proton-coupled zinc antiporter SLC30A9, mitochondrial	C4orf1|HUEL
+SESN2	Sestrin-2	Hi95|SEST2
+TICAM1	TIR domain-containing adapter molecule 1	PRVTIRB|TRIF
+IDE	Insulin-degrading enzyme	
+UBL5	Ubiquitin-like protein 5	
+GADD45GIP1	Large ribosomal subunit protein mL64	MRPL59|PLINP1|PRG6
+SLC9B2	Sodium/hydrogen exchanger 9B2	NHA2|NHEDC2
+GRPEL2	GrpE protein homolog 2, mitochondrial	
+TRAFD1	TRAF-type zinc finger domain-containing protein 1	FLN29
+TMEM135	Transmembrane protein 135	
+PLAUR	Urokinase plasminogen activator surface receptor	MO3|UPAR
+MRPL37	Large ribosomal subunit protein mL37	MRPL2|RPML2|HSPC235
+HSPB6	Heat shock protein beta-6	
+SLC29A3	Equilibrative nucleoside transporter 3	ENT3|UNQ717/PRO1380
+PRKN	E3 ubiquitin-protein ligase parkin	PARK2
+ACSM5	Acyl-coenzyme A synthetase ACSM5, mitochondrial	MACS3
+SLC25A24	Mitochondrial adenyl nucleotide antiporter SLC25A24	APC1|MCSC1|SCAMC1
+LIG1	DNA ligase 1	
+ATP5PF	ATP synthase-coupling factor 6, mitochondrial	ATP5A|ATP5J|ATPM
+ALKBH1	Nucleic acid dioxygenase ALKBH1	ABH|ABH1|ALKBH
+GPAT2	Glycerol-3-phosphate acyltransferase 2, mitochondrial	
+YRDC	Threonylcarbamoyl-AMP synthase	DRIP3|IRIP
+LOC122513141	RING-type domain-containing protein	
+ADCK1	AarF domain-containing protein kinase 1	
+LDHAL6B	L-lactate dehydrogenase A-like 6B	LDHAL6|LDHL
+RAB32	Ras-related protein Rab-32	
+SARM1	NAD(+) hydrolase SARM1	KIAA0524|SAMD2|SARM
+LACTB	Serine beta-lactamase-like protein LACTB, mitochondrial	MRPL56|UNQ843/PRO1781
+IFIH1	Interferon-induced helicase C domain-containing protein 1	MDA5|RH116
+ARMC12	Armadillo repeat-containing protein 12	C6orf81
+MRPL52	Large ribosomal subunit protein mL52	
+NDUFAF8	NADH dehydrogenase [ubiquinone] 1 alpha subcomplex assembly factor 8	C17orf89
+AGXT2	Alanine--glyoxylate aminotransferase 2, mitochondrial	AGT2
+PDP1	[Pyruvate dehydrogenase [acetyl-transferring]]-phosphatase 1, mitochondrial	PDP|PPM2C
+NNT	NAD(P) transhydrogenase, mitochondrial	
+FASTKD1	FAST kinase domain-containing protein 1, mitochondrial	KIAA1800
+MRPL49	Large ribosomal subunit protein mL49	C11orf4|NOF1|OK/SW-cl.67
+CAPRIN2	Caprin-2	C1QDC1|EEG1|KIAA1873|RNG140
+COA8	Cytochrome c oxidase assembly factor 8	APOP1|APOPT1|C14orf153
+COQ3	Ubiquinone biosynthesis O-methyltransferase, mitochondrial	UG0215E05
+SACS	Sacsin	KIAA0730
+HSPA4	Heat shock 70 kDa protein 4	APG2
+HSPA1L	Heat shock 70 kDa protein 1-like	
+COX16	Cytochrome c oxidase assembly protein COX16 homolog, mitochondrial	C14orf112|HSPC203|PTD019
+MRPL35	Large ribosomal subunit protein bL35m	BM-007
+WWOX	WW domain-containing oxidoreductase	FOR|SDR41C1|WOX1
+TREM2	Triggering receptor expressed on myeloid cells 2	
+SFXN3	Sideroflexin-3	
+FGR	Tyrosine-protein kinase Fgr	SRC2
+C1orf43	Protein C1orf43	NICE3|NS5ATP4|HSPC012
+MRPL46	Large ribosomal subunit protein mL46	C15orf4|LIECG2
+CLIC5	Chloride intracellular channel protein 5	
+BRAT1	BRCA1-associated ATM activator 1	BAAT1|C7orf27
+SLC25A26	Mitochondrial S-adenosylmethionine carrier protein	SAMC
+HIGD1C	HIG1 domain family member 1C	UBIE|UBIE2
+FUNDC2	FUN14 domain-containing protein 2	HCBP6|DC44|HCC3|PD03104
+AK4P3	Adenylate kinase 4, mitochondrial	AK3L1|AK4
+ABCE1	ATP-binding cassette sub-family E member 1	RLI|RNASEL1|RNASELI|RNS4I|OK/SW-cl.40
+YKT6	Synaptobrevin homolog YKT6	
+NDUFA6	NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 6	LYRM6|NADHB14
+SLC25A37	Mitoferrin-1	MFRN|MSCP|HT015
+FASTKD2	FAST kinase domain-containing protein 2, mitochondrial	KIAA0971
+ACAT2	Acetyl-CoA acetyltransferase, cytosolic	ACTL
+BCKDK	[3-methyl-2-oxobutanoate dehydrogenase [lipoamide]] kinase, mitochondrial	
+CSKMT	Citrate synthase-lysine N-methyltransferase CSKMT, mitochondrial	METTL12
+MGST3	Glutathione S-transferase 3, mitochondrial	
+POLR1G	DNA-directed RNA polymerase I subunit RPA34	ASE1|CAST|CD3EAP|PAF49
+SOD2	Superoxide dismutase [Mn], mitochondrial	
+TYMP	Thymidine phosphorylase	ECGF1
+TNRC18	Trinucleotide repeat-containing gene 18 protein	CAGL79|KIAA1856
+CISD1	CDGSH iron-sulfur domain-containing protein 1	C10orf70|ZCD1|MDS029
+NR3C1	Glucocorticoid receptor	GRL
+ACTR10	Actin-related protein 10	ACTR11|ARP10|ARP11
+SLC25A34	Solute carrier family 25 member 34	
+BIK	Bcl-2-interacting killer	NBK
+RMDN3	Regulator of microtubule dynamics protein 3	FAM82A2|FAM82C|PTPIP51|UNQ3122/PRO10274|hucep-10
+BOLA3	BolA-like protein 3	
+TIMM21	Mitochondrial import inner membrane translocase subunit Tim21	C18orf55|TIM21|HSPC154
+MRPL39	Large ribosomal subunit protein mL39	C21orf92|MRPL5|RPML5|MSTP003|PRED22
+COA4	Cytochrome c oxidase assembly factor 4 homolog, mitochondrial	CHCHD8|E2IG2
+TRMT61B	tRNA (adenine(58)-N(1))-methyltransferase, mitochondrial	
+PLA2G4F	Cytosolic phospholipase A2 zeta	
+TRIM27	Zinc finger protein RFP	RFP|RNF76
+CDK5RAP1	Mitochondrial tRNA methylthiotransferase CDK5RAP1	C20orf34|CGI-05|HSPC167
+COX6C	Cytochrome c oxidase subunit 6C	
+HCLS1	Hematopoietic lineage cell-specific protein	HS1
+NMNAT3	Nicotinamide/nicotinic acid mononucleotide adenylyltransferase 3	FKSG76
+DLD	Dihydrolipoyl dehydrogenase, mitochondrial	GCSL|LAD|PHE3
+HAT1	Histone acetyltransferase type B catalytic subunit	KAT1
+SECISBP2	Selenocysteine insertion sequence-binding protein 2	SBP2
+HMOX1	Heme oxygenase 1	HO|HO1
+STOM	Stomatin	BND7|EPB72
+BCAT2	Branched-chain-amino-acid aminotransferase, mitochondrial	BCATM|BCT2|ECA40
+MRPL2	Large ribosomal subunit protein uL2m	CGI-22
+AURKA	Aurora kinase A	AIK|AIRK1|ARK1|AURA|AYK1|BTAK|IAK1|STK15|STK6
+SLC25A25	Mitochondrial adenyl nucleotide antiporter SLC25A25	APC3|KIAA1896|MCSC3|SCAMC2|UNQ549/PRO1106
+EYA2	Eyes absent homolog 2	EAB1
+HAX1	HCLS1-associated protein X-1	HS1BP1
+SNAP23	Synaptosomal-associated protein 23	
+RGS2	Regulator of G-protein signaling 2	G0S8|GIG31
+ACOT7	Cytosolic acyl coenzyme A thioester hydrolase	BACH
+CPOX	Oxygen-dependent coproporphyrinogen-III oxidase, mitochondrial	CPO|CPX
+FZD9	Frizzled-9	FZD3
+TK2	Thymidine kinase 2, mitochondrial	
+SGK1	Serine/threonine-protein kinase Sgk1	SGK
+ATP5F1C	ATP synthase subunit gamma, mitochondrial	ATP5C|ATP5C1|ATP5CL1
+RNF185	E3 ubiquitin-protein ligase RNF185	
+GLOD4	Glyoxalase domain-containing protein 4	C17orf25|CGI-150|My027
+MRM3	rRNA methyltransferase 3, mitochondrial	RNMTL1|HC90
+NOD2	Nucleotide-binding oligomerization domain-containing protein 2	CARD15
+SLC25A19	Mitochondrial thiamine pyrophosphate carrier	DNC|MUP1
+AGPS	Alkyldihydroxyacetonephosphate synthase, peroxisomal	AAG5
+GLYCTK	Glycerate kinase	HBEBP4|LP5910
+NAXD	ATP-dependent (S)-NAD(P)H-hydrate dehydratase	CARKD
+MCAT	Malonyl-CoA-acyl carrier protein transacylase, mitochondrial	MT
+MAP2K2	Dual specificity mitogen-activated protein kinase kinase 2	MEK2|MKK2|PRKMK2
+FAM110B	Protein FAM110B	C8orf72
+SPATA18	Mitochondria-eating protein	MIEAP
+WASF1	Actin-binding protein WASF1	KIAA0269|SCAR1|WAVE1
+MRPS27	Small ribosomal subunit protein mS27	KIAA0264
+TP53	Cellular tumor antigen p53	P53
+AUH	Methylglutaconyl-CoA hydratase, mitochondrial	
+RNF5	E3 ubiquitin-protein ligase RNF5	G16|NG2|RMA1
+PARG	Poly(ADP-ribose) glycohydrolase	
+SLC25A40	Probable mitochondrial glutathione transporter SLC25A40	MCFP
+PDF	Peptide deformylase, mitochondrial	PDF1A
+GLYATL3	Glycine N-acyltransferase-like protein 3	C6orf140
+PACS2	Phosphofurin acidic cluster sorting protein 2	KIAA0602|PACS1L
+ZFYVE1	Zinc finger FYVE domain-containing protein 1	DFCP1|KIAA1589|TAFF1|ZNFN2A1|PP10436
+MMAA	Methylmalonic aciduria type A protein, mitochondrial	
+MT-RNR2	Humanin	HN
+SAMD9L	Sterile alpha motif domain-containing protein 9-like	C7orf6|DRIF2|KIAA2005|UEF
+COX6B1	Cytochrome c oxidase subunit 6B1	COX6B
+ETNPPL	Ethanolamine-phosphate phospho-lyase	AGXT2L1
+ISCA2	Iron-sulfur cluster assembly 2 homolog, mitochondrial	HBLD1
+NLN	Neurolysin, mitochondrial	AGTBP|KIAA1226
+ATAD3B	ATPase family AAA domain-containing protein 3B	KIAA1273|TOB3
+MISFA	Mitochondrial sheath formation-associated protein	SPTY2D1-AS1|SPTY2D1OS
+ATG4D	Cysteine protease ATG4D	APG4D|AUTL4
+PTS	6-pyruvoyl tetrahydrobiopterin synthase	
+DUT	Deoxyuridine 5'-triphosphate nucleotidohydrolase, mitochondrial	
+PKM	Pyruvate kinase PKM	OIP3|PK2|PK3|PKM2
+UCHL1	Ubiquitin carboxyl-terminal hydrolase isozyme L1	
+IFIT2	Interferon-induced protein with tetratricopeptide repeats 2	CIG-42|G10P2|IFI54|ISG54
+IFI6	Interferon alpha-inducible protein 6	G1P3
+RCC1L	RCC1-like G exchanging factor-like protein	WBSCR16
+MRPL1	Large ribosomal subunit protein uL1m	BM-022
+MRPL4	Large ribosomal subunit protein uL4m	CDABP0091|CGI-28
+MRPL9	Large ribosomal subunit protein bL9m	
+MRPL13	Large ribosomal subunit protein uL13m	
+MRPL20	Large ribosomal subunit protein bL20m	
+MRPL32	Large ribosomal subunit protein bL32m	HSPC283
+OXCT2	Succinyl-CoA:3-ketoacid coenzyme A transferase 2, mitochondrial	FKSG25
+TMEM14DP	Transmembrane protein 14DP	TMEM14D
+CISD2	CDGSH iron-sulfur domain-containing protein 2	CDGSH2|ERIS|ZCD2
+RIPK1	Receptor-interacting serine/threonine-protein kinase 1	RIP|RIP1
+CNTNAP1	Contactin-associated protein 1	CASPR|NRXN4
+HDHD5	Haloacid dehalogenase-like hydrolase domain-containing 5	CECR5
+RAB7A	Ras-related protein Rab-7a	RAB7
+MAP1LC3C	Microtubule-associated proteins 1A/1B light chain 3C	
+SQSTM1	Sequestosome-1	ORCA|OSIL
+MRPL15	Large ribosomal subunit protein uL15m	HSPC145
+QTRT1	Queuine tRNA-ribosyltransferase catalytic subunit 1	TGT|TGUT
+SLC4A5	Electrogenic sodium bicarbonate cotransporter 4	NBC4
+PLA2G2A	Phospholipase A2, membrane associated	PLA2B|PLA2L|RASF-A
+PINK1	Serine/threonine-protein kinase PINK1, mitochondrial	
+CCDC70	Coiled-coil domain-containing protein 70	
+PARP1	Poly [ADP-ribose] polymerase 1	ADPRT|PPOL
+BCL2L13	Bcl-2-like protein 13	MIL1|CD003
+SLC25A2	Mitochondrial ornithine transporter 2	ORC2|ORNT2
+ERCC6L2	DNA excision repair protein ERCC-6-like 2	C9orf102|RAD26L
+GLYATL1B	Putative glycine N-acyltransferase-like protein 1B	
+RAB11FIP5	Rab11 family-interacting protein 5	GAF1|KIAA0857|RIP11
+UBE2L3	Ubiquitin-conjugating enzyme E2 L3	UBCE7|UBCH7
+SLC25A30	Kidney mitochondrial carrier protein 1	KMCP1|UCP6
+STOX1	Storkhead-box protein 1	C10orf24
+ACAT1	Acetyl-CoA acetyltransferase, mitochondrial	ACAT|MAT
+SELENON	Selenoprotein N	SELN|SEPN1
+OGG1	N-glycosylase/DNA lyase	MMH|MUTM|OGH1
+DHRS2	Dehydrogenase/reductase SDR family member 2, mitochondrial	SDR25C1
+RAF1	RAF proto-oncogene serine/threonine-protein kinase	RAF
+CAT	Catalase	
+POU5F1	POU domain, class 5, transcription factor 1	OCT3|OCT4|OTF3
+NFKB1	Nuclear factor NF-kappa-B p105 subunit	
+ACSM2B	Acyl-coenzyme A synthetase ACSM2B, mitochondrial	ACSM2|HYST1046
+GPS2	G protein pathway suppressor 2	
+XPC	DNA repair protein complementing XP-C cells	XPCC
+MTIF2	Translation initiation factor IF-2, mitochondrial	
+DARS2	Aspartate--tRNA ligase, mitochondrial	
+SLC25A48	Solute carrier family 25 member 48	
+MECR	Enoyl-[acyl-carrier-protein] reductase, mitochondrial	NBRF1|CGI-63
+RAB5IF	GEL complex subunit OPTI	C20orf24|OPTI|RCAF1|PNAS-11
+ULK3	Serine/threonine-protein kinase ULK3	
+APOO	MICOS complex subunit MIC26	FAM121B|MIC23|MIC26|My025|UNQ1866/PRO4302
+LRRC10	Leucine-rich repeat-containing protein 10	
+Q6ZSR3	Putative uncharacterized protein FLJ45275, mitochondrial	
+TEX10	Testis-expressed protein 10	L18|Nbla10363
+STAP1	Signal-transducing adaptor protein 1	BRDG1
+EFHD1	EF-hand domain-containing protein D1	SWS2|PP3051
+MRPL43	Large ribosomal subunit protein mL43	
+UBE2D3	Ubiquitin-conjugating enzyme E2 D3	UBC5C|UBCH5C
+NOL3	Nucleolar protein 3	ARC|NOP
+SIRT5	NAD-dependent protein deacylase sirtuin-5, mitochondrial	SIR2L5
+MSTO1	Protein misato homolog 1	LST005|SLTP005
+HGF	Hepatocyte growth factor	HPTA
+CNP	2',3'-cyclic-nucleotide 3'-phosphodiesterase	
+SLC25A42	Mitochondrial coenzyme A transporter SLC25A42	
+STX17	Syntaxin-17	
+PHYKPL	5-phosphohydroxy-L-lysine phospho-lyase	AGXT2L2|PP9286
+HSPE1	10 kDa heat shock protein, mitochondrial	
+TTC19	Tetratricopeptide repeat protein 19, mitochondrial	
+GRPEL1	GrpE protein homolog 1, mitochondrial	GREPEL1
+TMEM126B	Complex I assembly factor TMEM126B, mitochondrial	HT007
+HSP90B2P	Putative endoplasmin-like protein	GRP94B|GRP94P1|TRAP1
+ACOT11	Acyl-coenzyme A thioesterase 11	BFIT|KIAA0707|THEA
+DDX1	ATP-dependent RNA helicase DDX1	
+PMAIP1	Phorbol-12-myristate-13-acetate-induced protein 1	NOXA
+MLXIP	MLX-interacting protein	BHLHE36|KIAA0867|MIR|MONDOA
+ARL2	ADP-ribosylation factor-like protein 2	
+MYG1	MYG1 exonuclease	C12orf10
+CYP2U1	Cytochrome P450 2U1	
+DAP3	Small ribosomal subunit protein mS29	MRPS29
+USP48	Ubiquitin carboxyl-terminal hydrolase 48	USP31
+TRIM31	E3 ubiquitin-protein ligase TRIM31	C6orf13|RNF
+ABHD4	(Lyso)-N-acylphosphatidylethanolamine lipase	
+ETFRF1	Electron transfer flavoprotein regulatory factor 1	LYRM5
+NUBPL	Iron-sulfur protein NUBPL	C14orf127
+GDAP1	Ganglioside-induced differentiation-associated protein 1	
+NTHL1	Endonuclease III-like protein 1	NTH1|OCTS3
+NLRX1	NLR family member X1	NOD5|NOD9
+ARG2	Arginase-2, mitochondrial	
+BLOC1S1	Biogenesis of lysosome-related organelles complex 1 subunit 1	BLOS1|GCN5L1|RT14
+TCAIM	T-cell activation inhibitor, mitochondrial	C3orf23|TOAG1
+MRM1	rRNA methyltransferase 1, mitochondrial	
+TOP3A	DNA topoisomerase 3-alpha	TOP3
+FZD5	Frizzled-5	C2orf31
+TUSC3	Tumor suppressor candidate 3	N33
+COQ5	2-methoxy-6-polyprenyl-1,4-benzoquinol methylase, mitochondrial	
+MRPS18B	Small ribosomal subunit protein mS40	C6orf14|HSPC183|PTD017
+TMEM65	Transmembrane protein 65	
+ARMCX2	Armadillo repeat-containing X-linked protein 2	ALEX2|KIAA0512
+CLIC4	Chloride intracellular channel protein 4	
+NFS1	Cysteine desulfurase	NIFS|HUSSY-08
+COQ7	5-demethoxyubiquinone hydroxylase, mitochondrial	
+FLVCR1	Heme transporter FLVCR1	FLVCR
+HEBP2	Heme-binding protein 2	C6orf34|SOUL
+UBIAD1	UbiA prenyltransferase domain-containing protein 1	TERE1
+BTD	Biotinidase	
+UQCC5	Ubiquinol-cytochrome-c reductase complex assembly factor 5	C3orf78|SMIM4
+HSPA5	Endoplasmic reticulum chaperone BiP	GRP78
+DHX30	ATP-dependent RNA helicase DHX30	DDX30|KIAA0890
+ACSM3	Acyl-coenzyme A synthetase ACSM3, mitochondrial	SAH
+MTERF3	Transcription termination factor 3, mitochondrial	MTERFD1|CGI-12
+MAIP1	m-AAA protease-interacting protein 1, mitochondrial	C2orf47
+SURF1	Surfeit locus protein 1	SURF-1
+LGALS12	Galectin-12	GRIP1
+PPP3CC	Serine/threonine-protein phosphatase 2B catalytic subunit gamma isoform	CALNA3|CNA3
+TRUB1	Pseudouridylate synthase TRUB1	PUS4
+CIAPIN1	Anamorsin	CUA001|PRO0915
+MRPL38	Large ribosomal subunit protein mL38	HSPC262
+SLC25A38	Mitochondrial glycine transporter	
+ACO2	Aconitate hydratase, mitochondrial	
+MIPEP	Mitochondrial intermediate peptidase	MIP
+AFG1L	AFG1-like ATPase	AFG1|LACE1
+ASB9	Ankyrin repeat and SOCS box protein 9	
+NDUFA8	NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 8	
+TMEM14A	Transmembrane protein 14A	C6orf73|PTD011
+DMAC2L	ATP synthase subunit s, mitochondrial	ATP5S|ATPW
+PTCD2	Pentatricopeptide repeat-containing protein 2, mitochondrial	
+SLC25A43	Solute carrier family 25 member 43	
+TXN2	Thioredoxin, mitochondrial	TRX2
+PET117	Protein PET117 homolog, mitochondrial	UNQ607/PRO1194
+PPP1CC	Serine/threonine-protein phosphatase PP1-gamma catalytic subunit	
+ALDH1L2	Mitochondrial 10-formyltetrahydrofolate dehydrogenase	
+COX6B2	Cytochrome c oxidase subunit 6B2	
+MICU2	Calcium uptake protein 2, mitochondrial	EFHA1
+CREB3L4	Cyclic AMP-responsive element-binding protein 3-like protein 4	AIBZIP|CREB4|JAL
+DNM1L	Dynamin-1-like protein	DLP1|DRP1
+ULK2	Serine/threonine-protein kinase ULK2	KIAA0623
+ABLIM3	Actin-binding LIM protein 3	KIAA0843|HMFN1661
+CHPF	Chondroitin sulfate synthase 2	CSS2|UNQ651/PRO1281
+POLRMT	DNA-directed RNA polymerase, mitochondrial	
+IREB2	Iron-responsive element-binding protein 2	
+CAVIN1	Caveolae-associated protein 1	PTRF|FKSG13
+PDE2A	cGMP-dependent 3',5'-cyclic phosphodiesterase	
+SLC25A52	Mitochondrial nicotinamide adenine dinucleotide transporter SLC25A52	MCART2
+DYNLL1	Dynein light chain 1, cytoplasmic	DLC1|DNCL1|DNCLC1|HDLC1
+MAPK10	Mitogen-activated protein kinase 10	JNK3|JNK3A|PRKM10|SAPK1B
+KAT2A	Histone acetyltransferase KAT2A	GCN5|GCN5L2
+HSDL1	Inactive hydroxysteroid dehydrogenase-like protein 1	SDR12C3
+GPER1	G-protein coupled estrogen receptor 1	CEPR|CMKRL2|DRY12|GPER|GPR30
+COX7B2	Cytochrome c oxidase subunit 7B2, mitochondrial	
+C10orf67	Uncharacterized protein C10orf67, mitochondrial	LINC01552
+PPARGC1B	Peroxisome proliferator-activated receptor gamma coactivator 1-beta	PERC|PGC1|PGC1B|PPARGC1
+PDPN	Podoplanin	GP36|PSEC0003|PSEC0025
+PEX11B	Peroxisomal membrane protein 11B	
+SUPV3L1	ATP-dependent RNA helicase SUPV3L1, mitochondrial	SUV3
+TOMM40	Mitochondrial import receptor subunit TOM40 homolog	C19orf1|PEREC1|TOM40
+SPG7	Paraplegin	CAR|CMAR|PGN
+COA5	Cytochrome c oxidase assembly factor 5	C2orf64
+TRIM39	E3 ubiquitin-protein ligase TRIM39	RNF23|TFP
+ACAD11	Acyl-CoA dehydrogenase family member 11	
+BCAP31	B-cell receptor-associated protein 31	BAP31|DXS1357E
+NUDT13	NAD(P)H pyrophosphatase NUDT13, mitochondrial	
+LDHD	Probable D-lactate dehydrogenase, mitochondrial	
+GPT2	Alanine aminotransferase 2	AAT2|ALT2
+IDH3G	Isocitrate dehydrogenase [NAD] subunit gamma, mitochondrial	
+VPS13C	Intermembrane lipid transfer protein VPS13C	KIAA1421
+SFXN5	Sideroflexin-5	
+HSCB	Iron-sulfur cluster co-chaperone protein HscB	DNAJC20|HSC20
+DNA2	DNA replication ATP-dependent helicase/nuclease DNA2	DNA2L|KIAA0083
+SDHA	Succinate dehydrogenase [ubiquinone] flavoprotein subunit, mitochondrial	SDH2|SDHF
+SMURF1	E3 ubiquitin-protein ligase SMURF1	KIAA1625
+MAP1B	Microtubule-associated protein 1B	
+OXA1L	Mitochondrial inner membrane protein OXA1L	
+UQCRB	Cytochrome b-c1 complex subunit 7	UQBP
+DAO	D-amino-acid oxidase	DAMOX
+SLC44A2	Choline transporter-like protein 2	CTL2|PSEC0210
+MFN1	Mitofusin-1	
+STXBP1	Syntaxin-binding protein 1	UNC18A
+ATCAY	Caytaxin	KIAA1872
+KARS1	Lysine--tRNA ligase	KARS|KIAA0070
+LARS2	Leucine--tRNA ligase, mitochondrial	KIAA0028
+MRPL30	Large ribosomal subunit protein uL30m	MRPL28|RPML28|HSPC249
+HRK	Activator of apoptosis harakiri	BID3
+SLC25A47	Solute carrier family 25 member 47	C14orf68|HDMCP|HMFN1655
+GARS1	Glycine--tRNA ligase	GARS
+PNPLA4	Patatin-like phospholipase domain-containing protein 4	DXS1283E|GS2
+UBB	Polyubiquitin-B	
+AIP	AH receptor-interacting protein	XAP2
+NAPG	Gamma-soluble NSF attachment protein	SNAPG
+HSD17B10	3-hydroxyacyl-CoA dehydrogenase type-2	ERAB|HADH2|MRPP2|SCHAD|SDR5C1|XH98G2
+RTL10	Protein Bop	BOP|C22orf29
+COX20	Cytochrome c oxidase assembly protein COX20, mitochondrial	FAM36A
+CASQ1	Calsequestrin-1	CASQ
+PTPMT1	Phosphatidylglycerophosphatase and protein-tyrosine phosphatase 1	MOSP|PLIP|PNAS-129
+NDUFB9	NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 9	LYRM3|UQOR22
+TMIGD1	Transmembrane and immunoglobulin domain-containing protein 1	TMIGD|UNQ9372/PRO34164
+COX11	Cytochrome c oxidase assembly protein COX11, mitochondrial	
+FYN	Tyrosine-protein kinase Fyn	
+APOOL	MICOS complex subunit MIC27	CXorf33|FAM121A|MIC27|UNQ8193/PRO23204
+RNASET2	Ribonuclease T2	RNASE6PL
+BLID	BH3-like motif-containing cell death inducer	BRCC2
+GPX4	Phospholipid hydroperoxide glutathione peroxidase	
+KIF5B	Kinesin-1 heavy chain	KNS|KNS1
+DLST	Dihydrolipoyllysine-residue succinyltransferase component of 2-oxoglutarate dehydrogenase complex, mitochondrial	DLTS
+SREBF1	Sterol regulatory element-binding protein 1	BHLHD1|SREBP1
+TRMT10C	tRNA methyltransferase 10 homolog C	MRPP1|RG9MTD1
+PDSS2	All trans-polyprenyl-diphosphate synthase PDSS2	C6orf210|DLP1
+UQCC3	Ubiquinol-cytochrome-c reductase complex assembly factor 3	C11orf83|UNQ655/PRO1286
+ME1	NADP-dependent malic enzyme	
+PDHX	Pyruvate dehydrogenase protein X component, mitochondrial	PDX1
+DDHD2	Phospholipase DDHD2	KIAA0725|SAMWD1
+TUG1	Taurine up-regulated 1 protein	
+RB1CC1	RB1-inducible coiled-coil protein 1	KIAA0203|RBICC
+TOMM70	Mitochondrial import receptor subunit TOM70	KIAA0719|TOM70|TOMM70A
+SLC25A16	Solute carrier family 25 member 16	GDA
+MICALL2	MICAL-like protein 2	JRAB
+ETFBKMT	Electron transfer flavoprotein beta subunit lysine methyltransferase	C12orf72|METTL20
+SUOX	Sulfite oxidase, mitochondrial	
+AVP	Vasopressin-neurophysin 2-copeptin	ARVP|VP
+ACADS	Short-chain specific acyl-CoA dehydrogenase, mitochondrial	
+ESR2	Estrogen receptor beta	ESTRB|NR3A2
+TYMS	Thymidylate synthase	TS|OK/SW-cl.29
+MRPL41	Large ribosomal subunit protein mL41	BMRP|MRPL27|RPML27|PIG3
+ALDH5A1	Succinate-semialdehyde dehydrogenase, mitochondrial	SSADH
+MSRB3	Methionine-R-sulfoxide reductase B3	UNQ1965/PRO4487
+CAV2	Caveolin-2	
+NDUFA11	NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 11	
+SIRT2	NAD-dependent protein deacetylase sirtuin-2	SIR2L|SIR2L2
+TOMM20L	TOMM20-like protein 1	UNQ9438/PRO34772
+CA5BP1	Putative inactive carbonic anhydrase 5B-like protein	CA5B|CA5BL
+MXD1	Max dimerization protein 1	MAD
+FEZ1	Fasciculation and elongation protein zeta-1	
+TFAM	Transcription factor A, mitochondrial	TCF6|TCF6L2
+STK11	Serine/threonine-protein kinase STK11	LKB1|PJS
+RHOU	Rho-related GTP-binding protein RhoU	ARHU|CDC42L1|G28K|WRCH1|SB128
+NOC3L	Nucleolar complex protein 3 homolog	AD24|C10orf117|FAD24
+RACK1	Small ribosomal subunit protein RACK1	GNB2L1|HLC7|PIG21
+ABHD5	1-acylglycerol-3-phosphate O-acyltransferase ABHD5	NCIE2|CGI-58
+TDH	Inactive L-threonine 3-dehydrogenase, mitochondrial	SDR14E1P
+GLYATL2	Glycine N-acyltransferase-like protein 2	
+PLN	Cardiac phospholamban	PLB
+CPS1	Carbamoyl-phosphate synthase [ammonia], mitochondrial	
+MTFR1	Mitochondrial fission regulator 1	CHPPR|FAM54A2|KIAA0009
+TOMM20	Mitochondrial import receptor subunit TOM20 homolog	KIAA0016
+PALLD	Palladin	KIAA0992|CGI-151
+MYCBP	c-Myc-binding protein	AMY1
+MMP2	72 kDa type IV collagenase	CLG4A
+RHOT1	Mitochondrial Rho GTPase 1	ARHT1
+VRK2	Serine/threonine-protein kinase VRK2	
+ATG9B	Autophagy-related protein 9B	APG9L2|NOS3AS
+BCLAF3	BCLAF1 and THRAP3 family member 3	CXorf23
+FARS2	Phenylalanine--tRNA ligase, mitochondrial	FARS1|HSPC320
+NDUFAF2	NADH dehydrogenase [ubiquinone] 1 alpha subcomplex assembly factor 2	NDUFA12L
+IVD	Isovaleryl-CoA dehydrogenase, mitochondrial	
+SPART	Spartin	KIAA0610|SPG20|TAHCCP1
+HSD3B2	3 beta-hydroxysteroid dehydrogenase/Delta 5-->4-isomerase type 2	HSDB3B
+PLEC	Plectin	PLEC1
+HADHB	Trifunctional enzyme subunit beta, mitochondrial	MSTP029
+DHFR2	Dihydrofolate reductase 2, mitochondrial	DHFRL1|DHFRP4
+HOGA1	4-hydroxy-2-oxoglutarate aldolase, mitochondrial	C10orf65|DHDPSL
+MICU3	Calcium uptake protein 3, mitochondrial	EFHA2
+PDK3	[Pyruvate dehydrogenase (acetyl-transferring)] kinase isozyme 3, mitochondrial	PDHK3
+MGARP	Protein MGARP	C4orf49|CESP1|HUMMR|OSAP|GS3582
+PDK2	[Pyruvate dehydrogenase (acetyl-transferring)] kinase isozyme 2, mitochondrial	PDHK2
+PDK1	[Pyruvate dehydrogenase (acetyl-transferring)] kinase isozyme 1, mitochondrial	PDHK1
+AQP8	Aquaporin-8	
+PGRMC1	Membrane-associated progesterone receptor component 1	HPR6.6|PGRMC
+URI1	Unconventional prefoldin RPB5 interactor 1	C19orf2|NNX3|PPP1R19|RMP|URI
+ADHFE1	Hydroxyacid-oxoacid transhydrogenase, mitochondrial	HMFT2263
+ATP5PO	ATP synthase subunit O, mitochondrial	ATP5O|ATPO
+NUDT1	Oxidized purine nucleoside triphosphate hydrolase	MTH1
+NECTIN2	Nectin-2	HVEB|PRR2|PVRL2
+BCL2L10	Bcl-2-like protein 10	BCL-B|BCLB|BOO|DIVA
+MPST	3-mercaptopyruvate sulfurtransferase	TST2
+FLVCR2	Heme transporter FLVCR2	C14orf58
+KANK2	KN motif and ankyrin repeat domain-containing protein 2	ANKRD25|KIAA1518|MXRA3|SIP
+METTL17	Methyltransferase-like protein 17, mitochondrial	METT11D1
+C19orf12	Protein C19orf12	
+ECSIT	Evolutionarily conserved signaling intermediate in Toll pathway, mitochondrial	
+ATP2A1	Sarcoplasmic/endoplasmic reticulum calcium ATPase 1	
+RAB29	Ras-related protein Rab-7L1	RAB7L1
+CKMT1A	Creatine kinase U-type, mitochondrial	CKMT1B|CKMT
+LDHC	L-lactate dehydrogenase C chain	LDH3|LDHX
+COQ10A	Coenzyme Q-binding protein COQ10 homolog A, mitochondrial	UNQ6192/PRO20219
+GLRX2	Glutaredoxin-2, mitochondrial	GRX2|CGI-133
+SDHAF3	Succinate dehydrogenase assembly factor 3, mitochondrial	ACN9|DC11
+CMC2	COX assembly mitochondrial protein 2 homolog	C16orf61|DC13
+PLA2G4C	Cytosolic phospholipase A2 gamma	
+SDS	L-serine dehydratase/L-threonine deaminase	SDH
+BCAT1	Branched-chain-amino-acid aminotransferase, cytosolic	BCT1|ECA39
+RETREG1	Reticulophagy regulator 1	FAM134B|JK1
+OPA3	Optic atrophy 3 protein	
+MFSD14A	Hippocampus abundant transcript 1 protein	HIAT1
+NDUFAF6	NADH dehydrogenase (ubiquinone) complex I, assembly factor 6	C8orf38
+ABCB10	ATP-binding cassette sub-family B member 10, mitochondrial	
+TUT1	Speckle targeted PIP5K1A-regulated poly(A) polymerase	RBM21
+COX7A2P2	Putative cytochrome c oxidase subunit 7A3, mitochondrial	COX7A3|COX7AL2|COX7AP2
+LDHAL6A	L-lactate dehydrogenase A-like 6A	LDHL2
+NOS1	Nitric oxide synthase 1	
+RMDN2	Regulator of microtubule dynamics protein 2	FAM82A|FAM82A1|BLOCK18|UNQ9371/PRO34163
+PPP3R2	Calcineurin subunit B type 2	CBLP|PPP3RL
+CWC15	Spliceosome-associated protein CWC15 homolog	C11orf5|AD-002|HSPC148
+LETMD1	LETM1 domain-containing protein 1	
+NDUFA4L2	NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 4-like 2	
+MTHFS	5-formyltetrahydrofolate cyclo-ligase	
+SIRT7	NAD-dependent protein deacetylase sirtuin-7	SIR2L7
+SMCP	Sperm mitochondrial-associated cysteine-rich protein	MCS|MCSP
+PRIMPOL	DNA-directed primase/polymerase protein	CCDC111
+SPHK2	Sphingosine kinase 2	SK2
+IMMP1L	Mitochondrial inner membrane protease subunit 1	
+AGPAT4	1-acyl-sn-glycerol-3-phosphate acyltransferase delta	UNQ499/PRO1016
+OPA1	Dynamin-like 120 kDa protein, mitochondrial	KIAA0567
+ENDOG	Endonuclease G, mitochondrial	
+STARD7	StAR-related lipid transfer protein 7, mitochondrial	GTT1
+NSUN3	tRNA (cytosine(34)-C(5))-methyltransferase, mitochondrial	MSTP077|UG0651E06
+TFB2M	Dimethyladenosine transferase 2, mitochondrial	NS5ATP5
+PIF1	ATP-dependent DNA helicase PIF1	C15orf20
+DDX21	Nucleolar RNA helicase 2	
+FOXK2	Forkhead box protein K2	ILF|ILF1
+DIABLO	Diablo IAP-binding mitochondrial protein	SMAC
+ACSS2	Acetyl-coenzyme A synthetase, cytoplasmic	ACAS2
+PFDN4	Prefoldin subunit 4	PFD4
+MTRNR2L5	Humanin-like 5	
+CCDC51	Mitochondrial potassium channel	MITOK
+HYKK	Hydroxylysine kinase	AGPHD1
+ERBB4	Receptor tyrosine-protein kinase erbB-4	HER4
+NDUFA4	Cytochrome c oxidase subunit NDUFA4	
+CFAP410	Cilia- and flagella-associated protein 410	C21orf2|LRRC76
+SCO2	Protein SCO2 homolog, mitochondrial	
+SLC30A2	Proton-coupled zinc antiporter SLC30A2	ZNT2
+VPS11	Vacuolar protein sorting-associated protein 11 homolog	RNF108|PP3476
+CYB5R2	NADH-cytochrome b5 reductase 2	
+SLC25A51	Mitochondrial nicotinamide adenine dinucleotide transporter SLC25A51	MCART1
+HARS1	Histidine--tRNA ligase, cytoplasmic	HARS|HRS
+COX6A1	Cytochrome c oxidase subunit 6A1, mitochondrial	COX6AL
+STOML2	Stomatin-like protein 2, mitochondrial	SLP2|HSPC108
+PIM2	Serine/threonine-protein kinase pim-2	
+FMC1	Protein FMC1 homolog	C7orf55|HSPC268
+CAPN1	Calpain-1 catalytic subunit	CANPL1|PIG30
+FXN	Frataxin, mitochondrial	FRDA|X25
+MPV17	Protein Mpv17	
+APEX2	DNA-(apurinic or apyrimidinic site) endonuclease 2	APE2|APEXL2|XTH2
+SLC25A13	Electrogenic aspartate/glutamate antiporter SLC25A13, mitochondrial	
+BCL2L11	Bcl-2-like protein 11	BIM
+FOXO3	Forkhead box protein O3	FKHRL1|FOXO3A
+KCNQ3	Potassium voltage-gated channel subfamily KQT member 3	
+NOCT	Nocturnin	CCR4|CCRN4L|NOC
+BCL2A1	Bcl-2-related protein A1	BCL2L5|BFL1|GRS|HBPA1
+CDC37	Hsp90 co-chaperone Cdc37	CDC37A
+MRPL23	Large ribosomal subunit protein uL23m	L23MRP|RPL23L
+SNX30	Sorting nexin-30	
+SLC25A18	Mitochondrial glutamate carrier 2	GC2
+FAM162A	Protein FAM162A	C3orf28|E2IG5|DC16|FWP001
+MAPK14	Mitogen-activated protein kinase 14	CSBP|CSBP1|CSBP2|CSPB1|MXI2|SAPK2A
+XRCC3	DNA repair protein XRCC3	
+CRY1	Cryptochrome-1	PHLL1
+ACAA2	3-ketoacyl-CoA thiolase, mitochondrial	
+EXOG	Nuclease EXOG, mitochondrial	ENDOGL1|ENDOGL2|ENGL
+GLUD2	Glutamate dehydrogenase 2, mitochondrial	GLUDP1
+LRPPRC	Leucine-rich PPR motif-containing protein, mitochondrial	LRP130
+SLC41A3	Solute carrier family 41 member 3	
+ATP5ME	ATP synthase subunit e, mitochondrial	ATP5I|ATP5K
+ATP5F1E	ATP synthase subunit epsilon, mitochondrial	ATP5E
+ATP5MJ	ATP synthase subunit ATP5MJ, mitochondrial	ATP5MPL|C14orf2|MP68|PRO1574
+CAMKK2	Calcium/calmodulin-dependent protein kinase kinase 2	CAMKKB|KIAA0787
+TWNK	Twinkle mtDNA helicase	C10orf2|PEO1
+MFF	Mitochondrial fission factor	C2orf33|AD030|AD033|GL004
+NAIF1	Nuclear apoptosis-inducing factor 1	C9orf90
+COA1	Cytochrome c oxidase assembly factor 1 homolog	C7orf44|MITRAC15
+MCCC1	Methylcrotonoyl-CoA carboxylase subunit alpha, mitochondrial	MCCA
+OGT	UDP-N-acetylglucosamine--peptide N-acetylglucosaminyltransferase 110 kDa subunit	
+GFM1	Elongation factor G, mitochondrial	EFG|EFG1|GFM
+FANCG	Fanconi anemia group G protein	XRCC9
+VARS2	Valine--tRNA ligase, mitochondrial	KIAA1885|VARS2L|VARSL
+NIF3L1	NIF3-like protein 1	ALS2CR1|MDS015|My018
+SLIRP	SRA stem-loop-interacting RNA-binding protein, mitochondrial	C14orf156|DC23|DC50|PD04872
+TMEM70	Transmembrane protein 70, mitochondrial	
+VPS13A	Intermembrane lipid transfer protein VPS13A	CHAC|KIAA0986
+LEPROT	Leptin receptor gene-related protein	LEPR|OBR
+RXRA	Retinoic acid receptor RXR-alpha	NR2B1
+MYL10	Myosin regulatory light chain 10	MYLC2PL|PLRLC
+NDUFA1	NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 1	
+MRPS12	Small ribosomal subunit protein uS12m	RPMS12|RPSM12
+MRPL22	Large ribosomal subunit protein uL22m	MRPL25|RPML25|HSPC158
+CSNK2A2	Casein kinase II subunit alpha'	CK2A2
+OXSM	3-oxoacyl-[acyl-carrier-protein] synthase, mitochondrial	
+GNPAT	Dihydroxyacetone phosphate acyltransferase	DAPAT|DHAPAT
+MAP1LC3B	Microtubule-associated proteins 1A/1B light chain 3B	MAP1ALC3
+AURKAIP1	Small ribosomal subunit protein mS38	AIP|AKIP|MRPS38
+MARCHF5	E3 ubiquitin-protein ligase MARCHF5	MARCH5|RNF153
+MCUB	Calcium uniporter regulatory subunit MCUb, mitochondrial	CCDC109B
+MRPL16	Large ribosomal subunit protein uL16m	PNAS-111
+DHRS4	Dehydrogenase/reductase SDR family member 4	SDR25C2|UNQ851/PRO1800
+PRKAA1	5'-AMP-activated protein kinase catalytic subunit alpha-1	AMPK1
+TMEM160	Transmembrane protein 160	
+GOLPH3	Golgi phosphoprotein 3	GPP34
+STMP1	Short transmembrane mitochondrial protein 1	C7orf73
+TRAF3	TNF receptor-associated factor 3	CAP-1|CRAF1|TRAFAMN
+GK5	Putative glycerol kinase 5	
+MAP1S	Microtubule-associated protein 1S	BPY2IP1|C19orf5|MAP8|VCY2IP1
+NGRN	Neugrin	FI58G|HT020
+PI4K2A	Phosphatidylinositol 4-kinase type 2-alpha	
+NDUFAF3	NADH dehydrogenase [ubiquinone] 1 alpha subcomplex assembly factor 3	C3orf60
+ADAP2	Arf-GAP with dual PH domain-containing protein 2	CENTA2
+TMEM242	Transmembrane protein 242	C6orf35|BM-033|HSPC287
+MRPL44	Large ribosomal subunit protein mL44	
+DDX28	Probable ATP-dependent RNA helicase DDX28	MDDX28
+ABHD10	Palmitoyl-protein thioesterase ABHD10, mitochondrial	
+TRMT10B	tRNA methyltransferase 10 homolog B	RG9MTD3
+PPP3CA	Protein phosphatase 3 catalytic subunit alpha	CALNA|CNA
+TMEM14B	Transmembrane protein 14B	
+ADPRS	ADP-ribosylhydrolase ARH3	ADPRHL2|ARH3
+CHCHD6	MICOS complex subunit MIC25	CHCM1|MIC25
+VWA8	von Willebrand factor A domain-containing protein 8	KIAA0564
+LMNA	Prelamin-A/C	LMN1
+MRPL45	Large ribosomal subunit protein mL45	
+CRYAB	Alpha-crystallin B chain	CRYA2|HSPB5
+GSTP1	Glutathione S-transferase P	FAEES3|GST3
+NLRP3	NACHT, LRR and PYD domains-containing protein 3	C1orf7|CIAS1|NALP3|PYPAF1
+NDUFB6	NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 6	
+QTRT2	Queuine tRNA-ribosyltransferase accessory subunit 2	QTRTD1
+SLC25A22	Mitochondrial glutamate carrier 1	GC1
+XAF1	XIAP-associated factor 1	BIRC4BP|XIAPAF1
+ANK2	Ankyrin-2	ANKB
+MTHFD2L	Bifunctional methylenetetrahydrofolate dehydrogenase/cyclohydrolase 2, mitochondrial	
+REEP1	Receptor expression-enhancing protein 1	C2orf23|SPG31
+LYRM2	LYR motif-containing protein 2	
+COQ10B	Coenzyme Q-binding protein COQ10 homolog B, mitochondrial	
+CHCHD2P9	Putative coiled-coil-helix-coiled-coil-helix domain-containing protein CHCHD2P9, mitochondrial	C9orf49|CHCHD9
+ALDH18A1	Delta-1-pyrroline-5-carboxylate synthase	GSAS|P5CS|PYCS
+TMEM223	Transmembrane protein 223	
+HMGCS2	Hydroxymethylglutaryl-CoA synthase, mitochondrial	
+NDUFV2	NADH dehydrogenase [ubiquinone] flavoprotein 2, mitochondrial	
+CAMK2A	Calcium/calmodulin-dependent protein kinase type II subunit alpha	CAMKA|KIAA0968
+SLC25A21	Mitochondrial 2-oxodicarboxylate carrier	ODC
+MUL1	Mitochondrial ubiquitin ligase activator of NFKB 1	C1orf166|GIDE|MAPL|MULAN|RNF218
+THEM4	Acyl-coenzyme A thioesterase THEM4	CTMP
+AK2	Adenylate kinase 2, mitochondrial	ADK2
+CEBPA	CCAAT/enhancer-binding protein alpha	CEBP
+SERAC1	Protein SERAC1	
+CPNE3	Copine-3	CPN3|KIAA0636
+ATP5PD	ATP synthase subunit d, mitochondrial	ATP5H|My032
+NT5M	5'(3')-deoxyribonucleotidase, mitochondrial	DNT2
+BBOX1	Gamma-butyrobetaine dioxygenase	BBH|BBOX
+ENY2	Transcription and mRNA export factor ENY2	DC6
+DNAJC5	DnaJ homolog subfamily C member 5	CLN4
+PLA2G4B	Cytosolic phospholipase A2 beta	
+MAP1LC3A	Microtubule-associated proteins 1A/1B light chain 3A	
+MCCD1	Mitochondrial coiled-coil domain protein 1	
+ARMS2	Age-related maculopathy susceptibility protein 2	
+UQCRFS1P1	Putative cytochrome b-c1 complex subunit Rieske-like protein 1	UQCRFSL1
+PNPLA8	Calcium-independent phospholipase A2-gamma	IPLA22|IPLA2G|BM-043
+GRAMD4	GRAM domain-containing protein 4	DIP|KIAA0767
+ACSM4	Acyl-coenzyme A synthetase ACSM4, mitochondrial	
+DCN	Decorin	SLRR1B
+ME3	NADP-dependent malic enzyme, mitochondrial	
+NDUFA9	NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 9, mitochondrial	NDUFS2L
+ACBD3	Golgi resident protein GCP60	GCP60|GOCAP1|GOLPH1
+SLC25A6	ADP/ATP translocase 3	AAC3|ANT3|CDABP0051
+SLC25A4	ADP/ATP translocase 1	AAC1|ANT1
+HAGH	Hydroxyacylglutathione hydrolase, mitochondrial	GLO2|HAGH1
+KYAT1	Kynurenine--oxoglutarate transaminase 1	CCBL1
+TST	Thiosulfate sulfurtransferase	
+TIMM50	Mitochondrial import inner membrane translocase subunit TIM50	TIM50|PRO1512
+PPM1H	Protein phosphatase 1H	ARHCL1|KIAA1157|URCC2
+MMADHC	Cobalamin trafficking protein CblD	C2orf25|CL25022|HSPC161|My011
+CLPP	ATP-dependent Clp protease proteolytic subunit, mitochondrial	
+KIF28P	Kinesin-like protein KIF28P	KLP6
+GHITM	Growth hormone-inducible transmembrane protein	DERP2|MICS1|TMBIM5|My021|UNQ244/PRO281
+HSPA1B	Heat shock 70 kDa protein 1B	HSP72
+NDRG4	Protein NDRG4	BDM1|KIAA1180
+KYNU	Kynureninase	
+NDUFA5	NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 5	
+TRIT1	tRNA dimethylallyltransferase	IPT|MOD5
+MAN2A1	Alpha-mannosidase 2	MANA2
+STAR	Steroidogenic acute regulatory protein, mitochondrial	STARD1
+CASP4	Caspase-4	ICH2
+MDH2	Malate dehydrogenase, mitochondrial	
+TUSC2	Tumor suppressor candidate 2	C3orf11|FUS1|LGCC|PDAP2
+SCO1	Protein SCO1 homolog, mitochondrial	SCOD1
+FASTKD3	FAST kinase domain-containing protein 3, mitochondrial	
+SIRT3	NAD-dependent protein deacetylase sirtuin-3, mitochondrial	SIR2L3
+MGME1	Mitochondrial genome maintenance exonuclease 1	C20orf72|DDK1
+CIDEA	Lipid transferase CIDEA	
+PTGES2	Prostaglandin E synthase 2	C9orf15|PGES2
+SOX4	Transcription factor SOX-4	
+COX17	Cytochrome c oxidase copper chaperone	
+BCKDHA	2-oxoisovalerate dehydrogenase subunit alpha, mitochondrial	
+AIFM3	Apoptosis-inducing factor 3	AIFL
+MRPL57	Large ribosomal subunit protein mL63	MRP63
+ACAD9	Complex I assembly factor ACAD9, mitochondrial	
+TRAK1	Trafficking kinesin-binding protein 1	KIAA1042|OIP106
+HK1	Hexokinase-1	
+TLE6	Transducin-like enhancer protein 6	
+FH	Fumarate hydratase, mitochondrial	
+LYN	Tyrosine-protein kinase Lyn	JTK8
+FAM210A	Protein FAM210A	C18orf19
+MICU1	Calcium uptake protein 1, mitochondrial	CALC|CBARA1
+EPHA4	Ephrin type-A receptor 4	HEK8|SEK|TYRO1
+NIPSNAP1	Protein NipSnap homolog 1	
+UCP3	Putative mitochondrial transporter UCP3	SLC25A9
+TFRC	Transferrin receptor protein 1	
+MARCKS	Myristoylated alanine-rich C-kinase substrate	MACS|PRKCSL
+ALB	Albumin	GIG20|GIG42|PRO0903|PRO1708|PRO2044|PRO2619|PRO2675|UNQ696/PRO1341
+AMBP	Protein AMBP	HCP|ITIL
+BID	BH3-interacting domain death agonist	
+ARGLU1	Arginine and glutamate-rich protein 1	
+TIMM17B	Mitochondrial import inner membrane translocase subunit Tim17-B	TIM17B|JM3
+PAGE4	P antigen family member 4	GAGEC1|JM27
+NDUFC2-KCTD14	NADH dehydrogenase [ubiquinone] 1 subunit C2, isoform 2	
+CMC4	Cx9C motif-containing protein 4	C6.1B|MTCP1|MTCP1NB
+SMDT1	Essential MCU regulator, mitochondrial	C22orf32|EMRE
+IBA57	Putative transferase CAF17, mitochondrial	C1orf69
+TRIM24	Transcription intermediary factor 1-alpha	RNF82|TIF1|TIF1A
+DMAC2	Distal membrane-arm assembly complex protein 2	ATP5SL
+MTPAP	Poly(A) RNA polymerase, mitochondrial	PAPD1
+VPS35	Vacuolar protein sorting-associated protein 35	MEM3|TCCCTA00141
+ACACA	Acetyl-CoA carboxylase 1	ACAC|ACC1|ACCA
+MRPL28	Large ribosomal subunit protein bL28m	MAAT1
+LETM2	LETM1 domain-containing protein LETM2, mitochondrial	
+DEGS1	Sphingolipid delta(4)-desaturase DES1	DES1|MLD|MIG15
+SRC	Proto-oncogene tyrosine-protein kinase Src	SRC1
+COX7B	Cytochrome c oxidase subunit 7B, mitochondrial	
+COX7A1	Cytochrome c oxidase subunit 7A1, mitochondrial	COX7AH
+COASY	Bifunctional coenzyme A synthase	PSEC0106
+TFAP4	Transcription factor AP-4	BHLHC41
+SLC9A1	Sodium/hydrogen exchanger 1	APNH1|NHE1
+TEFM	Transcription elongation factor, mitochondrial	C17orf42
+CHCHD5	Coiled-coil-helix-coiled-coil-helix domain-containing protein 5	C2orf9
+GATB	Glutamyl-tRNA(Gln) amidotransferase subunit B, mitochondrial	PET112|PET112L|HSPC199
+COQ9	Ubiquinone biosynthesis protein COQ9, mitochondrial	C16orf49|HSPC326|PSEC0129
+IDH1	Isocitrate dehydrogenase [NADP] cytoplasmic	PICD
+ATP5MK	ATP synthase membrane subunit K, mitochondrial	ATP5MD|DAPIT|HCVFTP2|USMG5|PD04912
+MTUS1	Microtubule-associated tumor suppressor 1	ATBP|ATIP|GK1|KIAA1288|MTSG1
+OGDHL	2-oxoglutarate dehydrogenase-like, mitochondrial	KIAA1290
+NDUFS7	NADH dehydrogenase [ubiquinone] iron-sulfur protein 7, mitochondrial	
+ACSL5	Long-chain-fatty-acid--CoA ligase 5	ACS5|FACL5|UNQ633/PRO1250
+PPP1R15A	Protein phosphatase 1 regulatory subunit 15A	GADD34
+HPDL	4-hydroxyphenylpyruvate dioxygenase-like protein	GLOXD1
+KHDC3L	KH domain-containing protein 3	C6orf221|ECAT1
+NDUFS5	NADH dehydrogenase [ubiquinone] iron-sulfur protein 5	
+POU5F1B	Putative POU domain, class 5, transcription factor 1B	OCT4PG1|OTF3C|OTF3P1|POU5F1P1|POU5FLC20|POU5FLC8
+PPA2	Inorganic pyrophosphatase 2, mitochondrial	HSPC124
+DHX36	ATP-dependent DNA/RNA helicase DHX36	DDX36|KIAA1488|MLEL1|RHAU
+TXNRD2	Thioredoxin reductase 2, mitochondrial	KIAA1652|TRXR2
+DECR1	2,4-dienoyl-CoA reductase [(3E)-enoyl-CoA-producing], mitochondrial	DECR|SDR18C1
+MPV17L	Mpv17-like protein	
+CYP1B1	Cytochrome P450 1B1	
+HIF1A	Hypoxia-inducible factor 1-alpha	BHLHE78|MOP1|PASD8
+MYOM2	Myomesin-2	
+PDK4	[Pyruvate dehydrogenase (acetyl-transferring)] kinase isozyme 4, mitochondrial	PDHK4
+MTIF3	Translation initiation factor IF-3, mitochondrial	DC38
+TAFAZZIN	Tafazzin	EFE2|G4.5|TAZ
+SARDH	Sarcosine dehydrogenase, mitochondrial	DMGDHL1
+ABCG2	Broad substrate specificity ATP-binding cassette transporter ABCG2	ABCP|BCRP|BCRP1|MXR
+BMF	Bcl-2-modifying factor	
+PRMT6	Protein arginine N-methyltransferase 6	HRMT1L6
+UQCRC2	Cytochrome b-c1 complex subunit 2, mitochondrial	
+NDUFS4	NADH dehydrogenase [ubiquinone] iron-sulfur protein 4, mitochondrial	
+XPNPEP3	Xaa-Pro aminopeptidase 3	
+CALM1	Calmodulin-1	CALM|CAM|CAM1
+HPS4	BLOC-3 complex member HPS4	KIAA1667
+MIEF1	Mitochondrial dynamics protein MIEF1	MID51|SMCR7L
+GSK3B	Glycogen synthase kinase-3 beta	
+GSK3A	Glycogen synthase kinase-3 alpha	
+MPG	DNA-3-methyladenine glycosylase	AAG|ANPG|MID1
+SNX7	Sorting nexin-7	
+NDUFV1	NADH dehydrogenase [ubiquinone] flavoprotein 1, mitochondrial	UQOR1
+SHC1	SHC-transforming protein 1	SHC|SHCA
+TSC2	Tuberin	TSC4
+PSEN2	Presenilin-2	AD4|PS2|PSNL2|STM2
+PGS1	CDP-diacylglycerol--glycerol-3-phosphate 3-phosphatidyltransferase, mitochondrial	
+SH3BP5	SH3 domain-binding protein 5	SAB
+BNIP3L	BCL2/adenovirus E1B 19 kDa protein-interacting protein 3-like	BNIP3A|BNIP3H|NIX
+LGALS3	Galectin-3	MAC2
+TIMM8A	Mitochondrial import inner membrane translocase subunit Tim8 A	DDP|DDP1|TIM8A
+AKR1B10	Aldo-keto reductase family 1 member B10	AKR1B11
+UCP1	Mitochondrial brown fat uncoupling protein 1	SLC25A7|UCP
+FAM210B	Protein FAM210B, mitochondrial	C20orf108|PSEC0265
+ANKRD37	Ankyrin repeat domain-containing protein 37	LPR2BP
+DUSP21	Dual specificity protein phosphatase 21	LMWDSP21
+HEATR1	HEAT repeat-containing protein 1	BAP28|UTP10
+RAD51	DNA repair protein RAD51 homolog 1	RAD51A|RECA
+TIGAR	Fructose-2,6-bisphosphatase TIGAR	C12orf5
+CYP11B2	Cytochrome P450 11B2, mitochondrial	
+NDUFB7	NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 7	
+ALDH7A1	Alpha-aminoadipic semialdehyde dehydrogenase	ATQ1
+COA6	Cytochrome c oxidase assembly factor 6 homolog	C1orf31
+METTL9	Protein-L-histidine N-pros-methyltransferase	DREV|CGI-81
+TUFM	Elongation factor Tu, mitochondrial	
+COQ2	4-hydroxybenzoate polyprenyltransferase, mitochondrial	CL640
+MRPL19	Large ribosomal subunit protein bL19m	KIAA0104|MRPL15
+MARS2	Methionine--tRNA ligase, mitochondrial	
+TRMU	Mitochondrial tRNA-specific 2-thiouridylase 1	MTU1|TRMT1
+CKMT2	Creatine kinase S-type, mitochondrial	
+SLC25A44	Solute carrier family 25 member 44	KIAA0446
+HSPD1	60 kDa heat shock protein, mitochondrial	HSP60
+LIAS	Lipoyl synthase, mitochondrial	LAS|HUSSY-01
+GCAT	2-amino-3-ketobutyrate coenzyme A ligase, mitochondrial	KBL
+CRLS1	Cardiolipin synthase (CMP-forming)	C20orf155|CLS1
+ZNFX1	NFX1-type zinc finger-containing protein 1	KIAA1404
+TMX2	Thioredoxin-related transmembrane protein 2	TXNDC14|CGI-31|My009|PIG26|PSEC0045|UNQ237/PRO270
+NIPSNAP3B	Protein NipSnap homolog 3B	NIPSNAP3
+TRIAP1	TP53-regulated inhibitor of apoptosis 1	15E1.1|HSPC132
+IRGM	Immunity-related GTPase family M protein	IFI1|IRGM1|LRG47
+MRPL18	Large ribosomal subunit protein uL18m	HSPC071
+MPC1L	Mitochondrial pyruvate carrier 1-like protein	
+GABARAPL1	Gamma-aminobutyric acid receptor-associated protein-like 1	GEC1
+QRSL1	Glutamyl-tRNA(Gln) amidotransferase subunit A, mitochondrial	
+TRMT2B	tRNA (uracil-5-)-methyltransferase homolog B	CXorf34
+BBC3	Bcl-2-binding component 3, isoforms 3/4	PUMA
+COQ6	Ubiquinone biosynthesis monooxygenase COQ6, mitochondrial	CGI-10
+ABL1	Tyrosine-protein kinase ABL1	ABL|JTK7
+ECH1	Delta(3,5)-Delta(2,4)-dienoyl-CoA isomerase, mitochondrial	
+TIMM23B	Mitochondrial import inner membrane translocase subunit Tim23B	
+NENF	Neudesin	CIR2|SPUF
+ATAD3A	ATPase family AAA domain-containing protein 3A	
+TMLHE	Trimethyllysine dioxygenase, mitochondrial	TMLH
+DNAJC11	DnaJ homolog subfamily C member 11	
+EXD2	Exonuclease 3'-5' domain-containing protein 2	C14orf114|EXDL2
+ALKBH7	Alpha-ketoglutarate-dependent dioxygenase alkB homolog 7, mitochondrial	ABH7|SPATA11|UNQ6002/PRO34564
+MRPS14	Small ribosomal subunit protein uS14m	
+MTG1	Mitochondrial ribosome-associated GTPase 1	GTPBP7
+HSD3B1	3 beta-hydroxysteroid dehydrogenase/Delta 5-->4-isomerase type 1	3BH|HSDB3A
+ALKBH3	Alpha-ketoglutarate-dependent dioxygenase alkB homolog 3	ABH3|DEPC1
+PLA2G6	85/88 kDa calcium-independent phospholipase A2	PLPLA9
+UQCC1	Ubiquinol-cytochrome-c reductase complex assembly factor 1	BZFB|C20orf44|UQCC
+FEM1A	Protein fem-1 homolog A	EPRAP
+PDHA2	Pyruvate dehydrogenase E1 component subunit alpha, testis-specific form, mitochondrial	PDHAL
+NDUFV3	NADH dehydrogenase [ubiquinone] flavoprotein 3, mitochondrial	
+TACO1	Translational activator of cytochrome c oxidase 1	CCDC44|PRO0477
+PRORP	Mitochondrial ribonuclease P catalytic subunit	KIAA0391|MRPP3
+TIMM29	Mitochondrial import inner membrane translocase subunit Tim29	c19orf52
+TRNT1	CCA tRNA nucleotidyltransferase 1, mitochondrial	CGI-47
+AGMAT	Guanidino acid hydrolase, mitochondrial	GDAH
+SNPH	Syntaphilin	KIAA0374
+ADCY10	Adenylate cyclase type 10	SAC
+NDFIP2	NEDD4 family-interacting protein 2	KIAA1165|N4WBP5A
+PDSS1	All trans-polyprenyl-diphosphate synthase PDSS1	DPS1|TPRT
+ATAD3C	ATPase family AAA domain-containing protein 3C	
+CYRIB	CYFIP-related Rac1 interactor B	CYRI|FAM49B|BM-009
+COX19	Cytochrome c oxidase assembly protein COX19	
+TSPO	Translocator protein	BZRP|MBR
+RAB38	Ras-related protein Rab-38	
+ATG7	Ubiquitin-like modifier-activating enzyme ATG7	APG7L
+ADSS2	Adenylosuccinate synthetase isozyme 2	ADSS
+SCCPDH	Saccharopine dehydrogenase-like oxidoreductase	CGI-49
+NBR1	Next to BRCA1 gene 1 protein	1A13B|KIAA0049|M17S2|MIG19
+PPARG	Peroxisome proliferator-activated receptor gamma	NR1C3
+ATAD1	Outer mitochondrial transmembrane helix translocase	FNP001
+NOA1	Nitric oxide-associated protein 1	C4orf14
+SAE1	SUMO-activating enzyme subunit 1	AOS1|SUA1|UBLE1A
+HIGD2A	HIG1 domain family member 2A, mitochondrial	
+CRY2	Cryptochrome-2	KIAA0658
+GLYAT	Glycine N-acyltransferase	ACGNAT|CAT|GAT
+MTERF2	Transcription termination factor 2, mitochondrial	MTERFD3
+EDN1	Endothelin-1	
+RDH13	Retinol dehydrogenase 13	SDR7C3|PSEC0082|UNQ736/PRO1430
+BAG5	BAG family molecular chaperone regulator 5	KIAA0873
+TARS2	Threonine--tRNA ligase, mitochondrial	TARSL1
+ADAM28	Disintegrin and metalloproteinase domain-containing protein 28	ADAM23|MDCL
+PARL	Presenilin-associated rhomboid-like protein, mitochondrial	PSARL|PRO2207
+ACSL6	Long-chain-fatty-acid--CoA ligase 6	ACS2|FACL6|KIAA0837|LACS5
+ACAD8	Isobutyryl-CoA dehydrogenase, mitochondrial	ARC42|IBD
+KLC3	Kinesin light chain 3	KLC2|KLC2L
+CYP11B1	Cytochrome P450 11B1, mitochondrial	S11BH
+FAHD1	Acylpyruvase FAHD1, mitochondrial	C16orf36|YISKL
+SPNS1	Protein spinster homolog 1	SPIN1|PP20300
+IFI27L2	Interferon alpha-inducible protein 27-like protein 2	FAM14A|TLH29
+NDUFA10	NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 10, mitochondrial	
+NDUFC2	NADH dehydrogenase [ubiquinone] 1 subunit C2	HLC1
+GSTZ1	Maleylacetoacetate isomerase	MAAI
+SDHAF4	Succinate dehydrogenase assembly factor 4, mitochondrial	C6orf57
+GATC	Glutamyl-tRNA(Gln) amidotransferase subunit C, mitochondrial	15E1.2
+MT-CO3	Cytochrome c oxidase subunit 3	COIII|COXIII|MTCO3
+CHCHD1	Small ribosomal subunit protein mS37	C10orf34|MRPS37
+COA7	Cytochrome c oxidase assembly factor 7	C1orf163|RESA1|SELRC1
+NDUFA12	NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 12	DAP13
+TH	Tyrosine 3-monooxygenase	TYH
+SLC11A2	Natural resistance-associated macrophage protein 2	DCT1|DMT1|NRAMP2|OK/SW-cl.20
+POLG2	DNA polymerase subunit gamma-2, mitochondrial	MTPOLB
+S1PR4	Sphingosine 1-phosphate receptor 4	EDG6
+CCM2	Cerebral cavernous malformations 2 protein	C7orf22|PP10187
+LMAN1	Protein ERGIC-53	ERGIC53|F5F8D
+AMACR	Alpha-methylacyl-CoA racemase	
+DCPS	m7GpppX diphosphatase	DCS1|HINT5|HSPC015
+TAMM41	Phosphatidate cytidylyltransferase, mitochondrial	C3orf31
+NDUFS3	NADH dehydrogenase [ubiquinone] iron-sulfur protein 3, mitochondrial	
+PET100	Protein PET100 homolog, mitochondrial	C19orf79
+SNCA	Alpha-synuclein	NACP|PARK1
+MMUT	Methylmalonyl-CoA mutase, mitochondrial	MUT
+PTCD3	Small ribosomal subunit protein mS39	MRPS39|TRG15
+ERAL1	GTPase Era, mitochondrial	HERA
+DNAJA3	DnaJ homolog subfamily A member 3, mitochondrial	HCA57|TID1
+MAPT	Microtubule-associated protein tau	MAPTL|MTBT1|TAU
+CYP2D6	Cytochrome P450 2D6	CYP2DL1
+ERN1	Serine/threonine-protein kinase/endoribonuclease IRE1	IRE1
+COQ8A	Atypical kinase COQ8A, mitochondrial	ADCK3|CABC1|PP265
+TRUB2	Pseudouridylate synthase TRUB2, mitochondrial	
+COX5B	Cytochrome c oxidase subunit 5B, mitochondrial	
+HK3	Hexokinase-3	
+MTX2	Metaxin-2	
+CIDEB	Lipid transferase CIDEB	
+PPTC7	Protein phosphatase PTC7 homolog	TAPP2C
+HK2	Hexokinase-2	
+AKAP10	A-kinase anchor protein 10, mitochondrial	
+NME6	Nucleoside diphosphate kinase 6	
+TIMM8B	Mitochondrial import inner membrane translocase subunit Tim8 B	DDP2|DDPL|TIM8B
+GJA1	Gap junction alpha-1 protein	GJAL
+RIDA	2-iminobutanoate/2-iminopropanoate deaminase	HRSP12
+ATG4B	Cysteine protease ATG4B	APG4B|AUTL1|KIAA0943
+MTX3	Metaxin-3	
+PRICKLE3	Prickle planar cell polarity protein 3	LMO6
+PISD	Phosphatidylserine decarboxylase proenzyme, mitochondrial	
+DNAJC15	DnaJ homolog subfamily C member 15	DNAJD1|GIG22|HSD18
+MRRF	Ribosome-recycling factor, mitochondrial	
+MTFMT	Methionyl-tRNA formyltransferase, mitochondrial	FMT|FMT1
+ETFDH	Electron transfer flavoprotein-ubiquinone oxidoreductase, mitochondrial	
+ECHDC3	Enoyl-CoA hydratase domain-containing protein 3, mitochondrial	PP1494|PP8332
+POLG	DNA polymerase subunit gamma-1	MDP1|POLG1|POLGA
+CERT1	Ceramide transfer protein	CERT|COL4A3BP|STARD11
+OMA1	Metalloendopeptidase OMA1, mitochondrial	MPRP1
+NIPSNAP3A	Protein NipSnap homolog 3A	NIPSNAP4|HSPC299
+PUS1	Pseudouridylate synthase 1 homolog	PP8985
+MTOR	Serine/threonine-protein kinase mTOR	FRAP|FRAP1|FRAP2|RAFT1|RAPT1
+PABPC5	Polyadenylate-binding protein 5	PABP5
+MTCH2	Mitochondrial carrier homolog 2	MIMP|HSPC032
+VASN	Vasorin	SLITL2|UNQ314/PRO357/PRO1282
+MTRF1L	Peptide chain release factor 1-like, mitochondrial	MTRF1A
+TIMM13	Mitochondrial import inner membrane translocase subunit Tim13	TIM13B|TIMM13A|TIMM13B
+TMEM11	Transmembrane protein 11, mitochondrial	C17orf35|PM1
+PSMD10	26S proteasome non-ATPase regulatory subunit 10	
+BCL2	Apoptosis regulator Bcl-2	
+EARS2	Probable glutamate--tRNA ligase, mitochondrial	KIAA1970
+ATP5MC2	ATP synthase F(0) complex subunit C2, mitochondrial	ATP5G2|PSEC0033
+FOXRED1	FAD-dependent oxidoreductase domain-containing protein 1	FP634
+GGCT	Gamma-glutamylcyclotransferase	C7orf24|CRF21
+WDR45	WD repeat domain phosphoinositide-interacting protein 4	WDRX1|WDRXI4|WIPI4|JM5
+HAP1	Huntingtin-associated protein 1	HAP2|HLP1
+HIVEP1	Zinc finger protein 40	ZNF40
+UQCC6	Ubiquinol-cytochrome-c reductase complex assembly factor 6	BR|BRAWNIN|C12orf73
+AASS	Alpha-aminoadipic semialdehyde synthase, mitochondrial	
+ABHD6	Monoacylglycerol lipase ABHD6	
+ACSL3	Fatty acid CoA ligase Acsl3	ACS3|FACL3|LACS3
+ETHE1	Persulfide dioxygenase ETHE1, mitochondrial	HSCO
+ECI1	Enoyl-CoA delta isomerase 1, mitochondrial	DCI
+MPC2	Mitochondrial pyruvate carrier 2	BRP44
+SLIT3	Slit homolog 3 protein	KIAA0814|MEGF5|SLIL2|UNQ691/PRO1336
+MCU	Calcium uniporter protein, mitochondrial	C10orf42|CCDC109A
+CASP8	Caspase-8	MCH5
+CHDH	Choline dehydrogenase, mitochondrial	
+NOS1AP	Carboxyl-terminal PDZ ligand of neuronal nitric oxide synthase protein	CAPON|KIAA0464
+RNF186	E3 ubiquitin-protein ligase RNF186	
+HSD17B8	(3R)-3-hydroxyacyl-CoA dehydrogenase	FABGL|HKE6|RING2|SDR30C1
+ABCB7	Iron-sulfur clusters transporter ABCB7, mitochondrial	ABC7
+BOLA1	BolA-like protein 1	CGI-143
+CYB5B	Cytochrome b5 type B	CYB5M|OMB5
+MRPS18C	Small ribosomal subunit protein bS18m	CGI-134
+MSRB2	Methionine-R-sulfoxide reductase B2, mitochondrial	CBS-1|MSRB|CGI-131
+TRAK2	Trafficking kinesin-binding protein 2	ALS2CR3|KIAA0549
+MCUR1	Mitochondrial calcium uniporter regulator 1	C6orf79|CCDC90A
+HSPA1A	Heat shock 70 kDa protein 1A	HSP72|HSPA1|HSX70
+UQCRHL	Cytochrome b-c1 complex subunit 6-like, mitochondrial	
+HADHA	Trifunctional enzyme subunit alpha, mitochondrial	HADH
+MPV17L2	Mpv17-like protein 2	FKSG24
+TMEM143	Transmembrane protein 143	UNQ5922/PRO19813
+NLRP5	NACHT, LRR and PYD domains-containing protein 5	MATER|NALP5
+RAP1GDS1	Rap1 GTPase-GDP dissociation stimulator 1	SMGGDS
+YARS2	Tyrosine--tRNA ligase, mitochondrial	CGI-04
+MTO1	Protein MTO1 homolog, mitochondrial	CGI-02
+MSRA	Mitochondrial peptide methionine sulfoxide reductase	
+ARL2BP	ADP-ribosylation factor-like protein 2-binding protein	BART|BART1
+AK4	Adenylate kinase 4, mitochondrial	AK3|AK3L1
+GIT1	ARF GTPase-activating protein GIT1	
+MT-CO2	Cytochrome c oxidase subunit 2	COII|COX2|COXII|MTCO2
+TCHP	Trichoplein keratin filament-binding protein	
+ATP5F1EP2	ATP synthase subunit epsilon-like protein, mitochondrial	ATP5EP2
+RAD51C	DNA repair protein RAD51 homolog 3	RAD51L2
+AGBL4	Cytosolic carboxypeptidase 6	CCP6
+MT-CO1	Cytochrome c oxidase subunit 1	COI|COXI|MTCO1
+CCR7	C-C chemokine receptor type 7	CMKBR7|EBI1|EVI1
+CYB5R3	NADH-cytochrome b5 reductase 3	DIA1
+MRPL53	Large ribosomal subunit protein mL53	
+MRPS24	Small ribosomal subunit protein uS3m	HSPC335
+DHFR	Dihydrofolate reductase	
+KIFBP	KIF-binding protein	KBP|KIAA1279|KIF1BP
+LIPF	Gastric triacylglycerol lipase	
+AFG3L2	AFG3-like protein 2	
+AMMECR1	Nuclear protein AMMECR1	
+CERS1	Ceramide synthase 1	LAG1|LASS1|UOG1
+UQCR11	Cytochrome b-c1 complex subunit 10	UQCR
+MALSU1	Mitochondrial assembly of ribosomal large subunit protein 1	C7orf30
+LDHA	L-lactate dehydrogenase A chain	PIG19
+UBA52	Ubiquitin-ribosomal protein eL40 fusion protein	UBCEP2
+HELB	DNA helicase B	
+SSBP1	Single-stranded DNA-binding protein, mitochondrial	SSBP
+HSH2D	Hematopoietic SH2 domain-containing protein	ALX
+PPM1J	Protein phosphatase 1J	PPP2CZ
+SQOR	Sulfide:quinone oxidoreductase, mitochondrial	SQRDL|CGI-44
+OPTN	Optineurin	FIP2|GLC1E|HIP7|HYPL|NRP
+DDAH2	N(G),N(G)-dimethylarginine dimethylaminohydrolase 2	DDAH|G6A|NG30
+MRPL33	Large ribosomal subunit protein bL33m	C2orf1
+INF2	Inverted formin-2	C14orf151|C14orf173
+WARS2	Tryptophan--tRNA ligase, mitochondrial	
+SIRT1	NAD-dependent protein deacetylase sirtuin-1	SIR2L1
+QARS1	Glutamine--tRNA ligase	QARS
+ACSF2	Medium-chain acyl-CoA ligase ACSF2, mitochondrial	UNQ493/PRO1009
+RPUSD4	Pseudouridylate synthase RPUSD4, mitochondrial	
+DDIT4	DNA damage-inducible transcript 4 protein	REDD1|RTP801
+MAPK3	Mitogen-activated protein kinase 3	ERK1|PRKM3
+ARMCX3	Armadillo repeat-containing X-linked protein 3	ALEX3|BM-017|UNQ2517/PRO6007
+CYB5A	Cytochrome b5	CYB5
+FLCN	Folliculin	BHD
+MT-CYB	Cytochrome b	COB|CYTB|MTCYB
+FLAD1	FAD synthase	PP591
+COX7C	Cytochrome c oxidase subunit 7C, mitochondrial	
+MAOB	Amine oxidase [flavin-containing] B	
+TIMM22	Mitochondrial import inner membrane translocase subunit Tim22	TEX4|TIM22
+C14orf119	Uncharacterized protein C14orf119	My028
+RNF31	E3 ubiquitin-protein ligase RNF31	ZIBRA
+ATP7A	Copper-transporting ATPase 1	MC1|MNK
+PLIN5	Perilipin-5	LSDP5|OXPAT|PAT-1
+PRODH2	Hydroxyproline dehydrogenase	HSPOX1|HYPDH
+RAB40AL	Ras-related protein Rab-40A-like	RLGP
+WIPI2	WD repeat domain phosphoinositide-interacting protein 2	CGI-50
+PPP2CB	Serine/threonine-protein phosphatase 2A catalytic subunit beta isoform	
+ARAF	Serine/threonine-protein kinase A-Raf	ARAF1|PKS|PKS2
+ARID4B	AT-rich interactive domain-containing protein 4B	BRCAA1|RBBP1L1|RBP1L1|SAP180
+CDS2	Phosphatidate cytidylyltransferase 2	
+TDRKH	Tudor and KH domain-containing protein	TDRD2
+LRRC59	Leucine-rich repeat-containing protein 59	PRO1855
+SLC25A46	Mitochondrial outer membrane protein SLC25A46	TB1
+NDUFAF1	Complex I intermediate-associated protein 30, mitochondrial	CIA30|CGI-65
+CISD3	CDGSH iron-sulfur domain-containing protein 3, mitochondrial	
+SH3GLB1	Endophilin-B1	KIAA0491|CGI-61
+CKB	Creatine kinase B-type	CKBB
+POLDIP2	Polymerase delta-interacting protein 2	PDIP38|POLD4|HSPC017
+MRPS7	Small ribosomal subunit protein uS7m	
+MRPS17	Small ribosomal subunit protein uS17m	RPMS17|HSPC011
+COA3	Cytochrome c oxidase assembly factor 3 homolog, mitochondrial	CCDC56|MITRAC12|HSPC009
+MRPS28	Small ribosomal subunit protein bS1m	MRPS35|HSPC007
+MYO19	Unconventional myosin-XIX	MYOHD1
+ACOT9	Acyl-coenzyme A thioesterase 9, mitochondrial	CGI-16
+HIF3A	Hypoxia-inducible factor 3-alpha	BHLHE17|MOP7|PASD7
+COX8A	Cytochrome c oxidase subunit 8A, mitochondrial	COX8|COX8L
+ATP5MC1	ATP synthase F(0) complex subunit C1, mitochondrial	ATP5G1
+CYCS	Cytochrome c	CYC
+NAXE	NAD(P)H-hydrate epimerase	AIBP|APOA1BP|YJEFN1
+GZMB	Granzyme B	CGL1|CSPB|CTLA1|GRB
+LPIN1	Phosphatidate phosphatase LPIN1	KIAA0188
+KIF1B	Kinesin-like protein KIF1B	KIAA0591|KIAA1448
+GIMAP8	GTPase IMAP family member 8	IAN9|IANT
+BAG4	BAG family molecular chaperone regulator 4	SODD
+DIP2A	Disco-interacting protein 2 homolog A	C21orf106|DIP2|KIAA0184
+MTLN	Mitoregulin	LEMP|LINC00116|MOXI|MPM|NCRNA00116|SMIM37
+BLTP2	Bridge-like lipid transfer protein family member 2	BCOX1|KIAA0100
+AZIN2	Antizyme inhibitor 2	ADC|KIAA1945|ODCP
+IRF3	Interferon regulatory factor 3	
+MFI	Protein MFI	C11orf65
+CA5B	Carbonic anhydrase 5B, mitochondrial	
+ALAS2	5-aminolevulinate synthase, erythroid-specific, mitochondrial	ALASE|ASB
+AARS2	Alanine--tRNA ligase, mitochondrial	AARSL|KIAA1270
+FDXR	NADPH:adrenodoxin oxidoreductase, mitochondrial	ADXR
+PDPR	Pyruvate dehydrogenase phosphatase regulatory subunit, mitochondrial	KIAA1990
+ISCU	Iron-sulfur cluster assembly enzyme ISCU	NIFUN
+DMAC1	Distal membrane-arm assembly complex protein 1	C9orf123|TMEM261
+FAM72A	Protein FAM72A	UGENE
+GOT2	Aspartate aminotransferase, mitochondrial	KYAT4
+G0S2	G0/G1 switch protein 2	
+L2HGDH	L-2-hydroxyglutarate dehydrogenase, mitochondrial	C14orf160
+VMP1	Vacuole membrane protein 1	TDC1|TMEM49|HSPC292
+MRPL48	Large ribosomal subunit protein mL48	CGI-118|HSPC290
+GPX1	Glutathione peroxidase 1	
+COQ4	Ubiquinone biosynthesis protein COQ4 homolog, mitochondrial	CGI-92
+PRELID3B	PRELI domain containing protein 3B	C20orf45|SLMO2|CGI-107
+NDUFB5	NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 5, mitochondrial	
+MRPL11	Large ribosomal subunit protein uL11m	CGI-113
+REXO2	Oligoribonuclease, mitochondrial	SFN|SMFN|CGI-114
+NDUFA2	NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 2	
+SHARPIN	Sharpin	SIPL1|PSEC0216
+TMEM186	Transmembrane protein 186	C16orf51
+MRPS16	Small ribosomal subunit protein bS16m	RPMS16|CGI-132
+FIS1	Mitochondrial fission 1 protein	TTC11|CGI-135
+PAM16	Mitochondrial import inner membrane translocase subunit TIM16	MAGMAS|TIM16|TIMM16|CGI-136
+MRPS23	Small ribosomal subunit protein mS23	CGI-138|HSPC329
+BRD8	Bromodomain-containing protein 8	SMAP|SMAP2
+PTRH2	Peptidyl-tRNA hydrolase 2, mitochondrial	BIT1|PTH2|CGI-147
+AK3	GTP:AMP phosphotransferase AK3, mitochondrial	AK3L1|AK6|AKL3L
+SLC27A3	Long-chain fatty acid transport protein 3	ACSVL3|FATP3|PSEC0067|UNQ367/PRO703
+SLC25A31	ADP/ATP translocase 4	AAC4|ANT4|SFEC
+ATP5IF1	ATPase inhibitor, mitochondrial	ATPI|ATPIF1
+BLTP1	Bridge-like lipid transfer protein family member 1	FSA|KIAA1109|KIAA1371|TWEEK
+UROS	Uroporphyrinogen-III synthase	
+MTRF1	Peptide chain release factor 1, mitochondrial	
+KLC2	Kinesin light chain 2	
+IQCN	IQ domain-containing protein N	KIAA1683
+PERP	p53 apoptosis effector related to PMP-22	KCP1|KRTCAP1|PIGPC1|THW
+MUTYH	Adenine DNA glycosylase	MYH
+NDUFC1	NADH dehydrogenase [ubiquinone] 1 subunit C1, mitochondrial	
+NDUFB3	NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 3	
+THOP1	Thimet oligopeptidase	
+ECI2	Enoyl-CoA delta isomerase 2	DRS1|HCA88|PECI
+STARD13	StAR-related lipid transfer protein 13	DLC2|GT650
+HSBP1	Heat shock factor-binding protein 1	HSF1BP
+BRINP3	BMP/retinoic acid-inducible neural-specific protein 3	DBCCR1L|DBCCR1L1|FAM5C
+RPS6KA6	Ribosomal protein S6 kinase alpha-6	RSK4
+PSEN1	Presenilin-1	AD3|PS1|PSNL1
+CLN8	Protein CLN8	C8orf61
+RAB3A	Ras-related protein Rab-3A	
+SLC25A10	Mitochondrial dicarboxylate carrier	DIC
+HMGN5	High mobility group nucleosome-binding domain-containing protein 5	NSBP1
+MRPS33	Small ribosomal subunit protein mS33	CGI-139|PTD003
+TMEM71	Transmembrane protein 71	
+VDAC3	Voltage-dependent anion-selective channel protein 3	
+BCS1L	Mitochondrial chaperone BCS1	BCS1
+SLC22A14	Solute carrier family 22 member 14	OCTL2|ORCTL4
+MRPS9	Small ribosomal subunit protein uS9m	RPMS9
+MRPS6	Small ribosomal subunit protein bS6m	C21orf101|RPMS6
+MRPS34	Small ribosomal subunit protein mS34	
+GABBR1	Gamma-aminobutyric acid type B receptor subunit 1	GPRC3A
+PRELID1	PRELI domain-containing protein 1, mitochondrial	PRELI|CGI-106|SBBI12
+MRPS21	Small ribosomal subunit protein bS21m	RPMS21|MDS016
+MRPS15	Small ribosomal subunit protein uS15m	RPMS15|DC37
+MRPS11	Small ribosomal subunit protein uS11m	RPMS11|HCC2
+AKT3	RAC-gamma serine/threonine-protein kinase	PKBG
+HIGD1A	HIG1 domain family member 1A, mitochondrial	HIG1|HSPC010
+MRPS36	Alpha-ketoglutarate dehydrogenase component 4	KGD4|DC47
+PIN4	Peptidyl-prolyl cis-trans isomerase NIMA-interacting 4	
+LIPT1	Lipoyltransferase 1, mitochondrial	
+COX14	Cytochrome c oxidase assembly protein COX14	C12orf62
+SPAST	Spastin	ADPSP|FSP2|KIAA1083|SPG4
+PGAM5	Serine/threonine-protein phosphatase PGAM5, mitochondrial	
+GSDMD	Gasdermin-D	DFNA5L|GSDMDC1|FKSG10
+CCN6	Cellular communication network factor 6	WISP3|UNQ462/PRO790/PRO956
+ARIH2	E3 ubiquitin-protein ligase ARIH2	ARI2|TRIAD1|HT005
+SFXN2	Sideroflexin-2	
+HSP90AA1	Heat shock protein HSP 90-alpha	HSP90A|HSPC1|HSPCA
+ELAC2	Zinc phosphodiesterase ELAC protein 2	HPC2
+MRPL34	Large ribosomal subunit protein bL34m	
+WDR26	WD repeat-containing protein 26	CDW2|MIP2|PRO0852
+ACSL4	Long-chain-fatty-acid--CoA ligase 4	ACS4|FACL4|LACS4
+FECH	Ferrochelatase, mitochondrial	
+IARS2	Isoleucine--tRNA ligase, mitochondrial	
+DISC1	Disrupted in schizophrenia 1 protein	KIAA0457
+FADS1	Acyl-CoA (8-3)-desaturase	FADSD5
+TRIM14	Tripartite motif-containing protein 14	KIAA0129
+IKBKE	Inhibitor of nuclear factor kappa-B kinase subunit epsilon	IKKE|IKKI|KIAA0151
+SLC27A1	Long-chain fatty acid transport protein 1	ACSVL5|FATP1
+SPATA33	Spermatogenesis-associated protein 33	C16orf55
+ATG14	Beclin 1-associated autophagy-related key regulator	ATG14L|KIAA0831
+PLSCR3	Phospholipid scramblase 3	
+MRPL17	Large ribosomal subunit protein bL17m	LIP2
+ZDHHC6	Palmitoyltransferase ZDHHC6	ZNF376
+ACSS3	Acyl-CoA synthetase short-chain family member 3, mitochondrial	
+FEN1	Flap endonuclease 1	RAD2
+TRMT5	tRNA (guanine(37)-N1)-methyltransferase	KIAA1393|TRM5
+PPM1M	Protein phosphatase 1M	PPM1E
+ATXN3	Ataxin-3	ATX3|MJD|MJD1|SCA3
+HARS2	Histidine--tRNA ligase, mitochondrial	HARSL|HARSR|HO3
+BAK1	Bcl-2 homologous antagonist/killer	BAK|BCL2L7|CDN1
+HTRA2	Serine protease HTRA2, mitochondrial	OMI|PRSS25
+AARS1	Alanine--tRNA ligase, cytoplasmic	AARS
+IAPP	Islet amyloid polypeptide	
+AKR7A2	Aflatoxin B1 aldehyde reductase member 2	AFAR|AFAR1|AKR7
+CASP8AP2	CASP8-associated protein 2	FLASH|KIAA1315|RIP25
+SLC25A32	Mitochondrial folate transporter/carrier	MFT|MFTC
+PI4KB	Phosphatidylinositol 4-kinase beta	PIK4CB
+DHTKD1	2-oxoadipate dehydrogenase complex component E1	KIAA1630
+SUCLG2	Succinate--CoA ligase [GDP-forming] subunit beta, mitochondrial	
+UBA1	Ubiquitin-like modifier-activating enzyme 1	A1S9T|UBE1
+SCP2	Sterol carrier protein 2	
+SLC25A12	Electrogenic aspartate/glutamate antiporter SLC25A12, mitochondrial	AGC1|ARALAR1
+CLU	Clusterin	APOJ|CLI|KUB1|AAG4
+UXT	Protein UXT	HSPC024
+NARS2	Probable asparagine--tRNA ligase, mitochondrial	
+AHCYL1	S-adenosylhomocysteine hydrolase-like protein 1	DCAL|IRBIT|XPVKONA
+PRKACA	cAMP-dependent protein kinase catalytic subunit alpha	PKACA
+PEMT	Phosphatidylethanolamine N-methyltransferase	PEMPT|PNMT
+FBXL4	F-box/LRR-repeat protein 4	FBL4|FBL5
+NRDC	Nardilysin	NRD1
+ATG5	Autophagy protein 5	APG5L|ASP
+CS	Citrate synthase, mitochondrial	
+IDH3B	Isocitrate dehydrogenase [NAD] subunit beta, mitochondrial	
+PYURF	Protein preY, mitochondrial	NDUFAFQ|PREY
+MMAB	Corrinoid adenosyltransferase MMAB	
+ATP23	Mitochondrial inner membrane protease ATP23 homolog	KUB3|XRCC6BP1
+SLC30A7	Zinc transporter 7	ZNT7|ZNTL2
+TRIM34	E3 ubiquitin-protein ligase TRIM34	IFP1|RNF21
+CRYM	Ketimine reductase mu-crystallin	THBP
+ATG2B	Autophagy-related protein 2 homolog B	C14orf103
+THG1L	Probable tRNA(His) guanylyltransferase	ICF45
+ZMIZ2	Zinc finger MIZ domain-containing protein 2	KIAA1886|ZIMP7|HRIHFB2007
+RAB11FIP3	Rab11 family-interacting protein 3	ARFO1|KIAA0665
+CLUH	Clustered mitochondria protein homolog	KIAA0664
+HIP1R	Huntingtin-interacting protein 1-related protein	HIP12|KIAA0655
+ATG13	Autophagy-related protein 13	KIAA0652
+BLOC1S2	Biogenesis of lysosome-related organelles complex 1 subunit 2	BLOS2|CEAP
+USP15	Ubiquitin carboxyl-terminal hydrolase 15	KIAA0529
+PTCD1	Pentatricopeptide repeat-containing protein 1, mitochondrial	KIAA0632
+STARD3	StAR-related lipid transfer protein 3	CAB1|MLN64
+ATP5MG	ATP synthase subunit g, mitochondrial	ATP5L
+PDZD8	PDZ domain-containing protein 8	PDZK8
+DDHD1	Phospholipase DDHD1	KIAA1705
+MIEF2	Mitochondrial dynamics protein MID49	MID49|SMCR7
+ACAD10	Acyl-CoA dehydrogenase family member 10	
+CYB5R1	NADH-cytochrome b5 reductase 1	NQO3A2|UNQ3049/PRO9865
+GLS2	Glutaminase liver isoform, mitochondrial	GA
+NGDN	Neuroguidin	C14orf120
+DUSP18	Dual specificity protein phosphatase 18	LMWDSP20
+IFI27L1	Interferon alpha-inducible protein 27-like protein 1	FAM14B
+MRM2	rRNA methyltransferase 2, mitochondrial	FJH1|FTSJ2
+PINX1	PIN2/TERF1-interacting telomerase inhibitor 1	LPTL|LPTS
+SIRT4	NAD-dependent protein lipoamidase sirtuin-4, mitochondrial	SIR2L4
+MTFP1	Mitochondrial fission process protein 1	MTP18|HSPC242|My022
+DAOA	D-amino acid oxidase activator	G72
+PLA2G4A	Cytosolic phospholipase A2	CPLA2|PLA2G4
+UQCR10	Cytochrome b-c1 complex subunit 9	UCRC|HSPC119
+OAS1	2'-5'-oligoadenylate synthase 1	OIAS
+NOL7	Nucleolar protein 7	C6orf90|NOP27
+HTD2	Hydroxyacyl-thioester dehydratase type 2, mitochondrial	
+ASS1	Argininosuccinate synthase	ASS
+BOK	Bcl-2-related ovarian killer protein	BCL2L9
+COX4I2	Cytochrome c oxidase subunit 4 isoform 2, mitochondrial	COX4L2
+MRPL40	Large ribosomal subunit protein mL40	NLVCF|URIM
+IMMT	MICOS complex subunit MIC60	HMP|MIC60|MINOS2|PIG4|PIG52
+RNF41	E3 ubiquitin-protein ligase NRDP1	FLRF|NRDP1|SBBI03
+TXNRD1	Thioredoxin reductase 1, cytoplasmic	GRIM12|KDRF
+ATP13A2	Polyamine-transporting ATPase 13A2	PARK9
+NFU1	NFU1 iron-sulfur cluster scaffold homolog, mitochondrial	HIRIP5|CGI-33
+DGUOK	Deoxyguanosine kinase, mitochondrial	DGK
+SEPTIN4	Septin-4	C17orf47|PNUTL2|SEP4|SEPT4|hucep-7
+MTG2	Mitochondrial ribosome-associated GTPase 2	GTPBP5|OBGH1
+HADH	Hydroxyacyl-coenzyme A dehydrogenase, mitochondrial	HAD|HAD1|HADHSC|SCHAD
+CABS1	Calcium-binding and spermatid-specific protein 1	C4orf35
+MARK1	Serine/threonine-protein kinase MARK1	KIAA1477|MARK
+METTL8	tRNA N(3)-methylcytidine methyltransferase METTL8, mitochondrial	
+PCK2	Phosphoenolpyruvate carboxykinase [GTP], mitochondrial	PEPCK2
+FHIT	Bis(5'-adenosyl)-triphosphatase	
+PRODH	Proline dehydrogenase 1, mitochondrial	PIG6|POX2|PRODH2
+TANGO2	Transport and Golgi organization protein 2 homolog	C22orf25
+GPAA1	Glycosylphosphatidylinositol anchor attachment 1 protein	GAA1
+ACOT2	Acyl-coenzyme A thioesterase 2, mitochondrial	PTE2|PTE2A
+ACP6	Lysophosphatidic acid phosphatase type 6	ACPL1|LPAP|UNQ205/PRO231
+ACADVL	Very long-chain specific acyl-CoA dehydrogenase, mitochondrial	VLCAD
+FDX1	Adrenodoxin, mitochondrial	ADX
+NGB	Neuroglobin	
+OSGEPL1	tRNA N6-adenosine threonylcarbamoyltransferase, mitochondrial	GCP1
+ULK1	Serine/threonine-protein kinase ULK1	KIAA0722
+NDUFS6	NADH dehydrogenase [ubiquinone] iron-sulfur protein 6, mitochondrial	
+SLC25A27	Mitochondrial uncoupling protein 4	UCP4|UNQ772/PRO1566
+STYXL1	Serine/threonine/tyrosine-interacting-like protein 1	DUSP24|MKSTYX
+AIFM1	Apoptosis-inducing factor 1, mitochondrial	AIF|PDCD8
+MLYCD	Malonyl-CoA decarboxylase, mitochondrial	
+MICOS13	MICOS complex subunit MIC13	C19orf70|MIC13|QIL1
+CHCHD2	Coiled-coil-helix-coiled-coil-helix domain-containing protein 2	C7orf17|AAG10
+PRKCA	Protein kinase C alpha type	PKCA|PRKACA
+MRPL42	Large ribosomal subunit protein mL42	MRPL31|MRPS32|RPML31|HSPC204|PTD007
+DLAT	Dihydrolipoyllysine-residue acetyltransferase component of pyruvate dehydrogenase complex, mitochondrial	DLTA
+SLC22A3	Solute carrier family 22 member 3	EMTH|OCT3
+SNN	Stannin	
+NIPSNAP2	Protein NipSnap homolog 2	GBAS
+DNAJC19	Mitochondrial import inner membrane translocase subunit TIM14	TIM14|TIMM14
+NDUFS2	NADH dehydrogenase [ubiquinone] iron-sulfur protein 2, mitochondrial	
+RMDN1	Regulator of microtubule dynamics protein 1	FAM82B|CGI-90
+GK	Glycerol kinase	
+UQCRFS1	Cytochrome b-c1 complex subunit Rieske, mitochondrial	
+FIBP	Acidic fibroblast growth factor intracellular-binding protein	
+STAT2	Signal transducer and activator of transcription 2	
+MTARC1	Mitochondrial amidoxime-reducing component 1	MARC1|MOSC1
+MPC1	Mitochondrial pyruvate carrier 1	BRP44L|CGI-129|HSPC040|PNAS-115
+URS000037C5A8_9606	Homo sapiens (human) hsa-miR-144-3p	
+URS00002F4D78_9606	Homo sapiens (human) hsa-miR-29a-3p	
+URS00002075FA_9606	Homo sapiens (human) hsa-miR-17-5p	
+URS0000272A3D_9606	Homo sapiens (human) hsa-miR-29c-3p	
+MICOS10	MICOS complex subunit MIC10	C1orf151|MIC10|MINOS1
+HIBCH	3-hydroxyisobutyryl-CoA hydrolase, mitochondrial	
+URS000024463E_9606	Homo sapiens (human) hsa-miR-29b-3p	
+URS000075C8FA_9606	Homo sapiens (human) RNA component of mitochondrial RNA processing endoribonuclease (RMRP)	
+URS0000338542_9606	Homo sapiens (human) hsa-miR-155-5p	
+TIMM44	Mitochondrial import inner membrane translocase subunit TIM44	MIMT44|TIM44
+CLPB	Mitochondrial disaggregase	SKD3
+NACC2	Nucleus accumbens-associated protein 2	BTBD14A|NAC2|RBB
+MTHFD1L	Monofunctional C1-tetrahydrofolate synthase, mitochondrial	FTHFSDC1
+APEX1	DNA-(apurinic or apyrimidinic site) endonuclease	APE|APE1|APEX|APX|HAP1|REF1
+MRPL12	Large ribosomal subunit protein bL12m	MRPL7|RPML12
+METAP1D	Methionine aminopeptidase 1D, mitochondrial	MAP1D
+TMEM126A	Transmembrane protein 126A	
+OTC	Ornithine transcarbamylase, mitochondrial	
+PYCR1	Pyrroline-5-carboxylate reductase 1, mitochondrial	
+NEFL	Neurofilament light polypeptide	NF68|NFL
+LDHB	L-lactate dehydrogenase B chain	
+GLUD1	Glutamate dehydrogenase 1, mitochondrial	GLUD
+MTFR1L	Mitochondrial fission regulator 1-like	FAM54B|HYST1888|MSTP116
+PFDN2	Prefoldin subunit 2	PFD2|HSPC231
+SLC22A4	Solute carrier family 22 member 4	ETT|OCTN1|UT2H
+SOD1	Superoxide dismutase [Cu-Zn]	
+PITRM1	Presequence protease, mitochondrial	KIAA1104|MP1|PREP
+GSR	Glutathione reductase, mitochondrial	GLUR|GRD1
+uniplex-micu1_2_human	Mitochondrial calcium uniporter complex, MICU1-MICU2 variant	Mitochondrial calcium uniplex complex|MCU complex|4xMCU:MICU1:MICU2:SMDT1|mtCU complex
+casp2_human-1	Caspase-2 complex	CASP2 tetramer|Active CASP2|Active Caspase-2|Caspase-2 tetramer
+gatcab_human	Mitochondrial glutamyl-tRNA(Gln) amidotransferase complex	GatCAB complex|GATB:GATC:QRSL1
+coq-synthome_human	CoQ biosynthetic complex	COQ3:COQ4:COQ5:COQ6:COQ7:COQ9|Complex Q|CoQ-synthome complex
+hsd17b10-trmt10c-6	Mitochondrial tRNA:m(1)R9 methyltransferase complex	4xHSD17B10:2xTRMT10C|MRPP1-MRPP2 complex
+mribonucleasep_human	Mitochondrial ribonuclease P complex	4xHSD17B10:PRORP:2xTRMT10C|MRPP1-MRPP2-MRRP3 complex|mtRNase P complex
+mpc_human-1	Mitochondrial pyruvate carrier complex	MPC1:MPC2|Pyruvate import complex
+tim9-tim10-tim10b_human	TIM9-TIM10-TIM10B mitochondrial intermembrane space protein transporter complex	2xTIMM9:3xTIMM10:TIMM10B
+tim9-tim10_human	TIM9-TIM10 mitochondrial intermembrane space protein transporter complex	3xTIMM9:3xTIMM10|Tim9-Tim10 complex
+tim22_human-1	TIM22 mitochondrial inner membrane twin-pore carrier translocase complex	AGK:5xTIMM9:6xTIMM10:TIMM10B:TIM29:TIM22|Mitochondrial import inner membrane translocase|TIMM22 complex
+cytc_oxidase_human	Mitochondrial respiratory chain complex IV	COX4I1:COX5A:COX5B:COX6A1:COX6B1:COX6C:COX7A2:COX7B:COX7C:COX8A:MT-CO1:MT-CO2:MT-CO3:NDUFA4|Cytochrome c oxidase complex|COX complex
+phb_human-1	Prohibitin complex	PHB:PHB2|PHB complex
+bclxl_human dimer	BCL-XL complex	BCL-XL homodimer|BCL-XL dimer|BCL2L1 dimer|BCL2L1 homodimer
+dpol-gamma_human	Mitochondrial DNA polymerase gamma complex	DNA polymerase gamma heterotrimer|Mitochondrial DNA polymerase|POLG:2xPOLG2|POLG-POLG2 complex
+nadh_ubq_oxred_human	Mitochondrial respiratory chain complex I	Mitochondrial Complex I|NADH Coenzyme Q oxidoreductase|Complex I - NADH:Ubiquinone oxidoreductase|Coenzyme Q reductase|Complex 1 dehydrogenase|Complex I (electron transport chain)|Complex I (mitochondrial electron transport)|Complex I (NADH:Q1 oxidoreductase)|Dihydronicotinamide adenine dinucleotide-coenzyme Q reductase|DPNH-coenzyme Q reductase|DPNH-ubiquinone reductase|Electron transfer complex I.  Mitochondrial electron transport complex 1.  Mitochondrial electron transport complex I|NADH coenzyme Q1 reductase|NADH-coenzyme Q oxidoreductase|NADH-coenzyme Q reductase|NADH-CoQ oxidoreductase|NADH-CoQ reductase|NADH-Q6 oxidoreductase|NADH-ubiquinone oxidoreductase|NADH-ubiquinone reductase|NADH-ubiquinone-1 reductase|NADH:ubiquinone oxidoreductase complex|Reduced nicotinamide adenine dinucleotide-coenzyme Q reductase|Type 1 dehydrogenase|Ubiquinone reductase|NADH:ubiquinone oxidoreductase
+ubol_cytc_human	Mitochondrial respiratory chain complex III	Ubiquinol-cytochrome c reductase complex|b6/f complex|bc1 complex|coenzyme Q-cytochrome c reductase|coenzyme QH2-cytochrome c reductase|complex III|coQH2-cytochrome c oxidoreductase|cyt bc1|Cyt bc1 complex|cytochrome b-c1 complex|cytochrome b-c2 complex|cytochrome bc1 complex|dihydrocoenzyme Q-cytochrome c reductase|f-b6 complex|hydroubiquinone c2 oxidoreductase|plastoquinol-plastocyanin oxidoreductase|QCR|QH2:cytochrome c oxidoreductase|quinol cyt. c oxidoreductase (bc1)|quinol-cytochrome c oxidoreductase complex|reduced coenzyme Q-cytochrome c reductase|reduced ubiquinone-cytochrome c oxidoreductase|reduced ubiquinone-cytochrome c reductase|complex III (mitochondrial electron transport)|respiratory complex III|ubihydroquinol:cytochrome c oxidoreductase|ubiquinol-cytochrome c oxidoreductase|ubiquinol-cytochrome c reductase|ubiquinol-cytochrome c-2 oxidoreductase|ubiquinol-cytochrome c1 oxidoreductase|ubiquinol-cytochrome c2 reductase|ubiquinol:cytochrome c reductase|ubiquinol:ferricytochrome c oxidoreductase|ubiquinone-cytochrome b-c1 oxidoreductase|ubiquinone-cytochrome c oxidoreductase|ubiquinone-cytochrome c reductase|CYC1:MT-CYB:UQCRC1:UQCRC2:UQCRC6:UQCRC7:UQCRC8:UQCRC9:UQCRC10:UQCRFS1:UQCRFS1|Mitochondrial electron transport complex III
+bak_oligo_human	BAK1 oligomer	BAK1 homo-oligomer|Activated BAK
+tfp_human	Mitochondrial trifunctional enzyme complex	Trifunctional protein complex|2xHADHA:2xHADHB|TFP complex|Mitochondrial fatty acid beta-oxidation multienzyme complex
+rrm1-rrm2b_human	Ribonucleoside-diphosphate reductase RR1 complex, RRM2B variant	RRM1:RRM2B|Ribonucleotide diphosphate reductase RR1 complex|Class I ribonucleotide reductase complex|RNR complex|RIR1-RIR2B complex|p53-inducible ribonucleotide reductase complex|Class I RR complex
+abcb8-ccdc51_human	MITOK-MITOSUR mitochondrial potassium channel complex	4xABCB8:4xCCDC51|mitoKATP complex
+MRPL3	Large ribosomal subunit protein uL3m	MRL3|RPML3
+ACSM6	Acyl-coenzyme A synthetase ACSM6, mitochondrial	C10orf129
+LRBA	Lipopolysaccharide-responsive and beige-like anchor protein	BGL|CDC4L|LBA
+MTFR2	Mitochondrial fission regulator 2	DUFD1|FAM54A
+NDUFA7	NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 7	
+MTM1	Myotubularin	CG2
+NDUFB2	NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 2, mitochondrial	
+NDUFB8	NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 8, mitochondrial	
+NDUFB4	NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 4	
+NDUFA3	NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 3	
+GABARAP	Gamma-aminobutyric acid receptor-associated protein	FLC3B|HT004
+TSPOAP1	Peripheral-type benzodiazepine receptor-associated protein 1	BZRAP1|KIAA0612|RBP1|RIMBP1
+MRS2	Magnesium transporter MRS2 homolog, mitochondrial	HPT|MRS2L
+NDUFS8	NADH dehydrogenase [ubiquinone] iron-sulfur protein 8, mitochondrial	
+AP3B1	AP-3 complex subunit beta-1	ADTB3A
+AKAP1	A-kinase anchor protein 1, mitochondrial	AKAP149|PRKA1
+MRPS31	Small ribosomal subunit protein mS31	IMOGN38
+GPN1	GPN-loop GTPase 1	MBDIN|RPAP4|XAB1|HUSSY-23
+ZBED3	Zinc finger BED domain-containing protein 3	
+GATD3	Glutamine amidotransferase-like class 1 domain-containing protein 3, mitochondrial	C21orf33|GATD3A
+DMGDH	Dimethylglycine dehydrogenase, mitochondrial	
+ZDHHC8	Palmitoyltransferase ZDHHC8	KIAA1292|ZDHHCL1|ZNF378
+SLC25A14	Brain mitochondrial carrier protein 1	BMCP1|UCP5|UNQ791/PRO1682
+AFG2A	ATPase family gene 2 protein homolog A	SPAF|SPATA5
+NMT1	Glycylpeptide N-tetradecanoyltransferase 1	NMT
+GABPB1	GA-binding protein subunit beta-1	E4TF1B|GABPB|GABPB2
+LETM1	Mitochondrial proton/calcium exchanger protein	
+ZNF205	Transcriptional repressor RHIT	RHIT|ZNF210
+MT3	Metallothionein-3	
+ATPSCKMT	ATP synthase subunit C lysine N-methyltransferase	FAM173B
+BECN1	Beclin-1	GT197
+ATP5F1A	ATP synthase subunit alpha, mitochondrial	ATP5A|ATP5A1|ATP5AL2|ATPM
+NR4A1	Nuclear receptor subfamily 4 group A member 1	GFRP1|HMR|NAK1
+FDX2	Ferredoxin-2, mitochondrial	FDX1L
+NOS3	Nitric oxide synthase 3	
+GK2	Glycerol kinase 2	GKP2|GKTA
+LIG3	DNA ligase 3	
+MIGA1	Mitoguardin 1	FAM73A
+MTRFR	Mitochondrial translation release factor in rescue	C12orf65|My030
+GK3	Glycerol kinase 3	GK3P|GKP3|GKTB
+SFXN4	Sideroflexin-4	BCRM1
+KDR	Vascular endothelial growth factor receptor 2	FLK1|VEGFR2
+ABCB6	ATP-binding cassette sub-family B member 6	MTABC3|PRP|UMAT
+HMGCL	Hydroxymethylglutaryl-CoA lyase, mitochondrial	
+MAFF	Transcription factor MafF	
+SARS2	Serine--tRNA ligase, mitochondrial	SARSM
+PYCARD	Apoptosis-associated speck-like protein containing a CARD	ASC|CARD5|TMS1
+MRPS30	Large ribosomal subunit protein mL65	PDCD9|BM-047
+AGPAT5	1-acyl-sn-glycerol-3-phosphate acyltransferase epsilon	
+MCEE	Methylmalonyl-CoA epimerase, mitochondrial	
+DGAT2	Diacylglycerol O-acyltransferase 2	HMFN1045|UNQ738/PRO1433
