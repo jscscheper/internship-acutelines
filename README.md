@@ -136,17 +136,20 @@ jupyter notebook
 
 # Layout
 In the root of this repository, you will find the end report which sums up the findings, the problems we came across and how we challenged those. The subdirectories are set up as follows:
+
 - `data/`: publicly available data, including raw counts and some clinical data points (see `SRATableRun.txt`). Please keep in mind that most clinical data is missing, as this is considered sensitive data.
     - `source/`: contains all the source files and are primarily used in the `EDA.Rmd`.
     - `degs/`: contains the DEG dataset found by DESeq2 and is used in all logs.
     - `counts/`: various subsets of count data, patient location specific (e.g., healthy control counts).
     - `clustering/`: clinical data critical to the endotype classification.
+
 - `logs/`: logs regarding each part of the research. Herein, we explain why certain choices were made. Logs are aimed to be reproducible.
 - `pdfs/`: PDFs of logs
 - `scripts/`: scripts with helper functions. Are primiarly used in the logs. `helper_functions.R` is for all R-based logs and `train_and_evaluate.py` for Python.
 - `misc/`: miscellaneous essential figures, data management plan, poster etc.
 
 In the report, we refer to logs as supplemental material. Here, we mean:
+
 - Supplemental 1: `EDA.Rmd`
 - Supplemental 2: `de_and_pathway_analysis.Rmd`
 - Supplemental 3: `clustering.Rmd`
