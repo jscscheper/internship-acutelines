@@ -6,8 +6,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ---
 
-*_Statement on Git commit history:_* The commit history you see here is not complete; most of it was lost due to deletion of a previous repository. I accidentally pushed sensitive data and had to delete the entire previous repository (a `git rm` is not sufficient as the data 'lives' on in the commit history). I tried to restore the commit history in this repository, but to no avail. There is, however, a log history of the previous repository available under `misc/git_history.txt`. I do understand that this may not be sufficient, but it is the best I could do.
-
 # Introduction
 Sepsis, a major contributor to in-hospital deaths, is challenging to detect due to its heterogeneous nature, and dysfunctional mitochondria can worsen the condition. Analyzing mitochondria-related genes could aid in early detection and guide treatment.
 RNA-Seq and clinical data from 348 septic patients, collected from four emergency rooms (ER) and one intensive care unit (ICU), were used and compared to 44 healthy controls. This study applied supervised and unsupervised algorithms to identify clinically relevant gene signatures.
