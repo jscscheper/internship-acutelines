@@ -1,5 +1,5 @@
-# Made by: Dennis Scheper
-# Contact: d.j.scheper@umcg.nl / d.j.scheper@st.hanze.nl / djscheper@gmail.com
+﻿# Made by: Jamie Scheper
+# Contact: j.s.c.scheper@umcg.nl / j.s.c.scheper@st.hanze.nl / jscscheper@gmail.com
 
 # Libraries used
 library(dplyr)

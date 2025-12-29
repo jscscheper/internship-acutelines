@@ -1,4 +1,4 @@
-"""
+﻿"""
 This module contains functions that were used in the project
 regarding the discovery of mitochondria-related genes. With
 this module, we tried through feature selection efforts by
@@ -16,10 +16,10 @@ Usage of functions is highly encouraged in the accompanied
 Juptyer notebook ('Feature_Selection.ipynb').
 """
 
-__author__ = "Dennis Scheper"
+__author__ = "Jamie Scheper"
 __version__ = "v1.0"
 __date__ = "25-01-2024"
-__email__ = "d.j.scheper@st.hanze.nl"
+__email__ = "j.s.c.scheper@st.hanze.nl"
 
 from collections import defaultdict
 

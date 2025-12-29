@@ -1,6 +1,6 @@
----
+﻿---
 title: "Clustering"
-author: "Dennis Scheper"
+author: "Jamie Scheper"
 date: "`r format(Sys.Date(), format='%d-%m-%Y')`"
 output:
   html_document:
@@ -13,7 +13,7 @@ bibliography: references_cluster.bib
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
-knitr::opts_knit$set(root.dir = 'C:/Users/Dennis/Desktop/internship')
+knitr::opts_knit$set(root.dir = 'C:/Users/Jamie/Desktop/internship')
 ```
 
 ```{r, echo=FALSE}

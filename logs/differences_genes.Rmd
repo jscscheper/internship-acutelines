@@ -1,6 +1,6 @@
----
+﻿---
 title: "Zoom-in gene sets"
-author: "Dennis Scheper"
+author: "Jamie Scheper"
 date: "`r Sys.Date()`"
 output:
   pdf_document: default
@@ -9,7 +9,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
-knitr::opts_knit$set(root.dir = 'C:/Users/Dennis/Desktop/internship')
+knitr::opts_knit$set(root.dir = 'C:/Users/Jamie/Desktop/internship')
 ```
 
 # Overview

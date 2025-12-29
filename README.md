@@ -1,6 +1,12 @@
-# Unraveling the role of mitochondria dysfunction in early sepsis
+﻿# Unraveling the role of mitochondria dysfunction in early sepsis
 
-This research was conducted by Dennis Scheper (373689)
+![R](https://img.shields.io/badge/R-4.3-276DC3?logo=r)
+![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)
+![DESeq2](https://img.shields.io/badge/DESeq2-1.42-green)
+![scikit--learn](https://img.shields.io/badge/sklearn-1.3-F7931E?logo=scikit-learn)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+This research was conducted by Jamie Scheper (373689)
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
@@ -156,7 +162,7 @@ In the report, we refer to logs as supplemental material. Here, we mean:
 - Supplemental 5: `differences_genes.Rmd`
 
 # Contact
-If any issue or question remains, please contact us at [d.j.scheper@st.hanze.nl](mailto:d.j.scheper@st.hanze.nl) or [d.j.scheper@umcg.nl](mailto:d.j.scheper@umcg.nl).
+If any issue or question remains, please contact us at [j.s.c.scheper@st.hanze.nl](mailto:j.s.c.scheper@st.hanze.nl) or [j.s.c.scheper@umcg.nl](mailto:j.s.c.scheper@umcg.nl).
 
 [R]: https://www.rstudio.com/products/rstudio/download/
 [dplyr]: https://dplyr.tidyverse.org/

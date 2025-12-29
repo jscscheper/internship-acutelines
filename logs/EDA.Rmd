@@ -1,6 +1,6 @@
----
+﻿---
 title: "Unraveling the role of mitochondrial dysfunction in early sepsis"
-author: "Dennis Scheper"
+author: "Jamie Scheper"
 date: "`r format(Sys.Date(), format='%d-%m-%Y')`"
 output:
   html_document:
@@ -20,10 +20,10 @@ bibliography: references_eda.bib
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(message=FALSE, warning=FALSE)
-knitr::opts_knit$set(root.dir = 'C:/Users/Dennis/Desktop/internship')
+knitr::opts_knit$set(root.dir = 'C:/Users/Jamie/Desktop/internship')
 ```
 
-<img src="C:/Users/Dennis/Desktop/internship/misc/front/sepsis.jpeg" alt="SEPSIS" width="600"/>
+<img src="C:/Users/Jamie/Desktop/internship/misc/front/sepsis.jpeg" alt="SEPSIS" width="600"/>
 
 \renewcommand{\contentsname}{Table of content}
 \tableofcontents
