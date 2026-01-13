@@ -45,7 +45,7 @@ We used [Rstudio][r] (version 4.3.1) to clean, restructure, and visualize data a
 To install these R packages, please follow the following steps:
 
 
-Additionally, we performed feature selection and machine learning in [Python][python] (version 3.11.2). An [Jupyter][jupyter] (version 1.0.0) notebook is available under `logs/` wherein we perform all these processes. We used the following packages:
+Additionally, we performed feature selection and machine learning in [Python][python] (version 3.11.2). A [Jupyter][jupyter] (version 1.0.0) notebook (`Feature_Importance.ipynb`) is available under `logs/` wherein we perform all these processes. We used the following packages:
 
 - [Pandas (version 2.1.3)][Pandas]: data manipulation
 - [NumPy (version 1.26.2)][NumPy]: mathematics and data manipulation
@@ -53,7 +53,7 @@ Additionally, we performed feature selection and machine learning in [Python][py
 - [seaborn (version 0.13.0)][seaborn]: data visualization
 - [matplotlib (version 3.8.2)][matplotlib]: data visualization
 - [scikit-plot (version 0.3.7)][scikit_plot]: data visualization and machine learning
-- [mxlextend (version 0.23.0)][mxlextend]: feature selection
+- [mlxtend (version 0.23.0)][mlxtend]: feature selection
 
 To install these Python packages, please follow the following steps:
 
@@ -120,7 +120,7 @@ source env_name/bin/activate
 Install all the libraries:
 
 ```shell
-pip install -r misc/requirements.txt
+pip install -r requirements.txt
 ```
 
 3) Loading in the Juypter notebook
@@ -187,4 +187,4 @@ If any issue or question remains, please contact us at [j.s.c.scheper@st.hanze.n
 [seaborn]: https://seaborn.pydata.org/
 [matplotlib]: https://matplotlib.org/
 [scikit_plot]: https://pypi.org/project/scikit-plot/
-[mxlextend]: https://rasbt.github.io/mlxtend/
+[mlxtend]: https://rasbt.github.io/mlxtend/
